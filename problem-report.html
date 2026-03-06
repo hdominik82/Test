@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zgłoś Problem - CEVA Mobile</title>
+    <script src="config.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .header-title {
+            color: white;
+            font-size: 1.3em;
+            font-weight: 300;
+        }
+        .content {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .textarea-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            resize: vertical;
+            min-height: 100px;
+        }
+        .priority-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        .priority-btn {
+            padding: 15px;
+            border: 3px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .priority-btn.selected { border-width: 4px; }
+        .priority-low { color: #28a745; border-color: #28a745; }
+        .priority-low.selected { background: #28a745; color: white; }
+        .priority-medium { color: #ffc107; border-color: #ffc107; }
+        .priority-medium.selected { background: #ffc107; color: white; }
+        .priority-high { color: #dc3545; border-color: #dc3545; }
+        .priority-high.selected { background: #dc3545; color: white; }
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        .btn-submit:active { transform: scale(0.98); }
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            display: none;
+        }
+        .result-card.visible { display: block; }
+        .result-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        .email-section {
+            background: #fff5f5;
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .email-section h3 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+        .required-star { color: #dc3545; }
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .info-box p {
+            margin: 0;
+            color: #1976D2;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='mobile-index.html'">← Powrót</button>
+        <div class="header-title">Zgłoś Problem</div>
+        <div style="width:80px"></div>
+    </div>
+
+    <div class="content">
+        <div id="formSection">
+            <div class="info-box">
+                <p>Zgłaszaj problemy natychmiast. Każde zgłoszenie zostanie przekazane do odpowiedzialnej osoby i dołączone do Action Plan.</p>
+            </div>
+
+            <div class="form-card">
+                <div class="form-group">
+                    <label>Data zgłoszenia:</label>
+                    <input type="date" id="problemDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Obszar/Strefa:</label>
+                    <select id="problemZone" class="form-control">
+                        <option value="">-- Wybierz obszar --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Osoba zgłaszająca:</label>
+                    <select id="problemReporter" class="form-control">
+                        <option value="">-- Wybierz --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Kategoria problemu:</label>
+                    <select id="problemCategory" class="form-control">
+                        <option value="">-- Wybierz kategorię --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <div class="form-group">
+                    <label><span class="required-star">*</span> Opis problemu:</label>
+                    <textarea id="problemDescription" class="textarea-field" placeholder="Opisz szczegółowo problem: co się stało, gdzie, kiedy..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Wpływ na proces/operacje:</label>
+                    <textarea id="problemImpact" class="textarea-field" placeholder="Jaki jest wpływ tego problemu? (opcjonalnie)" style="min-height: 80px;"></textarea>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <div class="form-group">
+                    <label>Priorytet:</label>
+                    <div class="priority-buttons">
+                        <button class="priority-btn priority-low" onclick="selectPriority('low', this)">
+                            Niski
+                        </button>
+                        <button class="priority-btn priority-medium" onclick="selectPriority('medium', this)">
+                            Średni
+                        </button>
+                        <button class="priority-btn priority-high" onclick="selectPriority('high', this)">
+                            Wysoki
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Proponowane rozwiązanie (opcjonalnie):</label>
+                    <textarea id="problemSolution" class="textarea-field" placeholder="Czy masz pomysł jak rozwiązać ten problem?" style="min-height: 80px;"></textarea>
+                </div>
+            </div>
+
+            <button class="btn-submit" onclick="submitProblem()">Zgłoś problem</button>
+        </div>
+
+        <div id="resultSection" class="result-card">
+            <div class="result-icon">✅</div>
+            <h2 style="color: #ff6b6b; margin-bottom: 10px;">Problem zgłoszony!</h2>
+            <p style="color: #666; margin-bottom: 20px;">Zostanie przekazany do odpowiedzialnej osoby.</p>
+            
+            <div style="background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="color: #333; margin-bottom: 15px;">Szczegóły zgłoszenia:</h3>
+                <div style="text-align: left; line-height: 1.8;">
+                    <p><strong>Obszar:</strong> <span id="resultZone"></span></p>
+                    <p><strong>Priorytet:</strong> <span id="resultPriority"></span></p>
+                    <p><strong>Zgłaszający:</strong> <span id="resultReporter"></span></p>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                <button class="btn-submit" id="downloadFileBtn" style="background: #ff6b6b; padding: 15px; font-size: 1em;">
+                    💾 Pobierz plik
+                </button>
+                <button class="btn-submit" id="sendEmailBtn" style="background: #28a745; padding: 15px; font-size: 1em;">
+                    📧 Wyślij emailem
+                </button>
+            </div>
+            
+            <div class="email-section">
+                <h3>ℹ️ Informacje</h3>
+                <p style="font-size: 0.9em; color: #666; line-height: 1.6;">
+                    <strong>Pobierz plik:</strong> Zapisuje plik JSON na urządzeniu<br>
+                    <strong>Wyślij emailem:</strong> Otwiera email z załącznikiem do dominik.harezlak@cevalogistics.com<br>
+                    <br>
+                    <strong>📁 SharePoint:</strong> Plik należy przesłać do folderu <strong>Other</strong><br>
+                    <em>Problem zostanie automatycznie dodany do Action Plan w wersji desktop.</em>
+                </p>
+            </div>
+            
+            <button class="btn-submit" onclick="location.reload()" style="margin-top: 15px; background: #6c757d;">
+                🔄 Zgłoś kolejny problem
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof CEVA_CONFIG === 'undefined') {
+                alert('Błąd: Nie można załadować konfiguracji. Sprawdź czy plik config.js istnieje.');
+                return;
+            }
+
+            const branch = CEVA_CONFIG.getCurrentBranch();
+            let selectedPriority = null;
+            let savedProblemData = null;
+
+            document.getElementById('problemDate').value = new Date().toISOString().split('T')[0];
+            
+            const zoneSelect = document.getElementById('problemZone');
+            branch.zones.forEach(zone => {
+                const option = document.createElement('option');
+                option.value = zone.name;
+                option.textContent = zone.name;
+                option.dataset.responsible = zone.responsible;
+                zoneSelect.appendChild(option);
+            });
+            
+            const reporterSelect = document.getElementById('problemReporter');
+            branch.auditors.forEach(auditor => {
+                const option = document.createElement('option');
+                option.value = auditor;
+                option.textContent = auditor;
+                reporterSelect.appendChild(option);
+            });
+
+            const categorySelect = document.getElementById('problemCategory');
+            branch.problemCategories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                categorySelect.appendChild(option);
+            });
+
+            window.selectPriority = function(priority, btn) {
+                document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedPriority = priority;
+            };
+
+            window.submitProblem = function() {
+                const date = document.getElementById('problemDate').value;
+                const zone = document.getElementById('problemZone').value;
+                const reporter = document.getElementById('problemReporter').value;
+                const category = document.getElementById('problemCategory').value;
+                const description = document.getElementById('problemDescription').value.trim();
+                const impact = document.getElementById('problemImpact').value.trim();
+                const solution = document.getElementById('problemSolution').value.trim();
+
+                if (!date || !zone || !reporter || !category) {
+                    alert('Wypełnij wszystkie wymagane pola podstawowe!');
+                    return;
+                }
+
+                if (!description) {
+                    alert('Opis problemu jest wymagany!');
+                    return;
+                }
+
+                if (!selectedPriority) {
+                    alert('Wybierz priorytet problemu!');
+                    return;
+                }
+
+                const zoneSelect = document.getElementById('problemZone');
+                const selectedOption = zoneSelect.options[zoneSelect.selectedIndex];
+                const responsible = selectedOption.dataset.responsible;
+
+                const dueDays = selectedPriority === 'high' ? 3 : selectedPriority === 'medium' ? 7 : 14;
+                const dueDate = new Date(new Date(date).getTime() + dueDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+                const problemData = {
+                    type: 'PROBLEM',
+                    branch: branch.code,
+                    branchName: branch.name,
+                    date: date,
+                    timestamp: new Date().toISOString(),
+                    zone: zone,
+                    reporter: reporter,
+                    category: category,
+                    description: description,
+                    impact: impact,
+                    proposedSolution: solution,
+                    priority: selectedPriority,
+                    status: 'Otwarte',
+                    responsible: responsible,
+                    dueDate: dueDate,
+                    id: Date.now() + Math.random(),
+                    source: 'Problem Report',
+                    actions: solution || description,
+                    createdDate: date
+                };
+
+                try {
+                    let localProblems = JSON.parse(localStorage.getItem('problem_reports') || '[]');
+                    localProblems.push(problemData);
+                    localStorage.setItem('problem_reports', JSON.stringify(localProblems));
+                } catch (e) {
+                    console.warn('Nie można zapisać do localStorage:', e);
+                }
+
+                const fileName = CEVA_CONFIG.generateFileName('problem', zone, date);
+                
+                const priorityLabels = {
+                    'low': 'Niski',
+                    'medium': 'Średni',
+                    'high': 'Wysoki'
+                };
+
+                savedProblemData = { 
+                    problemData, 
+                    fileName, 
+                    zone, 
+                    reporter, 
+                    priority: priorityLabels[selectedPriority],
+                    priorityRaw: selectedPriority,
+                    date 
+                };
+
+                showResult(fileName, zone, reporter, priorityLabels[selectedPriority]);
+            };
+
+            window.downloadFile = function() {
+                if (!savedProblemData) {
+                    alert('Brak danych zgłoszenia!');
+                    return;
+                }
+
+                const { problemData, fileName } = savedProblemData;
+                const json = JSON.stringify(problemData, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                alert('Plik został pobrany: ' + fileName);
+            };
+
+            window.sendEmailWithAttachment = async function() {
+                if (!savedProblemData) {
+                    alert('Brak danych zgłoszenia!');
+                    return;
+                }
+
+                const { problemData, fileName, zone, reporter, priority, date } = savedProblemData;
+                const json = JSON.stringify(problemData, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const file = new File([blob], fileName, { type: 'application/json' });
+
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: `Zgłoszenie Problemu - ${zone}`,
+                            text: `Zgłoszenie Problemu\n\nObszar: ${zone}\nZgłaszający: ${reporter}\nPriorytet: ${priority}\nData: ${date}\n\nWyślij do: dominik.harezlak@cevalogistics.com`
+                        });
+                        console.log('Udostępniono pomyślnie');
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            console.error('Błąd udostępniania:', err);
+                            fallbackEmailMethod(fileName, zone, reporter, priority, date, file);
+                        }
+                    }
+                } else {
+                    fallbackEmailMethod(fileName, zone, reporter, priority, date, file);
+                }
+            };
+
+            window.fallbackEmailMethod = function(fileName, zone, reporter, priority, date, file) {
+                const url = URL.createObjectURL(file);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                URL.revokeObjectURL(url);
+
+                setTimeout(() => {
+                    const mailSubject = encodeURIComponent(`Zgłoszenie Problemu - ${zone} - ${date}`);
+                    const mailBody = encodeURIComponent(`Witaj,\n\nPrzesyłam zgłoszenie problemu:\n\nObszar: ${zone}\nZgłaszający: ${reporter}\nPriorytet: ${priority}\nData: ${date}\n\nPlik JSON został pobrany - dołącz go do tego maila.\n\nPozdrawiam`);
+                    window.location.href = `mailto:dominik.harezlak@cevalogistics.com?subject=${mailSubject}&body=${mailBody}`;
+                }, 500);
+
+                alert('Plik został pobrany. Za chwilę otworzy się klient email - pamiętaj o dołączeniu pobranego pliku!');
+            };
+
+            function showResult(fileName, zone, reporter, priority) {
+                document.getElementById('formSection').style.display = 'none';
+                
+                const resultSection = document.getElementById('resultSection');
+                resultSection.classList.add('visible');
+                
+                document.getElementById('resultZone').textContent = zone;
+                document.getElementById('resultReporter').textContent = reporter;
+                document.getElementById('resultPriority').textContent = priority;
+                
+                document.getElementById('downloadFileBtn').onclick = downloadFile;
+                document.getElementById('sendEmailBtn').onclick = sendEmailWithAttachment;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testy Wiedzy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover { background: rgba(255, 255, 255, 0.3); }
+        .header h1 { color: white; font-size: 1.4em; font-weight: 300; }
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0 15px;
+            overflow-x: auto;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-tab.active { color: white; border-bottom-color: #f9ca24; }
+        .nav-tab:hover { color: white; background: rgba(255, 255, 255, 0.1); }
+        .content { padding: 15px; height: calc(100vh - 120px); overflow-y: auto; }
+        .content-section { display: none; background: white; border-radius: 15px; padding: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+        .content-section.active { display: block; }
+        .section-title { font-size: 1.3em; font-weight: 600; margin-bottom: 20px; color: #333; border-bottom: 3px solid #f9ca24; padding-bottom: 10px; }
+        
+        .test-modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .test-module-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .test-module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .test-module-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .test-module-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .test-module-desc {
+            text-align: center;
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+        
+        .employee-selector {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 1.1em;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .question-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 1.1em;
+        }
+        
+        .question-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            display: inline;
+        }
+        
+        .answer-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .answer-btn {
+            padding: 18px;
+            border: 3px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .answer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        
+        .answer-btn.selected {
+            border-width: 4px;
+        }
+        
+        .answer-btn-yes {
+            color: #28a745;
+            border-color: #28a745;
+        }
+        
+        .answer-btn-yes.selected {
+            background: #28a745;
+            color: white;
+        }
+        
+        .answer-btn-no {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .answer-btn-no.selected {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #28a745;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .result-score {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .result-message {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+        
+        .progress-indicator {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+        
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .badge-pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .badge-overdue {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .reminder-card {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .reminder-card h4 {
+            color: #856404;
+            margin-bottom: 8px;
+        }
+        
+        .config-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .config-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+        
+        .question-editor {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='index.html'">Powrot</button>
+        <h1>Testy Wiedzy i Swiadomosci</h1>
+        <div></div>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('modules')">Moduly testow</button>
+        <button class="nav-tab" onclick="showSection('test')">Przeprowadz test</button>
+        <button class="nav-tab" onclick="showSection('results')">Historia wynikow</button>
+        <button class="nav-tab" onclick="showSection('reminders')">Przypomnienia</button>
+        <button class="nav-tab" onclick="showSection('config')">Konfiguracja</button>
+    </div>
+
+    <div class="content">
+        <!-- Moduly testow -->
+        <div id="modules" class="content-section active">
+            <div class="section-title">Wybierz modul testu</div>
+            
+            <div class="test-modules-grid" id="modulesGrid"></div>
+        </div>
+
+        <!-- Przeprowadz test -->
+        <div id="test" class="content-section">
+            <div class="section-title">Przeprowadz test</div>
+            
+            <div class="employee-selector" id="employeeSelector">
+                <div class="form-group">
+                    <label>Wybierz pracownika:</label>
+                    <select id="selectedEmployee" class="form-control">
+                        <option value="">-- Wybierz pracownika --</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Modul testu:</label>
+                    <select id="selectedModule" class="form-control">
+                        <option value="">-- Wybierz modul --</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="startTest()">Rozpocznij test</button>
+            </div>
+            
+            <div id="testQuestions" style="display: none;">
+                <div class="progress-indicator" id="progressIndicator">Pytanie 1 z 8</div>
+                <div id="questionsContainer"></div>
+                <button class="btn btn-success" onclick="submitTest()" style="margin-top: 20px;">Zakoncz test i zapisz wyniki</button>
+            </div>
+            
+            <div id="testResult" style="display: none;"></div>
+        </div>
+
+        <!-- Historia wynikow -->
+        <div id="results" class="content-section">
+            <div class="section-title">Historia wynikow testow</div>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Pracownik</th>
+                        <th>Modul</th>
+                        <th>Wynik</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTable"></tbody>
+            </table>
+        </div>
+
+        <!-- Przypomnienia -->
+        <div id="reminders" class="content-section">
+            <div class="section-title">Przypomnienia o testach</div>
+            
+            <div class="action-buttons">
+                <button class="btn" onclick="generateReminders()">Odswiez przypomnienia</button>
+                <button class="btn btn-success" onclick="sendReminderEmails()">Wyslij przypomnienia email</button>
+            </div>
+            
+            <div id="remindersContainer"></div>
+        </div>
+
+        <!-- Konfiguracja -->
+        <div id="config" class="content-section">
+            <div class="section-title">Konfiguracja testow</div>
+            
+            <div class="config-section">
+                <div class="config-title">Zarzadzanie modulami testow</div>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="newModuleName" class="form-control" placeholder="Nazwa modulu" style="flex: 1;">
+                    <button class="btn" onclick="addModule()">Dodaj modul</button>
+                </div>
+                <div id="modulesList"></div>
+            </div>
+            
+            <div class="config-section">
+                <div class="config-title">Edycja pytan testowych</div>
+                <div class="form-group">
+                    <label>Wybierz modul do edycji:</label>
+                    <select id="editModule" class="form-control" onchange="loadQuestionsForEdit()">
+                        <option value="">-- Wybierz modul --</option>
+                    </select>
+                </div>
+                <div id="questionsEditor"></div>
+            </div>
+            
+            <div class="config-section">
+                <div class="config-title">Ustawienia przypomnien</div>
+                <div class="form-group">
+                    <label>Okres waznosci testu (miesiace):</label>
+                    <input type="number" id="testValidity" class="form-control" value="12" min="1" max="36">
+                </div>
+                <div class="form-group">
+                    <label>Przypomnienie przed wygasnieciem (dni):</label>
+                    <input type="number" id="reminderDays" class="form-control" value="30" min="1" max="90">
+                </div>
+                <button class="btn btn-success" onclick="saveReminderSettings()">Zapisz ustawienia</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal edycji pytania -->
+    <div id="questionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edytuj pytanie</h3>
+                <span class="close" id="closeQuestionModal">&times;</span>
+            </div>
+            <form id="questionForm">
+                <div class="form-group">
+                    <label>Tresc pytania:</label>
+                    <textarea id="questionText" class="form-control" rows="3" required></textarea>
+                </div>
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" id="cancelQuestionModal">Anuluj</button>
+                    <button type="submit" class="btn">Zapisz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Domyslne pytania testowe
+        const defaultQuestions = {
+            'BHP': [
+                { id: 1, text: "Czy wiesz jak prawidlowo uzywac srodkow ochrony indywidualnej na swoim stanowisku?" },
+                { id: 2, text: "Czy znasz lokalizacje najblizszej apteczki pierwszej pomocy?" },
+                { id: 3, text: "Czy wiesz jak postepowac w przypadku wypadku przy pracy?" },
+                { id: 4, text: "Czy znasz procedury ewakuacji w przypadku pozaru?" },
+                { id: 5, text: "Czy wiesz jak zglosic zagrozenie bezpieczenstwa?" },
+                { id: 6, text: "Czy znasz zasady bezpiecznej pracy z maszynami i urzadzeniami?" },
+                { id: 7, text: "Czy wiesz jak prawidlowo podnosic i przenosic ciezkie przedmioty?" },
+                { id: 8, text: "Czy znasz numery alarmowe i kontakt do sluzb bezpieczenstwa?" }
+            ],
+            'Kaizen': [
+                { id: 1, text: "Czy rozumiesz czym jest filozofia Kaizen?" },
+                { id: 2, text: "Czy wiesz jak zglosic pomysl na usprawnienie?" },
+                { id: 3, text: "Czy znasz narzedzia ciaglego doskonalenia stosowane w firmie?" },
+                { id: 4, text: "Czy rozumiesz zasade eliminacji marnotrawstwa (Muda)?" },
+                { id: 5, text: "Czy aktywnie uczestniczysz w dzialaniach doskonalacych?" },
+                { id: 6, text: "Czy znasz cykl PDCA (Plan-Do-Check-Act)?" },
+                { id: 7, text: "Czy wiesz czym sa standardy pracy i dlaczego sa wazne?" },
+                { id: 8, text: "Czy rozumiesz role kazdego pracownika w ciaglym doskonaleniu?" }
+            ],
+            'Srodowisko': [
+                { id: 1, text: "Czy wiesz jak prawidlowo segregowac odpady na swoim stanowisku?" },
+                { id: 2, text: "Czy znasz procedury postepowania z materialami niebezpiecznymi?" },
+                { id: 3, text: "Czy wiesz jak ograniczac zuzycie energii i wody?" },
+                { id: 4, text: "Czy znasz polityke srodowiskowa firmy?" },
+                { id: 5, text: "Czy wiesz jak zglosic incydent srodowiskowy?" },
+                { id: 6, text: "Czy rozumiesz znaczenie recyklingu w firmie?" },
+                { id: 7, text: "Czy znasz cele srodowiskowe swojego dzialu?" },
+                { id: 8, text: "Czy wiesz jak minimalizowac negatywny wplyw na srodowisko?" }
+            ],
+            'Compliance': [
+                { id: 1, text: "Czy znasz Kodeks Etyki obowiazujacy w firmie?" },
+                { id: 2, text: "Czy wiesz jak zglosic naruszenie zasad etycznych?" },
+                { id: 3, text: "Czy rozumiesz zasady przeciwdzialania korupcji?" },
+                { id: 4, text: "Czy znasz polityke dotyczaca konfliktu interesow?" },
+                { id: 5, text: "Czy wiesz jak chronic dane osobowe i informacje poufne?" },
+                { id: 6, text: "Czy znasz zasady dotyczace prezentow i korzysci od kontrahentow?" },
+                { id: 7, text: "Czy rozumiesz znaczenie zgodnosci z przepisami prawnymi?" },
+                { id: 8, text: "Czy wiesz gdzie znalezc informacje o procedurach compliance?" }
+            ]
+        };
+
+        let employees = JSON.parse(localStorage.getItem('employees') || '[]');
+        let testResults = JSON.parse(localStorage.getItem('test_results') || '[]');
+        let testQuestions = JSON.parse(localStorage.getItem('test_questions') || JSON.stringify(defaultQuestions));
+        let additionalSkills = JSON.parse(localStorage.getItem('additional_skills') || '["Pierwsza Pomoc", "Ewakuacja", "5S", "BHP"]');
+        let skillsMatrix = JSON.parse(localStorage.getItem('skills_matrix') || '{}');
+        let reminderSettings = JSON.parse(localStorage.getItem('reminder_settings') || '{"validityMonths": 12, "reminderDays": 30}');
+        let currentTest = null;
+        let currentEditQuestion = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeModules();
+            setupModals();
+            loadEmployeeSelector();
+            loadModulesGrid();
+        });
+
+        function initializeModules() {
+            const modules = Object.keys(testQuestions);
+            modules.forEach(module => {
+                if (!additionalSkills.includes(module)) {
+                    additionalSkills.push(module);
+                }
+            });
+            localStorage.setItem('additional_skills', JSON.stringify(additionalSkills));
+        }
+
+        function setupModals() {
+            const questionModal = document.getElementById('questionModal');
+            const closeBtn = document.getElementById('closeQuestionModal');
+            const cancelBtn = document.getElementById('cancelQuestionModal');
+            
+            if (closeBtn) {
+                closeBtn.onclick = () => questionModal.style.display = 'none';
+            }
+            
+            if (cancelBtn) {
+                cancelBtn.onclick = () => questionModal.style.display = 'none';
+            }
+            
+            document.getElementById('questionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveQuestion();
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === questionModal) {
+                    questionModal.style.display = 'none';
+                }
+            });
+        }
+
+        function showSection(name) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(name).classList.add('active');
+            event.target.classList.add('active');
+            
+            if (name === 'results') loadResults();
+            else if (name === 'reminders') generateReminders();
+            else if (name === 'config') loadConfig();
+        }
+
+        function loadModulesGrid() {
+            const grid = document.getElementById('modulesGrid');
+            const modules = Object.keys(testQuestions);
+            
+            const icons = {
+                'BHP': 'warning',
+                'Kaizen': 'chart-line',
+                'Srodowisko': 'seedling',
+                'Compliance': 'balance-scale'
+            };
+            
+            grid.innerHTML = modules.map(module => {
+                const questionCount = testQuestions[module] ? testQuestions[module].length : 0;
+                return `
+                    <div class="test-module-card" onclick="selectModule('${module}')">
+                        <div class="test-module-title">${module}</div>
+                        <div class="test-module-desc">${questionCount} pytan</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadEmployeeSelector() {
+            const select = document.getElementById('selectedEmployee');
+            const moduleSelect = document.getElementById('selectedModule');
+            
+            select.innerHTML = '<option value="">-- Wybierz pracownika --</option>';
+            employees.filter(e => e.status === 'active' || e.status === 'training').forEach(emp => {
+                select.innerHTML += `<option value="${emp.id}">${emp.firstName} ${emp.lastName} (${emp.number})</option>`;
+            });
+            
+            moduleSelect.innerHTML = '<option value="">-- Wybierz modul --</option>';
+            Object.keys(testQuestions).forEach(module => {
+                moduleSelect.innerHTML += `<option value="${module}">${module}</option>`;
+            });
+        }
+
+        function selectModule(module) {
+            document.getElementById('selectedModule').value = module;
+            showSection('test');
+        }
+
+        function startTest() {
+            const empId = document.getElementById('selectedEmployee').value;
+            const module = document.getElementById('selectedModule').value;
+            
+            if (!empId || !module) {
+                alert('Prosze wybrac pracownika i modul testu');
+                return;
+            }
+            
+            if (!testQuestions[module] || testQuestions[module].length === 0) {
+                alert('Ten modul nie ma skonfigurowanych pytan. Przejdz do Konfiguracji.');
+                return;
+            }
+            
+            currentTest = {
+                employeeId: parseInt(empId),
+                module: module,
+                date: new Date().toISOString().split('T')[0],
+                answers: {}
+            };
+            
+            renderQuestions();
+            document.getElementById('employeeSelector').style.display = 'none';
+            document.getElementById('testQuestions').style.display = 'block';
+            document.getElementById('testResult').style.display = 'none';
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            const questions = testQuestions[currentTest.module];
+            
+            questions.forEach((q, idx) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                questionDiv.innerHTML = `
+                    <div>
+                        <span class="question-number">${idx + 1}</span>
+                        <span class="question-text">${q.text}</span>
+                    </div>
+                    <div class="answer-buttons">
+                        <button class="answer-btn answer-btn-yes" onclick="selectAnswer(${idx}, true, this)">
+                            Tak
+                        </button>
+                        <button class="answer-btn answer-btn-no" onclick="selectAnswer(${idx}, false, this)">
+                            Nie
+                        </button>
+                    </div>
+                    <input type="hidden" id="answer_${idx}">
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function selectAnswer(questionIdx, answer, btn) {
+            const container = btn.closest('.question-container');
+            container.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            
+            currentTest.answers[questionIdx] = answer;
+            document.getElementById(`answer_${questionIdx}`).value = answer;
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(currentTest.answers).length;
+            const total = testQuestions[currentTest.module].length;
+            document.getElementById('progressIndicator').textContent = `Pytanie ${answered} z ${total}`;
+        }
+
+        function submitTest() {
+            const total = testQuestions[currentTest.module].length;
+            const answered = Object.keys(currentTest.answers).length;
+            
+            if (answered < total) {
+                alert(`Prosze odpowiedziec na wszystkie pytania. Odpowiedziałes na ${answered} z ${total}`);
+                return;
+            }
+            
+            const correctAnswers = Object.values(currentTest.answers).filter(a => a === true).length;
+            const score = Math.round((correctAnswers / total) * 100);
+            const passed = score >= 75;
+            
+            const employee = employees.find(e => e.id === currentTest.employeeId);
+            const result = {
+                id: Date.now(),
+                employeeId: currentTest.employeeId,
+                employeeName: `${employee.firstName} ${employee.lastName}`,
+                module: currentTest.module,
+                date: currentTest.date,
+                score: score,
+                correctAnswers: correctAnswers,
+                totalQuestions: total,
+                passed: passed,
+                answers: currentTest.answers,
+                validUntil: getValidUntilDate(currentTest.date)
+            };
+            
+            testResults.push(result);
+            localStorage.setItem('test_results', JSON.stringify(testResults));
+            
+            // Aktualizuj macierz kompetencji (skills_matrix)
+            const key = `${currentTest.employeeId}_${currentTest.module}`;
+            skillsMatrix[key] = passed;
+            localStorage.setItem('skills_matrix', JSON.stringify(skillsMatrix));
+            
+            showResult(result);
+        }
+
+        function getValidUntilDate(testDate) {
+            const date = new Date(testDate);
+            date.setMonth(date.getMonth() + reminderSettings.validityMonths);
+            return date.toISOString().split('T')[0];
+        }
+
+        function showResult(result) {
+            document.getElementById('testQuestions').style.display = 'none';
+            
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.style.display = 'block';
+            
+            const statusMessage = result.passed ? 
+                'Gratulacje! Test zaliczony!' : 
+                'Test niezaliczony. Zalecamy powtorke materialu.';
+            
+            const statusColor = result.passed ? '#28a745' : '#dc3545';
+            
+            resultDiv.innerHTML = `
+                <div class="result-card" style="background: linear-gradient(135deg, ${statusColor}, ${statusColor}dd);">
+                    <h2>${result.employeeName}</h2>
+                    <h3>Modul: ${result.module}</h3>
+                    <div class="result-score">${result.score}%</div>
+                    <div class="result-message">${statusMessage}</div>
+                    <p>Poprawne odpowiedzi: ${result.correctAnswers}/${result.totalQuestions}</p>
+                    <p>Test wazny do: ${result.validUntil}</p>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn" onclick="resetTest()">Powrot do wyboru modulu</button>
+                    <button class="btn btn-success" onclick="window.location.href='competency-matrix.html?tab=skillsMatrix'">Zobacz macierz kompetencji</button>
+                </div>
+            `;
+        }
+
+        function resetTest() {
+            currentTest = null;
+            document.getElementById('employeeSelector').style.display = 'block';
+            document.getElementById('testQuestions').style.display = 'none';
+            document.getElementById('testResult').style.display = 'none';
+            document.getElementById('selectedEmployee').value = '';
+            document.getElementById('selectedModule').value = '';
+        }
+
+        function loadResults() {
+            const tbody = document.getElementById('resultsTable');
+            tbody.innerHTML = '';
+            
+            [...testResults].reverse().forEach(result => {
+                const row = tbody.insertRow();
+                const isExpired = new Date(result.validUntil) < new Date();
+                
+                row.innerHTML = `
+                    <td>${result.date}</td>
+                    <td>${result.employeeName}</td>
+                    <td>${result.module}</td>
+                    <td><strong>${result.score}%</strong> (${result.correctAnswers}/${result.totalQuestions})</td>
+                    <td>
+                        <span class="badge ${result.passed ? 'badge-pass' : 'badge-fail'}">${result.passed ? 'Zaliczony' : 'Niezaliczony'}</span>
+                        ${isExpired ? '<br><span class="badge badge-overdue">Wygasl</span>' : ''}
+                    </td>
+                `;
+            });
+            
+            if (testResults.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #666; padding: 40px;">Brak wynikow testow</td></tr>';
+            }
+        }
+
+        function generateReminders() {
+            const container = document.getElementById('remindersContainer');
+            container.innerHTML = '';
+            
+            const today = new Date();
+            const modules = Object.keys(testQuestions);
+            const activeEmployees = employees.filter(e => e.status === 'active' || e.status === 'training');
+            
+            const reminders = [];
+            
+            activeEmployees.forEach(emp => {
+                modules.forEach(module => {
+                    const empResults = testResults.filter(r => 
+                        r.employeeId === emp.id && 
+                        r.module === module && 
+                        r.passed
+                    );
+                    
+                    if (empResults.length === 0) {
+                        reminders.push({
+                            employee: emp,
+                            module: module,
+                            type: 'never',
+                            message: 'Nigdy nie wykonal testu'
+                        });
+                    } else {
+                        const lastTest = empResults.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                        const validUntil = new Date(lastTest.validUntil);
+                        const daysUntilExpiry = Math.floor((validUntil - today) / (1000 * 60 * 60 * 24));
+                        
+                        if (daysUntilExpiry < 0) {
+                            reminders.push({
+                                employee: emp,
+                                module: module,
+                                type: 'expired',
+                                message: `Test wygasl ${Math.abs(daysUntilExpiry)} dni temu`,
+                                lastDate: lastTest.date
+                            });
+                        } else if (daysUntilExpiry <= reminderSettings.reminderDays) {
+                            reminders.push({
+                                employee: emp,
+                                module: module,
+                                type: 'expiring',
+                                message: `Test wygasa za ${daysUntilExpiry} dni`,
+                                lastDate: lastTest.date,
+                                validUntil: lastTest.validUntil
+                            });
+                        }
+                    }
+                });
+            });
+            
+            if (reminders.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Brak przypomnien. Wszyscy pracownicy maja aktualne testy!</div>';
+                return;
+            }
+            
+            const grouped = {
+                expired: reminders.filter(r => r.type === 'expired'),
+                expiring: reminders.filter(r => r.type === 'expiring'),
+                never: reminders.filter(r => r.type === 'never')
+            };
+            
+            if (grouped.expired.length > 0) {
+                container.innerHTML += `
+                    <div class="reminder-card" style="border-left-color: #dc3545; background: #f8d7da;">
+                        <h4 style="color: #721c24;">Testy wygasle (${grouped.expired.length})</h4>
+                        ${grouped.expired.map(r => `
+                            <div style="padding: 8px; background: white; margin: 5px 0; border-radius: 4px;">
+                                <strong>${r.employee.firstName} ${r.employee.lastName}</strong> - ${r.module}<br>
+                                <small>${r.message} (ostatni test: ${r.lastDate})</small>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            if (grouped.expiring.length > 0) {
+                container.innerHTML += `
+                    <div class="reminder-card">
+                        <h4>Testy wygasaja wkrotce (${grouped.expiring.length})</h4>
+                        ${grouped.expiring.map(r => `
+                            <div style="padding: 8px; background: white; margin: 5px 0; border-radius: 4px;">
+                                <strong>${r.employee.firstName} ${r.employee.lastName}</strong> - ${r.module}<br>
+                                <small>${r.message} (wazny do: ${r.validUntil})</small>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            if (grouped.never.length > 0) {
+                container.innerHTML += `
+                    <div class="reminder-card" style="border-left-color: #6c757d; background: #e2e3e5;">
+                        <h4 style="color: #383d41;">Nigdy nie wykonali testow (${grouped.never.length})</h4>
+                        ${grouped.never.map(r => `
+                            <div style="padding: 8px; background: white; margin: 5px 0; border-radius: 4px;">
+                                <strong>${r.employee.firstName} ${r.employee.lastName}</strong> - ${r.module}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        function sendReminderEmails() {
+            const today = new Date();
+            const modules = Object.keys(testQuestions);
+            const activeEmployees = employees.filter(e => e.status === 'active' || e.status === 'training');
+            
+            let emailBody = 'Przypomnienie o testach wiedzy:\n\n';
+            let count = 0;
+            
+            activeEmployees.forEach(emp => {
+                modules.forEach(module => {
+                    const empResults = testResults.filter(r => 
+                        r.employeeId === emp.id && 
+                        r.module === module && 
+                        r.passed
+                    );
+                    
+                    let needsTest = false;
+                    let reason = '';
+                    
+                    if (empResults.length === 0) {
+                        needsTest = true;
+                        reason = 'nigdy nie wykonano';
+                    } else {
+                        const lastTest = empResults.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                        const validUntil = new Date(lastTest.validUntil);
+                        const daysUntilExpiry = Math.floor((validUntil - today) / (1000 * 60 * 60 * 24));
+                        
+                        if (daysUntilExpiry < 0) {
+                            needsTest = true;
+                            reason = `test wygasl ${Math.abs(daysUntilExpiry)} dni temu`;
+                        } else if (daysUntilExpiry <= reminderSettings.reminderDays) {
+                            needsTest = true;
+                            reason = `test wygasa za ${daysUntilExpiry} dni`;
+                        }
+                    }
+                    
+                    if (needsTest) {
+                        emailBody += `- ${emp.firstName} ${emp.lastName} (${emp.department}): ${module} - ${reason}\n`;
+                        count++;
+                    }
+                });
+            });
+            
+            if (count === 0) {
+                alert('Brak testow wymagajacych przypomnienia');
+                return;
+            }
+            
+            const subject = encodeURIComponent('Przypomnienie - Testy wiedzy');
+            const body = encodeURIComponent(emailBody);
+            window.open(`mailto:?subject=${subject}&body=${body}`);
+            alert(`Przygotowano przypomnienia dla ${count} testow`);
+        }
+
+        function loadConfig() {
+            loadModulesList();
+            loadEditModuleSelect();
+            loadReminderSettings();
+        }
+
+        function loadModulesList() {
+            const container = document.getElementById('modulesList');
+            const modules = Object.keys(testQuestions);
+            
+            container.innerHTML = modules.map(module => {
+                const questionCount = testQuestions[module].length;
+                return `
+                    <div style="padding: 10px; background: white; margin: 5px 0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid #667eea;">
+                        <div>
+                            <strong>${module}</strong><br>
+                            <small>${questionCount} pytan</small>
+                        </div>
+                        <button class="btn btn-secondary" onclick="deleteModule('${module}')" style="padding: 6px 12px; font-size: 0.85em;">Usun</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addModule() {
+            const name = document.getElementById('newModuleName').value.trim();
+            if (!name) {
+                alert('Prosze podac nazwe modulu');
+                return;
+            }
+            
+            if (testQuestions[name]) {
+                alert('Modul o tej nazwie juz istnieje');
+                return;
+            }
+            
+            testQuestions[name] = [];
+            for (let i = 1; i <= 8; i++) {
+                testQuestions[name].push({
+                    id: i,
+                    text: `Pytanie ${i} dla modulu ${name}`
+                });
+            }
+            
+            additionalSkills.push(name);
+            
+            localStorage.setItem('test_questions', JSON.stringify(testQuestions));
+            localStorage.setItem('additional_skills', JSON.stringify(additionalSkills));
+            
+            document.getElementById('newModuleName').value = '';
+            loadModulesList();
+            loadModulesGrid();
+            loadEditModuleSelect();
+            loadEmployeeSelector();
+            alert('Modul dodany! Pamietaj aby edytowac pytania.');
+        }
+
+        function deleteModule(module) {
+            if (confirm(`Czy na pewno chcesz usunac modul "${module}"?`)) {
+                delete testQuestions[module];
+                additionalSkills = additionalSkills.filter(s => s !== module);
+                
+                localStorage.setItem('test_questions', JSON.stringify(testQuestions));
+                localStorage.setItem('additional_skills', JSON.stringify(additionalSkills));
+                
+                loadModulesList();
+                loadModulesGrid();
+                loadEditModuleSelect();
+                loadEmployeeSelector();
+            }
+        }
+
+        function loadEditModuleSelect() {
+            const select = document.getElementById('editModule');
+            select.innerHTML = '<option value="">-- Wybierz modul --</option>';
+            Object.keys(testQuestions).forEach(module => {
+                select.innerHTML += `<option value="${module}">${module}</option>`;
+            });
+        }
+
+        function loadQuestionsForEdit() {
+            const module = document.getElementById('editModule').value;
+            const container = document.getElementById('questionsEditor');
+            
+            if (!module) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            const questions = testQuestions[module];
+            
+            container.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <button class="btn" onclick="addQuestion('${module}')">Dodaj pytanie</button>
+                </div>
+                ${questions.map((q, idx) => `
+                    <div class="question-editor">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div style="flex: 1;">
+                                <strong>Pytanie ${idx + 1}:</strong><br>
+                                ${q.text}
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn" onclick="editQuestion('${module}', ${idx})" style="padding: 6px 12px; font-size: 0.85em;">Edytuj</button>
+                                <button class="btn btn-secondary" onclick="deleteQuestion('${module}', ${idx})" style="padding: 6px 12px; font-size: 0.85em;">Usun</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function addQuestion(module) {
+            const newId = testQuestions[module].length + 1;
+            testQuestions[module].push({
+                id: newId,
+                text: `Nowe pytanie ${newId}`
+            });
+            localStorage.setItem('test_questions', JSON.stringify(testQuestions));
+            loadQuestionsForEdit();
+        }
+
+        function editQuestion(module, idx) {
+            currentEditQuestion = { module, idx };
+            document.getElementById('questionText').value = testQuestions[module][idx].text;
+            document.getElementById('questionModal').style.display = 'block';
+        }
+
+        function deleteQuestion(module, idx) {
+            if (testQuestions[module].length <= 1) {
+                alert('Modul musi miec przynajmniej jedno pytanie');
+                return;
+            }
+            
+            if (confirm('Czy na pewno chcesz usunac to pytanie?')) {
+                testQuestions[module].splice(idx, 1);
+                testQuestions[module].forEach((q, i) => q.id = i + 1);
+                localStorage.setItem('test_questions', JSON.stringify(testQuestions));
+                loadQuestionsForEdit();
+            }
+        }
+
+        function saveQuestion() {
+            const text = document.getElementById('questionText').value.trim();
+            if (!text) {
+                alert('Prosze podac tresc pytania');
+                return;
+            }
+            
+            testQuestions[currentEditQuestion.module][currentEditQuestion.idx].text = text;
+            localStorage.setItem('test_questions', JSON.stringify(testQuestions));
+            
+            document.getElementById('questionModal').style.display = 'none';
+            loadQuestionsForEdit();
+        }
+
+        function loadReminderSettings() {
+            document.getElementById('testValidity').value = reminderSettings.validityMonths;
+            document.getElementById('reminderDays').value = reminderSettings.reminderDays;
+        }
+
+        function saveReminderSettings() {
+            reminderSettings.validityMonths = parseInt(document.getElementById('testValidity').value);
+            reminderSettings.reminderDays = parseInt(document.getElementById('reminderDays').value);
+            localStorage.setItem('reminder_settings', JSON.stringify(reminderSettings));
+            alert('Ustawienia zapisane!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEMBA Walk - CEVA Mobile</title>
+    <script src="config.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .header-title {
+            color: white;
+            font-size: 1.3em;
+            font-weight: 300;
+        }
+        .content {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .shift-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .shift-btn {
+            padding: 15px;
+            border: 3px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+            color: #333;
+        }
+        .shift-btn:hover {
+            border-color: #667eea;
+        }
+        .shift-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .shift-icon {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .shift-label {
+            font-size: 0.9em;
+        }
+        .category-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        .category-title {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.15em;
+        }
+        .btn-add-observation {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .observation-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        .observation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .observation-number {
+            font-weight: 600;
+            color: #333;
+        }
+        .answer-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .answer-btn {
+            padding: 15px 10px;
+            border: 3px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .answer-btn.selected { border-width: 4px; }
+        .answer-btn-yes { color: #28a745; border-color: #28a745; }
+        .answer-btn-yes.selected { background: #28a745; color: white; }
+        .answer-btn-no { color: #dc3545; border-color: #dc3545; }
+        .answer-btn-no.selected { background: #dc3545; color: white; }
+        .answer-btn-na { color: #6c757d; border-color: #6c757d; }
+        .answer-btn-na.selected { background: #6c757d; color: white; }
+        .comment-area {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9em;
+            resize: vertical;
+            min-height: 70px;
+            margin-top: 10px;
+            display: none;
+        }
+        .comment-area.visible { display: block; }
+        .comment-area.required { 
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+        .comment-area.optional {
+            border-color: #28a745;
+            background: #f0fff4;
+        }
+        .comment-label {
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-top: 10px;
+            display: none;
+        }
+        .comment-label.visible { display: block; }
+        .comment-label.required { color: #dc3545; }
+        .comment-label.optional { color: #28a745; }
+        .required-star { color: #dc3545; }
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+        .participants-section {
+            background: #e8f5f1;
+            border: 2px solid #4ecdc4;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .participants-title {
+            font-weight: 600;
+            color: #2c7a7b;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .participant-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .participant-checkbox input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        .participant-checkbox label {
+            margin: 0;
+            flex: 1;
+            font-weight: normal;
+            color: #333;
+        }
+        .textarea-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            resize: vertical;
+            min-height: 80px;
+            margin-top: 10px;
+        }
+        .btn-success {
+            width: 100%;
+            padding: 18px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            display: none;
+        }
+        .result-card.visible { display: block; }
+        .email-section {
+            background: #f0f8ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .no-observations {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='mobile-index.html'">← Powrót</button>
+        <div class="header-title">GEMBA Walk</div>
+        <div style="width:80px"></div>
+    </div>
+
+    <div class="content">
+        <div class="form-card">
+            <div class="form-group">
+                <label>Data GEMBA Walk:</label>
+                <input type="date" id="gembaDate" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Obszar/Strefa:</label>
+                <select id="gembaZone" class="form-control">
+                    <option value="">-- Wybierz obszar --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Zmiana:</label>
+                <div class="shift-selector">
+                    <button type="button" class="shift-btn" onclick="selectShift(1, this)">
+                        <span class="shift-icon">🌅</span>
+                        <span class="shift-label">Zmiana 1</span>
+                    </button>
+                    <button type="button" class="shift-btn" onclick="selectShift(2, this)">
+                        <span class="shift-icon">☀️</span>
+                        <span class="shift-label">Zmiana 2</span>
+                    </button>
+                    <button type="button" class="shift-btn" onclick="selectShift(3, this)">
+                        <span class="shift-icon">🌙</span>
+                        <span class="shift-label">Zmiana 3</span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Poziom GEMBA:</label>
+                <select id="gembaLevel" class="form-control" onchange="switchLevel()">
+                    <option value="">-- Wybierz poziom --</option>
+                    <option value="1">Poziom 1 - Obserwacje podstawowe</option>
+                    <option value="2">Poziom 2 - Analiza procesu</option>
+                    <option value="3">Poziom 3 - Głęboka analiza (Root Cause)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="participantsSection" class="participants-section" style="display:none;">
+            <div class="participants-title">👥 Uczestnicy GEMBA Walk</div>
+            <div id="participantsList"></div>
+        </div>
+
+        <div id="categoriesSection" style="display:none;">
+            <div id="categoriesContainer"></div>
+
+            <div class="form-card">
+                <div class="form-group">
+                    <label>Inne uwagi (opcjonalnie):</label>
+                    <textarea id="notes" class="textarea-field" placeholder="Dodatkowe obserwacje..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-success" onclick="saveGemba()" id="saveBtn" style="display:none;">Zapisz GEMBA Walk</button>
+
+        <div id="resultSection" class="result-card">
+            <h2 style="color: #667eea; margin-bottom: 20px;">✅ GEMBA Walk zapisany!</h2>
+            
+            <div style="background: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                <h3 style="color: #333; margin-bottom: 15px;">Podsumowanie:</h3>
+                <div style="text-align: left; line-height: 1.8;">
+                    <p><strong>Obszar:</strong> <span id="resultZone"></span></p>
+                    <p><strong>Zmiana:</strong> <span id="resultShift"></span></p>
+                    <p><strong>Poziom:</strong> <span id="resultLevel"></span></p>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                <button class="btn-success" id="downloadFileBtn" style="background: #667eea; padding: 15px; font-size: 1em;">
+                    💾 Pobierz plik
+                </button>
+                <button class="btn-success" id="sendEmailBtn" style="background: #28a745; padding: 15px; font-size: 1em;">
+                    📧 Wyślij emailem
+                </button>
+            </div>
+            
+            <div class="email-section">
+                <h3 style="color: #667eea; margin-bottom: 10px;">ℹ️ Informacje</h3>
+                <p style="font-size: 0.9em; color: #666; line-height: 1.6;">
+                    <strong>Pobierz plik:</strong> Zapisuje plik JSON na urządzeniu<br>
+                    <strong>Wyślij emailem:</strong> Otwiera email z załącznikiem do dominik.harezlak@cevalogistics.com<br>
+                    <br>
+                    <strong>📁 SharePoint:</strong> Plik należy przesłać do folderu <strong>Gemba</strong>
+                </p>
+            </div>
+            
+            <button class="btn-success" onclick="location.reload()" style="margin-top: 15px; background: #6c757d;">
+                🔄 Nowy GEMBA Walk
+            </button>
+        </div>
+    </div>
+
+    <script>
+        if (typeof CEVA_CONFIG === 'undefined' || !CEVA_CONFIG.getCurrentBranch) {
+            document.addEventListener('DOMContentLoaded', async function() {
+                CEVA_CONFIG = await CONFIG_LOADER.load();
+                initializePage();
+            });
+        } else {
+            document.addEventListener('DOMContentLoaded', initializePage);
+        }
+
+        function initializePage() {
+            const branch = CEVA_CONFIG.getCurrentBranch();
+            
+            let categoryObservations = {};
+            let selectedParticipants = [];
+            let savedGembaData = null;
+            let selectedShift = null;
+
+            document.getElementById('gembaDate').value = new Date().toISOString().split('T')[0];
+            
+            const zoneSelect = document.getElementById('gembaZone');
+            branch.zones.forEach(zone => {
+                const option = document.createElement('option');
+                option.value = zone.name;
+                option.textContent = zone.name;
+                zoneSelect.appendChild(option);
+            });
+
+            window.selectShift = function(shiftNumber, btn) {
+                // Usuń zaznaczenie ze wszystkich przycisków
+                document.querySelectorAll('.shift-btn').forEach(b => b.classList.remove('selected'));
+                // Zaznacz wybrany przycisk
+                btn.classList.add('selected');
+                selectedShift = shiftNumber;
+            };
+
+            window.switchLevel = function() {
+                const level = parseInt(document.getElementById('gembaLevel').value);
+                
+                if (!level) {
+                    document.getElementById('participantsSection').style.display = 'none';
+                    document.getElementById('categoriesSection').style.display = 'none';
+                    document.getElementById('saveBtn').style.display = 'none';
+                    return;
+                }
+                
+                displayParticipants(level);
+                renderCategories(level);
+                
+                document.getElementById('participantsSection').style.display = 'block';
+                document.getElementById('categoriesSection').style.display = 'block';
+                document.getElementById('saveBtn').style.display = 'block';
+            };
+
+            window.displayParticipants = function(level) {
+                const participants = CEVA_CONFIG.getGembaParticipants(level);
+                const container = document.getElementById('participantsList');
+                container.innerHTML = '';
+                
+                participants.forEach((p, idx) => {
+                    const checkboxDiv = document.createElement('div');
+                    checkboxDiv.className = 'participant-checkbox';
+                    checkboxDiv.innerHTML = `
+                        <input type="checkbox" id="participant_${idx}" value="${p.name}">
+                        <label for="participant_${idx}">
+                            ${p.name}
+                            <div style="font-size: 0.85em; color: #666;">${p.email}</div>
+                        </label>
+                    `;
+                    container.appendChild(checkboxDiv);
+                });
+            };
+
+            window.renderCategories = function(level) {
+                const categories = CEVA_CONFIG.getGembaCategories();
+                const container = document.getElementById('categoriesContainer');
+                container.innerHTML = '';
+                
+                categoryObservations = {};
+                
+                categories.forEach(category => {
+                    categoryObservations[category] = [];
+                    
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'category-section';
+                    categoryDiv.id = `category_${category.replace(/\s+/g, '_')}`;
+                    categoryDiv.innerHTML = `
+                        <div class="category-header">
+                            <div class="category-title">📋 ${category}</div>
+                            <button class="btn-add-observation" onclick="addObservation('${category}')">+ Dodaj obserwację</button>
+                        </div>
+                        <div id="observations_${category.replace(/\s+/g, '_')}">
+                            <div class="no-observations">Brak obserwacji - kliknij "Dodaj obserwację"</div>
+                        </div>
+                    `;
+                    container.appendChild(categoryDiv);
+                });
+            };
+
+            window.addObservation = function(category) {
+                const observationId = Date.now() + Math.random();
+                const container = document.getElementById(`observations_${category.replace(/\s+/g, '_')}`);
+                
+                const noObsMsg = container.querySelector('.no-observations');
+                if (noObsMsg) noObsMsg.remove();
+                
+                const observationCount = categoryObservations[category].length + 1;
+                
+                const observationDiv = document.createElement('div');
+                observationDiv.className = 'observation-item';
+                observationDiv.id = `obs_${observationId}`;
+                observationDiv.innerHTML = `
+                    <div class="observation-header">
+                        <div class="observation-number">Obserwacja #${observationCount}</div>
+                        <button class="btn-remove" onclick="removeObservation('${category}', '${observationId}')">Usuń</button>
+                    </div>
+                    <div class="answer-buttons">
+                        <button class="answer-btn answer-btn-yes" onclick="selectAnswer('${observationId}', 'yes', this)">✓ Tak</button>
+                        <button class="answer-btn answer-btn-no" onclick="selectAnswer('${observationId}', 'no', this)">✗ Nie</button>
+                        <button class="answer-btn answer-btn-na" onclick="selectAnswer('${observationId}', 'na', this)">∅ N/A</button>
+                    </div>
+                    <div class="comment-label" id="label_${observationId}"></div>
+                    <textarea 
+                        class="comment-area" 
+                        id="comment_${observationId}" 
+                        placeholder="Dodaj komentarz..."
+                    ></textarea>
+                `;
+                container.appendChild(observationDiv);
+                
+                categoryObservations[category].push({
+                    id: observationId,
+                    answer: null,
+                    comment: ''
+                });
+            };
+
+            window.removeObservation = function(category, observationId) {
+                document.getElementById(`obs_${observationId}`).remove();
+                categoryObservations[category] = categoryObservations[category].filter(o => o.id !== observationId);
+                
+                const container = document.getElementById(`observations_${category.replace(/\s+/g, '_')}`);
+                if (container.children.length === 0) {
+                    container.innerHTML = '<div class="no-observations">Brak obserwacji - kliknij "Dodaj obserwację"</div>';
+                } else {
+                    container.querySelectorAll('.observation-number').forEach((el, idx) => {
+                        el.textContent = `Obserwacja #${idx + 1}`;
+                    });
+                }
+            };
+
+            window.selectAnswer = function(observationId, value, btn) {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                
+                for (let category in categoryObservations) {
+                    const obs = categoryObservations[category].find(o => o.id == observationId);
+                    if (obs) {
+                        obs.answer = value;
+                        break;
+                    }
+                }
+                
+                const commentArea = document.getElementById(`comment_${observationId}`);
+                const commentLabel = document.getElementById(`label_${observationId}`);
+                
+                commentArea.classList.remove('required', 'optional');
+                commentLabel.classList.remove('required', 'optional');
+                
+                if (value === 'no') {
+                    commentArea.classList.add('visible', 'required');
+                    commentLabel.classList.add('visible', 'required');
+                    commentLabel.innerHTML = '<span class="required-star">*</span> Wymagany komentarz - opisz problem:';
+                    commentArea.placeholder = 'Opisz szczegółowo problem...';
+                    commentArea.required = true;
+                } else if (value === 'yes') {
+                    commentArea.classList.add('visible', 'optional');
+                    commentLabel.classList.add('visible', 'optional');
+                    commentLabel.innerHTML = '💡 Komentarz opcjonalny - dobry przykład:';
+                    commentArea.placeholder = 'Opcjonalnie: opisz dobry przykład...';
+                    commentArea.required = false;
+                } else {
+                    commentArea.classList.remove('visible');
+                    commentLabel.classList.remove('visible');
+                    commentArea.required = false;
+                    commentArea.value = '';
+                }
+            };
+
+            window.saveGemba = function() {
+                const date = document.getElementById('gembaDate').value;
+                const zone = document.getElementById('gembaZone').value;
+                const level = parseInt(document.getElementById('gembaLevel').value);
+
+                if (!date || !zone || !level) {
+                    alert('Wypełnij wszystkie pola podstawowe!');
+                    return;
+                }
+
+                if (selectedShift === null) {
+                    alert('Wybierz zmianę!');
+                    return;
+                }
+
+                selectedParticipants = [];
+                document.querySelectorAll('#participantsList input[type="checkbox"]:checked').forEach(cb => {
+                    selectedParticipants.push(cb.value);
+                });
+
+                for (let category in categoryObservations) {
+                    for (let obs of categoryObservations[category]) {
+                        if (!obs.answer) {
+                            alert(`Wybierz odpowiedź dla wszystkich obserwacji w kategorii: ${category}`);
+                            return;
+                        }
+                        
+                        if (obs.answer === 'no') {
+                            const commentValue = document.getElementById(`comment_${obs.id}`).value.trim();
+                            if (!commentValue) {
+                                alert(`Wszystkie odpowiedzi "Nie" wymagają komentarza! Kategoria: ${category}`);
+                                return;
+                            }
+                            obs.comment = commentValue;
+                        } else if (obs.answer === 'yes') {
+                            obs.comment = document.getElementById(`comment_${obs.id}`).value.trim();
+                            obs.isGoodExample = obs.comment ? true : false;
+                        } else {
+                            obs.comment = '';
+                        }
+                    }
+                }
+
+                const gembaData = {
+                    type: 'GEMBA',
+                    branch: branch.code,
+                    branchName: branch.name,
+                    date: date,
+                    timestamp: new Date().toISOString(),
+                    zone: zone,
+                    shift: selectedShift,
+                    gembaLevel: level,
+                    participants: selectedParticipants,
+                    categoryObservations: categoryObservations,
+                    notes: document.getElementById('notes').value.trim()
+                };
+
+                try {
+                    let localGemba = JSON.parse(localStorage.getItem('gemba_mobile_audits') || '[]');
+                    localGemba.push(gembaData);
+                    localStorage.setItem('gemba_mobile_audits', JSON.stringify(localGemba));
+                } catch (e) {
+                    console.warn('Nie można zapisać do localStorage:', e);
+                }
+
+                // Zmodyfikowana nazwa pliku z uwzględnieniem zmiany
+                const fileName = `gemba_${branch.code}_${zone.replace(/\s+/g, '')}_Zmiana${selectedShift}_${date}.json`;
+                const levelText = `Poziom ${level}`;
+                const shiftText = `Zmiana ${selectedShift}`;
+                
+                savedGembaData = { gembaData, fileName, zone, levelText, shiftText, date };
+                showResult(fileName, zone, shiftText, levelText);
+            };
+
+            window.downloadFile = function() {
+                if (!savedGembaData) {
+                    alert('Brak danych GEMBA!');
+                    return;
+                }
+
+                const { gembaData, fileName } = savedGembaData;
+                const json = JSON.stringify(gembaData, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                alert('Plik został pobrany: ' + fileName);
+            };
+
+            window.sendEmailWithAttachment = async function() {
+                if (!savedGembaData) {
+                    alert('Brak danych GEMBA!');
+                    return;
+                }
+
+                const { gembaData, fileName, zone, levelText, shiftText, date } = savedGembaData;
+                const json = JSON.stringify(gembaData, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const file = new File([blob], fileName, { type: 'application/json' });
+
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: `GEMBA Walk - ${zone}`,
+                            text: `GEMBA Walk\n\nObszar: ${zone}\n${shiftText}\n${levelText}\nData: ${date}\n\nWyślij do: dominik.harezlak@cevalogistics.com`
+                        });
+                        console.log('Udostępniono pomyślnie');
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            console.error('Błąd udostępniania:', err);
+                            fallbackEmailMethod(fileName, zone, shiftText, levelText, date, file);
+                        }
+                    }
+                } else {
+                    fallbackEmailMethod(fileName, zone, shiftText, levelText, date, file);
+                }
+            };
+
+            window.fallbackEmailMethod = function(fileName, zone, shiftText, levelText, date, file) {
+                const url = URL.createObjectURL(file);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                URL.revokeObjectURL(url);
+
+                setTimeout(() => {
+                    const mailSubject = encodeURIComponent(`GEMBA Walk - ${zone} - ${shiftText} - ${date}`);
+                    const mailBody = encodeURIComponent(`Witaj,\n\nPrzesyłam wyniki GEMBA Walk:\n\nObszar: ${zone}\n${shiftText}\n${levelText}\nData: ${date}\n\nPlik JSON został pobrany - dołącz go do tego maila.\n\nPozdrawiam`);
+                    window.location.href = `mailto:dominik.harezlak@cevalogistics.com?subject=${mailSubject}&body=${mailBody}`;
+                }, 500);
+
+                alert('Plik został pobrany. Za chwilę otworzy się klient email - pamiętaj o dołączeniu pobranego pliku!');
+            };
+
+            function showResult(fileName, zone, shiftText, levelText) {
+                document.querySelector('.content').childNodes.forEach(node => {
+                    if (node.id !== 'resultSection' && node.nodeType === 1) {
+                        node.style.display = 'none';
+                    }
+                });
+                
+                const resultSection = document.getElementById('resultSection');
+                resultSection.classList.add('visible');
+                
+                document.getElementById('resultZone').textContent = zone;
+                document.getElementById('resultShift').textContent = shiftText;
+                document.getElementById('resultLevel').textContent = levelText;
+                
+                document.getElementById('downloadFileBtn').onclick = downloadFile;
+                document.getElementById('sendEmailBtn').onclick = sendEmailWithAttachment;
+            }
+        }
+    </script>
+</body>
+</html>
