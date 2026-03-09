@@ -1,22 +1,13 @@
 /**
  * mobile-loader.js
- * ══════════════════════════════════════════════════════════
- * Wrzuć do GŁÓWNEGO folderu repo (obok mobile-index.html).
- *
- * Następnie dodaj JEDNĄ linię do KAŻDEJ strony tabletu
- * (mobile-index.html, gemba-audit.html, 5s-audit-simple.html,
- *  problem-report.html, process-audit.html) — w sekcji <head>,
- * PRZED wszelkimi innymi skryptami:
- *
+ * Dodaj PRZED <script src="config.js"> w każdej stronie tabletu:
  *   <script src="/mobile-loader.js"></script>
  *
- * Co robi:
- *  1. Sprawdza lokalizację (URL ?location=KOD lub pamięć urządzenia)
+ * Logika:
+ *  1. Pobiera kod lokalizacji z URL (?location=ORA-PL-01) lub pamięci
  *  2. Pobiera config z /api/config?location=KOD
- *  3. Udostępnia go jako window.CEVA_CONFIG (kompatybilny z config.js)
- *  4. Tryb offline: jeśli serwer niedostępny → używa ostatniego configa
- *  5. Brak lokalizacji → pokazuje ekran wyboru
- * ══════════════════════════════════════════════════════════
+ *  3. Nadpisuje dane w CEVA_CONFIG.branches[KOD] — kompatybilne ze starym config.js
+ *  4. Offline: używa ostatnio pobranego configa z cache
  */
 (function () {
   'use strict';
@@ -24,8 +15,6 @@
   var LOC_KEY = 'ceva_location';
   var CFG_PRE = 'ceva_cfg_';
   var API     = window.location.origin + '/api/config';
-
-  /* ── helpers ───────────────────────────────────────────── */
 
   function getLoc() {
     var p = new URLSearchParams(window.location.search).get('location');
@@ -41,9 +30,41 @@
     try { localStorage.setItem(CFG_PRE + loc, JSON.stringify(cfg)); } catch (e) {}
   }
 
-  function apply(cfg) {
-    window.CEVA_CONFIG = cfg;
-    try { window.dispatchEvent(new CustomEvent('ceva-config-ready', { detail: cfg })); } catch (e) {}
+  // Kluczowa funkcja — wstrzykuje dane z serwera do istniejącej struktury CEVA_CONFIG
+  function applyToConfig(loc, data) {
+    // Zapisz jako window.CEVA_CONFIG_REMOTE (dostęp dla wszystkich skryptów)
+    window.CEVA_CONFIG_REMOTE = data;
+
+    // Czekaj aż config.js załaduje CEVA_CONFIG, potem nadpisz branch
+    function inject() {
+      if (typeof CEVA_CONFIG === 'undefined' || !CEVA_CONFIG.branches) {
+        setTimeout(inject, 50);
+        return;
+      }
+      // Nadpisz istniejący branch lub utwórz nowy
+      if (!CEVA_CONFIG.branches[loc]) {
+        CEVA_CONFIG.branches[loc] = {};
+      }
+      var b = CEVA_CONFIG.branches[loc];
+      if (data.zones)             b.zones             = data.zones;
+      if (data.auditors)          b.auditors          = data.auditors;
+      if (data.auditors5S)        b.auditors5S        = data.auditors5S;
+      if (data.gembaParticipants) b.gembaParticipants = data.gembaParticipants;
+      if (data.gembaQuestions)    b.gembaQuestions    = data.gembaQuestions;
+
+      // Ustaw jako aktywny branch
+      CEVA_CONFIG.currentBranch = loc;
+
+      // Jeśli getCurrentBranch nie zwraca tego brancha — podmień
+      var orig = CEVA_CONFIG.getCurrentBranch;
+      CEVA_CONFIG.getCurrentBranch = function() {
+        return CEVA_CONFIG.branches[loc] || (orig ? orig.call(CEVA_CONFIG) : null);
+      };
+
+      window.CEVA_CONFIG = CEVA_CONFIG;
+      try { window.dispatchEvent(new CustomEvent('ceva-config-ready', { detail: data })); } catch(e) {}
+    }
+    inject();
   }
 
   function toast(msg, color, persist) {
@@ -59,8 +80,6 @@
     if (!persist) setTimeout(function () { if (d.parentNode) d.remove(); }, 3000);
   }
 
-  /* ── fetch config ──────────────────────────────────────── */
-
   function fetchCfg(loc, cb) {
     var x = new XMLHttpRequest();
     x.open('GET', API + '?location=' + encodeURIComponent(loc), true);
@@ -68,9 +87,9 @@
     x.onload = function () {
       if (x.status === 200) {
         try { cb(null, JSON.parse(x.responseText)); }
-        catch (e) { cb('Błąd parsowania odpowiedzi serwera'); }
+        catch (e) { cb('Błąd parsowania odpowiedzi'); }
       } else if (x.status === 404) {
-        cb('Brak konfiguracji dla "' + loc + '". Użyj Panelu Admina.');
+        cb('Brak konfiguracji dla "' + loc + '"');
       } else {
         cb('Błąd serwera: HTTP ' + x.status);
       }
@@ -90,8 +109,6 @@
     x.send();
   }
 
-  /* ── location picker ───────────────────────────────────── */
-
   function showPicker() {
     fetchList(function (locs) {
       var ov = document.createElement('div');
@@ -106,7 +123,7 @@
           + '<option value="">— wybierz z listy —</option>'
           + locs.map(function (l) { return '<option>' + l + '</option>'; }).join('')
           + '</select>'
-        : '<p style="font-size:.8em;opacity:.65;margin-bottom:14px;color:#fff;">Brak lokalizacji na serwerze.<br>Użyj Panelu Admina aby dodać konfigurację.</p>';
+        : '';
 
       ov.innerHTML = '<div style="background:rgba(255,255,255,.12);border-radius:14px;'
         + 'padding:28px 24px;max-width:360px;width:100%;text-align:center;color:#fff;">'
@@ -149,7 +166,7 @@
           }
           localStorage.setItem(LOC_KEY, loc);
           writeCache(loc, cfg);
-          apply(cfg);
+          applyToConfig(loc, cfg);
           ov.remove();
           toast('✅ Załadowano: ' + loc, '#1d4289');
         });
@@ -159,36 +176,33 @@
     });
   }
 
-  /* ── init ──────────────────────────────────────────────── */
-
   function start() {
     var loc    = getLoc();
     var cached = loc ? readCache(loc) : null;
 
-    // Brak lokalizacji → ekran wyboru
     if (!loc) {
       return (document.readyState === 'loading')
         ? document.addEventListener('DOMContentLoaded', showPicker)
         : showPicker();
     }
 
-    // Mamy cache → użyj od razu, odśwież w tle
+    // Mamy cache — zastosuj od razu, odśwież w tle
     if (cached) {
-      apply(cached);
+      applyToConfig(loc, cached);
       fetchCfg(loc, function (e, fresh) {
         if (!fresh) return;
         var ov = (cached._meta && cached._meta.version) || 0;
         var nv = (fresh._meta  && fresh._meta.version)  || 0;
         writeCache(loc, fresh);
         if (nv > ov) {
-          apply(fresh);
+          applyToConfig(loc, fresh);
           toast('🔄 Nowy config v' + nv + ' — odśwież stronę aby zastosować', '#d97706', true);
         }
       });
       return;
     }
 
-    // Brak cache → pobierz synchronicznie
+    // Brak cache — pobierz synchronicznie
     function doLoad() {
       toast('⏳ Pobieranie konfiguracji: ' + loc + '…', '#1d4289', true);
       fetchCfg(loc, function (e, cfg) {
@@ -198,7 +212,7 @@
           return;
         }
         writeCache(loc, cfg);
-        apply(cfg);
+        applyToConfig(loc, cfg);
         toast('✅ Załadowano: ' + loc + ' (v' + ((cfg._meta && cfg._meta.version) || '1') + ')', '#1d4289');
       });
     }
@@ -208,11 +222,10 @@
       : doLoad();
   }
 
-  /* ── public API ────────────────────────────────────────── */
   window.CevaLoader = {
     reload:         function () {
       var loc = localStorage.getItem(LOC_KEY);
-      if (loc) fetchCfg(loc, function (e, c) { if (c) { writeCache(loc, c); apply(c); } });
+      if (loc) fetchCfg(loc, function (e, c) { if (c) { writeCache(loc, c); applyToConfig(loc, c); } });
     },
     changeLocation: function () { localStorage.removeItem(LOC_KEY); showPicker(); },
     getLocation:    function () { return localStorage.getItem(LOC_KEY); },
