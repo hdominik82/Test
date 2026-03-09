@@ -71,7 +71,11 @@ textarea{resize:vertical;min-height:50px}
 <body>
 <div class="hdr">
   <div><div class="hl">⚙️ Panel Admina CEVA</div><div class="hs">Zarządzanie konfiguracją tabletów</div></div>
-  <div class="hr"><span id="pc" class="pill perr">● Nie połączono</span><span id="pl" class="pill pwarn">📍 Brak lokalizacji</span></div>
+  <div class="hr">
+    <span id="pc" class="pill perr">● Nie połączono</span>
+    <span id="pl" class="pill pwarn">📍 Brak lokalizacji</span>
+    <button onclick="openTablet()" id="btab" style="padding:4px 11px;border-radius:7px;border:none;background:rgba(78,205,196,.25);color:#a7f3d0;font-family:inherit;font-size:.72em;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px" title="Otwórz widok tabletu dla aktualnej lokalizacji">📱 Podgląd tabletu</button>
+  </div>
 </div>
 <div class="lay">
 <nav class="side">
@@ -101,9 +105,14 @@ textarea{resize:vertical;min-height:50px}
         <button class="btn bx" onclick="togglePass()">👁</button>
       </div>
     </div>
+    <div class="fg"><label>URL strony tabletu (opcjonalnie — jeśli inny niż URL serwera)</label>
+      <input type="text" id="itab" placeholder="https://twoja-nazwa.netlify.app" oninput="localStorage.setItem('ceva_tablet_url',this.value.trim())">
+      <div style="font-size:.72em;color:var(--muted);margin-top:3px">Strona otwierana po kliknięciu 📱 Podgląd tabletu. Domyślnie: ten sam URL co serwer + /mobile-index.html</div>
+    </div>
     <div style="display:flex;gap:7px">
       <button class="btn bn" onclick="saveConn()">💾 Zapisz</button>
       <button class="btn bx" onclick="testConn()" id="bt">🔌 Testuj połączenie</button>
+      <button class="btn bx" onclick="openTablet()" style="background:#0d9488;color:#fff;border:none">📱 Podgląd tabletu</button>
     </div>
     <div id="rc" class="res"></div>
   </div>
@@ -118,10 +127,22 @@ textarea{resize:vertical;min-height:50px}
     </div>
     <div style="display:flex;gap:7px;flex-wrap:wrap">
       <button class="btn bx" onclick="fetchLocs()" id="bfl">📋 Pobierz listę</button>
-      <button class="btn bn" onclick="loadCfg()"   id="bld">⬇️ Wczytaj config tej lokalizacji</button>
+      <button class="btn bn" onclick="loadCfg()"   id="bld">⬇️ Wczytaj z serwera</button>
       <button class="btn bg" onclick="initEmpty()">✨ Nowa lokalizacja</button>
     </div>
     <div id="rl" class="res"></div>
+  </div>
+  <div class="card" style="border:2px dashed #4ecdc4">
+    <div class="ct" style="margin-bottom:6px;color:#0d9488">📂 Import z config.js (plik w repo)</div>
+    <div style="font-size:.78em;color:var(--muted);margin-bottom:10px">Wczytaj dane bezpośrednio z pliku <strong>config.js</strong> dla wybranego kodu lokalizacji. Dane trafią do edytora — możesz je przejrzeć i wysłać na serwer.</div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+      <div>
+        <label style="font-size:.68em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px">URL config.js (w repo)</label>
+        <input type="text" id="icfgurl" placeholder="https://raw.githubusercontent.com/hdominik82/Test/main/config.js" style="width:340px;font-size:.78em">
+      </div>
+      <button class="btn bx" onclick="importFromConfigJs()" id="bimp" style="background:#0d9488;color:#fff;border:none;margin-top:14px">📂 Importuj z config.js</button>
+    </div>
+    <div id="ril" class="res"></div>
   </div>
 </div>
 
@@ -198,6 +219,7 @@ textarea{resize:vertical;min-height:50px}
   <div class="dh" id="dh">Wczytaj config z serwera, edytuj i wyślij na tablet.</div>
   <div class="dr">
     <span id="dloc" style="font-size:.77em;color:var(--muted)"></span>
+    <button class="btn bx" onclick="openTablet()" style="background:#0d9488;color:#fff;border:none;font-size:.82em">📱 Podgląd tabletu</button>
     <button class="sbtn" onclick="nav('send');sendCfg()" id="bdb">📤 Wyślij na tablet</button>
   </div>
 </div>
@@ -215,6 +237,57 @@ function nav(id){
   if(id==='send')refSum();
 }
 
+async function importFromConfigJs(){
+  var loc=document.getElementById('il').value.trim().toUpperCase();
+  if(!loc)return setR('ril','Najpierw wpisz kod lokalizacji (np. ORA-PL-01).','r');
+  var cfgUrl=document.getElementById('icfgurl').value.trim();
+  if(!cfgUrl)return setR('ril','Wpisz URL do config.js.','r');
+  var btn=document.getElementById('bimp');btn.disabled=true;btn.textContent='⏳ Importowanie…';
+  setR('ril','Pobieranie config.js…','i');
+  try{
+    var r=await fetch(cfgUrl+'?t='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status+' — sprawdź URL do config.js');
+    var text=await r.text();
+
+    // Wyodrębnij obiekt CEVA_CONFIG z pliku JS
+    // Uruchom skrypt w sandboxie — usuń export i odczytaj zmienną
+    var clean=text
+      .replace(/if\s*\(typeof module[^}]+\}/gs,'')
+      .replace(/module\.exports\s*=.*/g,'');
+    var fn=new Function(clean+'\n return CEVA_CONFIG;');
+    var cfg=fn();
+
+    if(!cfg||!cfg.branches)throw new Error('Nie znaleziono CEVA_CONFIG.branches w pliku.');
+    var branch=cfg.branches[loc];
+    if(!branch)throw new Error('Brak lokalizacji "'+loc+'" w config.js. Dostępne: '+Object.keys(cfg.branches).join(', '));
+
+    // Mapuj strukturę branch → płaski format Panelu Admina
+    var mapped={
+      location:       loc,
+      zones:          branch.zones||[],
+      auditors:       branch.auditors||[],
+      auditors5S:     branch.auditors5S||[],
+      gembaParticipants: branch.gembaParticipants||{level1:[],level2:[],level3:[]},
+      gembaQuestions: branch.gembaQuestions||{},
+    };
+    QCATS.forEach(function(c){if(!mapped.gembaQuestions[c])mapped.gembaQuestions[c]=[];});
+
+    applyConfig(mapped,loc);
+    setR('ril','✅ Zaimportowano z config.js: '+branch.zones.length+' stref, '+branch.auditors.length+' prowadzących, '+(branch.auditors5S||[]).length+' audytorów 5S.','g');
+    setPill('pl','📍 '+loc+' (import)','pwarn');
+    nav('zones');
+  }catch(e){setR('ril','❌ '+e.message,'r');}
+  btn.disabled=false;btn.textContent='📂 Importuj z config.js';
+}
+function openTablet(){
+  var loc=S.location||localStorage.getItem('ceva_location');
+  var u=getUrl();
+  if(!u){alert('Najpierw skonfiguruj URL serwera w zakładce Serwer.');return;}
+  if(!loc){alert('Najpierw wczytaj lokalizację w zakładce Serwer.');return;}
+  var tabUrl=localStorage.getItem('ceva_tablet_url')||u;
+  var full=tabUrl.replace(/\/+$/,'')+'/mobile-index.html?location='+encodeURIComponent(loc)+'&refresh=1&t='+Date.now();
+  window.open(full,'_blank');
+}
 function saveConn(){
   var u=document.getElementById('iu').value.trim().replace(/\/+$/,'');
   var p=document.getElementById('ip').value;
@@ -467,8 +540,13 @@ function logI(el,m){el.innerHTML+='<span class="linf">'+m+'</span>\n';el.scrollT
 
 document.addEventListener('DOMContentLoaded',function(){
   var u=localStorage.getItem('ceva_url')||'',p=localStorage.getItem('ceva_pass')||'';
+  var tu=localStorage.getItem('ceva_tablet_url')||'';
+  var cu=localStorage.getItem('ceva_configjs_url')||'https://raw.githubusercontent.com/hdominik82/Test/main/config.js';
   if(u){document.getElementById('iu').value=u;S.url=u;}
   if(p){document.getElementById('ip').value=p;S.pass=p;}
+  if(tu){document.getElementById('itab').value=tu;}
+  document.getElementById('icfgurl').value=cu;
+  document.getElementById('icfgurl').oninput=function(){localStorage.setItem('ceva_configjs_url',this.value.trim());};
   window.addEventListener('beforeunload',function(e){if(S.dirty){e.preventDefault();e.returnValue='';}});
 });
 </script>
