@@ -178,7 +178,9 @@
 
   function start() {
     var loc    = getLoc();
-    var cached = loc ? readCache(loc) : null;
+    var params = new URLSearchParams(window.location.search);
+    var force  = params.get('refresh') === '1';
+    var cached = (!force && loc) ? readCache(loc) : null;
 
     if (!loc) {
       return (document.readyState === 'loading')
@@ -186,9 +188,30 @@
         : showPicker();
     }
 
-    // Mamy cache — zastosuj od razu, odśwież w tle
+    function doLoad() {
+      toast('⏳ Pobieranie konfiguracji: ' + loc + '…', '#1d4289', true);
+      fetchCfg(loc, function (e, cfg) {
+        if (e) {
+          if (readCache(loc)) {
+            applyToConfig(loc, readCache(loc));
+            toast('⚠️ Serwer niedostępny — używam cache', '#d97706');
+          } else {
+            toast('❌ ' + e, '#dc2626', true);
+            setTimeout(function () { localStorage.removeItem(LOC_KEY); showPicker(); }, 2500);
+          }
+          return;
+        }
+        writeCache(loc, cfg);
+        applyToConfig(loc, cfg);
+        var v = (cfg._meta && cfg._meta.version) || '1';
+        toast('✅ ' + loc + ' v' + v + (force ? ' — świeże dane z serwera' : ''), '#16a34a');
+      });
+    }
+
+    // Cache dostępny i nie wymuszamy odświeżenia
     if (cached) {
       applyToConfig(loc, cached);
+      // Sprawdź w tle czy jest nowsza wersja
       fetchCfg(loc, function (e, fresh) {
         if (!fresh) return;
         var ov = (cached._meta && cached._meta.version) || 0;
@@ -196,27 +219,13 @@
         writeCache(loc, fresh);
         if (nv > ov) {
           applyToConfig(loc, fresh);
-          toast('🔄 Nowy config v' + nv + ' — odśwież stronę aby zastosować', '#d97706', true);
+          toast('🔄 Zaktualizowano do v' + nv, '#16a34a');
         }
       });
       return;
     }
 
-    // Brak cache — pobierz synchronicznie
-    function doLoad() {
-      toast('⏳ Pobieranie konfiguracji: ' + loc + '…', '#1d4289', true);
-      fetchCfg(loc, function (e, cfg) {
-        if (e) {
-          toast('❌ ' + e, '#dc2626', true);
-          setTimeout(function () { localStorage.removeItem(LOC_KEY); showPicker(); }, 2500);
-          return;
-        }
-        writeCache(loc, cfg);
-        applyToConfig(loc, cfg);
-        toast('✅ Załadowano: ' + loc + ' (v' + ((cfg._meta && cfg._meta.version) || '1') + ')', '#1d4289');
-      });
-    }
-
+    // Brak cache lub force=true — pobierz od razu
     (document.readyState === 'loading')
       ? document.addEventListener('DOMContentLoaded', doLoad)
       : doLoad();
@@ -233,3 +242,11 @@
 
   start();
 })();
+
+
+
+
+
+
+
+
