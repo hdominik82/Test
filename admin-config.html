@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel Admina CEVA</title>
+<style>
+:root{--navy:#021D49;--blue:#1D4289;--teal:#4ecdc4;--green:#16a34a;--red:#dc2626;--yellow:#d97706;--bg:#f0f4f8;--card:#fff;--bdr:#dde3ed;--txt:#1a2236;--muted:#64748b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:14px;line-height:1.5}
+.hdr{background:linear-gradient(120deg,var(--navy),var(--blue));color:#fff;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(2,29,73,.3)}
+.hl{font-weight:800;font-size:1em}.hs{font-size:.68em;opacity:.55;margin-top:1px}
+.hr{display:flex;gap:7px}
+.pill{padding:3px 10px;border-radius:20px;font-size:.68em;font-weight:700}
+.pok{background:rgba(78,205,196,.25);color:#a7f3d0}.perr{background:rgba(220,38,38,.25);color:#fca5a5}.pwarn{background:rgba(217,119,6,.25);color:#fde68a}
+.lay{display:grid;grid-template-columns:190px 1fr;min-height:calc(100vh - 56px)}
+.side{background:var(--card);border-right:1px solid var(--bdr);padding:10px 7px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;display:flex;flex-direction:column;gap:1px}
+.sl{font-size:.6em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:9px 9px 3px}
+.sb{width:100%;display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;border:none;background:none;color:var(--txt);font-size:.82em;font-weight:500;cursor:pointer;text-align:left}
+.sb:hover{background:var(--bg)}.sb.on{background:#eff6ff;color:var(--blue);font-weight:700}
+.mn{padding:20px 24px 90px}
+.sec{display:none}.sec.on{display:block}
+.pt{font-size:1.05em;font-weight:800;color:var(--navy);margin-bottom:3px}
+.ps{font-size:.78em;color:var(--muted);margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:9px;padding:14px 16px;margin-bottom:11px}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.ct{font-size:.86em;font-weight:700;color:var(--navy)}
+label{font-size:.68em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px}
+input[type=text],input[type=password],input[type=number],textarea,select{width:100%;padding:7px 9px;border:1px solid var(--bdr);border-radius:7px;font-family:inherit;font-size:.84em;color:var(--txt);background:#fff;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,66,137,.08)}
+textarea{resize:vertical;min-height:50px}
+.fg{margin-bottom:10px}.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{padding:6px 13px;border-radius:8px;border:none;font-family:inherit;font-size:.81em;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .1s;white-space:nowrap}
+.bn{background:var(--navy);color:#fff}.bn:hover{background:var(--blue)}
+.bg{background:var(--green);color:#fff}.bg:hover{opacity:.88}
+.br{background:var(--red);color:#fff}.br:hover{opacity:.88}
+.bx{background:var(--bg);color:var(--muted);border:1px solid var(--bdr)}.bx:hover{background:var(--bdr)}
+.sm{padding:3px 8px;font-size:.74em}.btn:disabled{opacity:.35;cursor:not-allowed}
+.tbl{width:100%;border-collapse:collapse;font-size:.82em}
+.tbl th{background:var(--navy);color:#fff;padding:7px 10px;text-align:left;font-size:.69em;text-transform:uppercase;letter-spacing:.05em}
+.tbl td{padding:6px 8px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+.tbl tr:hover td{background:#f8faff}
+.tbl input{border:1px solid var(--bdr);border-radius:5px;padding:4px 7px;font-size:.83em;font-family:inherit;width:100%}
+.tbl input:focus{border-color:var(--blue);outline:none}
+.li{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--bg);border-radius:7px;margin-bottom:4px}
+.lin{font-size:.7em;font-weight:700;color:var(--muted);min-width:18px;text-align:center}
+.li input{flex:1;border:1px solid var(--bdr);border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.83em}
+.qi{background:var(--bg);border-radius:8px;padding:10px;margin-bottom:6px;border-left:3px solid #cbd5e1}
+.qr{display:flex;gap:6px;align-items:flex-start;margin-bottom:6px}
+.qn{font-size:.7em;font-weight:700;color:var(--muted);min-width:18px;padding-top:8px;text-align:center}
+.ql{display:flex;align-items:center;gap:9px;padding-left:24px}
+.ql span{font-size:.67em;font-weight:700;color:var(--muted);text-transform:uppercase}
+.ql label{display:flex;align-items:center;gap:4px;font-size:.79em;cursor:pointer}
+.ql input[type=checkbox]{width:auto;cursor:pointer}
+.al{display:flex;gap:9px;padding:10px 14px;border-radius:8px;margin:9px 0;font-size:.84em;line-height:1.5}
+.ai{background:#eff6ff;border-left:3px solid var(--blue)}
+.aw{background:#fffbeb;border-left:3px solid var(--yellow);color:#78350f}
+.res{font-size:.81em;margin-top:6px;min-height:16px}
+.empty{text-align:center;padding:20px;color:var(--muted);font-size:.82em;background:var(--bg);border-radius:8px;border:1px dashed var(--bdr)}
+.log{background:#0d1117;color:#8b949e;font-family:monospace;font-size:.74em;border-radius:8px;padding:11px;height:150px;overflow-y:auto;line-height:1.7;white-space:pre-wrap}
+.lok{color:#3fb950}.lerr{color:#f85149}.linf{color:#58a6ff}
+.dbar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--bdr);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;z-index:150;box-shadow:0 -2px 10px rgba(0,0,0,.06)}
+.dh{font-size:.76em;color:var(--muted)}.dr{display:flex;align-items:center;gap:9px}
+.sbtn{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:9px 22px;border-radius:8px;border:none;font-family:inherit;font-size:.88em;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;box-shadow:0 3px 10px rgba(2,29,73,.22);transition:all .15s}
+.sbtn:hover{transform:translateY(-1px)}.sbtn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.bdg{padding:2px 7px;border-radius:10px;font-size:.67em;font-weight:700;background:#f1f5f9;color:var(--muted)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.spin{width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite}
+@media(max-width:580px){.lay{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap}.r2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><div class="hl">⚙️ Panel Admina CEVA</div><div class="hs">Zarządzanie konfiguracją tabletów</div></div>
+  <div class="hr"><span id="pc" class="pill perr">● Nie połączono</span><span id="pl" class="pill pwarn">📍 Brak lokalizacji</span></div>
+</div>
+<div class="lay">
+<nav class="side">
+  <div class="sl">Konfiguracja</div>
+  <button class="sb on" onclick="nav('conn')"  data-s="conn"> <span>🔌</span>Serwer</button>
+  <button class="sb"    onclick="nav('zones')" data-s="zones"><span>📍</span>Strefy</button>
+  <button class="sb"    onclick="nav('aud')"   data-s="aud">  <span>👤</span>Prowadzący GEMBA</button>
+  <button class="sb"    onclick="nav('a5s')"   data-s="a5s">  <span>🔍</span>Audytorzy 5S</button>
+  <button class="sb"    onclick="nav('part')"  data-s="part"> <span>👥</span>Uczestnicy</button>
+  <button class="sb"    onclick="nav('quest')" data-s="quest"><span>❓</span>Pytania GEMBA</button>
+  <div class="sl">Publikacja</div>
+  <button class="sb"    onclick="nav('send')"  data-s="send"> <span>🚀</span>Wyślij na tablet</button>
+</nav>
+<main class="mn">
+
+<div id="s-conn" class="sec on">
+  <div class="pt">🔌 Połączenie z serwerem</div>
+  <div class="ps">Ustawienia zapisywane lokalnie w tej przeglądarce.</div>
+  <div class="al ai">ℹ️ Panel wysyła config bezpośrednio do Netlify. <strong>Dane nie przechodzą przez GitHub.</strong></div>
+  <div class="card">
+    <div class="ct" style="margin-bottom:11px">⚙️ Dane serwera</div>
+    <div class="fg"><label>URL aplikacji Netlify (bez / na końcu)</label>
+      <input type="text" id="iu" placeholder="https://twoja-nazwa.netlify.app"></div>
+    <div class="fg"><label>Hasło admina (zmienna ADMIN_PASSWORD w Netlify → Environment variables)</label>
+      <div style="display:flex;gap:7px">
+        <input type="password" id="ip" placeholder="hasło" style="flex:1" onkeydown="if(event.key==='Enter')saveConn()">
+        <button class="btn bx" onclick="togglePass()">👁</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:7px">
+      <button class="btn bn" onclick="saveConn()">💾 Zapisz</button>
+      <button class="btn bx" onclick="testConn()" id="bt">🔌 Testuj połączenie</button>
+    </div>
+    <div id="rc" class="res"></div>
+  </div>
+  <div class="card">
+    <div class="ct" style="margin-bottom:11px">📍 Lokalizacja</div>
+    <div class="al aw">💡 Wybierz istniejącą lokalizację lub wpisz nową kod aby stworzyć od zera.</div>
+    <div class="r2" style="margin-top:10px">
+      <div class="fg"><label>Kod lokalizacji</label>
+        <input type="text" id="il" placeholder="ORA-PL-01" style="font-family:monospace;font-weight:700" oninput="this.value=this.value.toUpperCase()"></div>
+      <div class="fg"><label>Istniejące na serwerze</label>
+        <select id="sel" onchange="if(this.value)document.getElementById('il').value=this.value"><option value="">— kliknij Pobierz listę —</option></select></div>
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn bx" onclick="fetchLocs()" id="bfl">📋 Pobierz listę</button>
+      <button class="btn bn" onclick="loadCfg()"   id="bld">⬇️ Wczytaj config tej lokalizacji</button>
+      <button class="btn bg" onclick="initEmpty()">✨ Nowa lokalizacja</button>
+    </div>
+    <div id="rl" class="res"></div>
+  </div>
+</div>
+
+<div id="s-zones" class="sec">
+  <div class="pt">📍 Strefy magazynowe</div><div class="ps">Strefy widoczne na tablecie przy wyborze obszaru audytu.</div>
+  <div class="card">
+    <div class="ch"><div class="ct">Strefy <span id="zc" class="bdg">0</span></div>
+      <button class="btn bg sm" onclick="addZone()">+ Strefa</button></div>
+    <div id="ze" class="empty">Wczytaj config — zakładka Serwer</div>
+    <table class="tbl" id="zt" style="display:none">
+      <thead><tr><th>#</th><th>Nazwa strefy</th><th>Odpowiedzialny</th><th>Cel %</th><th></th></tr></thead>
+      <tbody id="zb"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="s-aud" class="sec">
+  <div class="pt">👤 Prowadzący GEMBA Walk</div><div class="ps">Lista osób do wyboru jako prowadzący audyt.</div>
+  <div class="card"><div class="ch"><div class="ct">Prowadzący <span id="ac" class="bdg">0</span></div>
+    <button class="btn bg sm" onclick="addItem('auditors','aal','ac')">+ Dodaj</button></div>
+    <div id="aal"><div class="empty">Wczytaj config — zakładka Serwer</div></div>
+  </div>
+</div>
+
+<div id="s-a5s" class="sec">
+  <div class="pt">🔍 Audytorzy 5S</div><div class="ps">Lista audytorów 5S / BHP.</div>
+  <div class="card"><div class="ch"><div class="ct">Audytorzy 5S <span id="a5c" class="bdg">0</span></div>
+    <button class="btn bg sm" onclick="addItem('auditors5S','a5l','a5c')">+ Dodaj</button></div>
+    <div id="a5l"><div class="empty">Wczytaj config — zakładka Serwer</div></div>
+  </div>
+</div>
+
+<div id="s-part" class="sec">
+  <div class="pt">👥 Uczestnicy GEMBA Walk</div><div class="ps">L1 = Brygadziści | L2 = Kierownicy | L3 = Zarząd</div>
+  <div class="card"><div class="ch"><div class="ct">Poziom 1 <span id="p1c" class="bdg">0</span></div>
+    <button class="btn bg sm" onclick="addPart(1)">+ L1</button></div>
+    <div id="p1l"><div class="empty">Wczytaj config</div></div></div>
+  <div class="card"><div class="ch"><div class="ct">Poziom 2 <span id="p2c" class="bdg">0</span></div>
+    <button class="btn bg sm" onclick="addPart(2)">+ L2</button></div>
+    <div id="p2l"><div class="empty">Wczytaj config</div></div></div>
+  <div class="card"><div class="ch"><div class="ct">Poziom 3 <span id="p3c" class="bdg">0</span></div>
+    <button class="btn bg sm" onclick="addPart(3)">+ L3</button></div>
+    <div id="p3l"><div class="empty">Wczytaj config</div></div></div>
+</div>
+
+<div id="s-quest" class="sec">
+  <div class="pt">❓ Pytania GEMBA</div><div class="ps">Pytania według kategorii z przypisaniem do poziomów L1/L2/L3.</div>
+  <div id="qw"><div class="empty">Wczytaj config — zakładka Serwer</div></div>
+</div>
+
+<div id="s-send" class="sec">
+  <div class="pt">🚀 Wyślij config na tablet</div>
+  <div class="ps">Config zostanie zapisany na serwerze — tablet pobierze go przy następnym uruchomieniu.</div>
+  <div class="card"><div class="ct" style="margin-bottom:9px">📋 Podsumowanie</div>
+    <div id="ss" style="font-size:.83em;color:var(--muted)">Brak danych.</div></div>
+  <div class="card">
+    <div class="r2">
+      <div class="fg"><label>Lokalizacja docelowa</label>
+        <input type="text" id="isl" readonly style="font-family:monospace;font-weight:700;background:#f8fafc"></div>
+      <div class="fg"><label>Serwer Netlify</label>
+        <input type="text" id="isu" readonly style="background:#f8fafc;font-size:.78em;color:var(--muted)"></div>
+    </div>
+    <div class="al ai" style="margin-bottom:10px">📱 Tablet pobierze nowe ustawienia przy następnym otwarciu strony.</div>
+    <button class="btn bn" onclick="sendCfg()" id="bs" style="font-size:.9em;padding:10px 22px">📤 Wyślij config na tablet</button>
+  </div>
+  <div class="card"><div class="ct" style="margin-bottom:8px">📟 Log</div>
+    <div class="log" id="slog">Oczekiwanie…<br></div></div>
+</div>
+
+</main>
+</div>
+
+<div class="dbar">
+  <div class="dh" id="dh">Wczytaj config z serwera, edytuj i wyślij na tablet.</div>
+  <div class="dr">
+    <span id="dloc" style="font-size:.77em;color:var(--muted)"></span>
+    <button class="sbtn" onclick="nav('send');sendCfg()" id="bdb">📤 Wyślij na tablet</button>
+  </div>
+</div>
+
+<script>
+var S={zones:[],auditors:[],auditors5S:[],participants:{level1:[],level2:[],level3:[]},questions:{},meta:{},url:'',pass:'',location:'',loaded:false,dirty:false};
+var QCATS=['Identyfikacja strat','Analiza przyczyn i rozwiązywanie problemów','Standaryzacja i optymalizacja','Produktywność i KPI','Audyt operacyjny na magazynie (5S, BHP)'];
+var QCLR={'Identyfikacja strat':'#3b82f6','Analiza przyczyn i rozwiązywanie problemów':'#10b981','Standaryzacja i optymalizacja':'#f59e0b','Produktywność i KPI':'#ef4444','Audyt operacyjny na magazynie (5S, BHP)':'#8b5cf6'};
+
+function nav(id){
+  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on')});
+  document.querySelectorAll('.sb').forEach(function(b){b.classList.remove('on')});
+  document.getElementById('s-'+id).classList.add('on');
+  var b=document.querySelector('[data-s="'+id+'"]');if(b)b.classList.add('on');
+  if(id==='send')refSum();
+}
+
+function saveConn(){
+  var u=document.getElementById('iu').value.trim().replace(/\/+$/,'');
+  var p=document.getElementById('ip').value;
+  if(!u||!p)return setR('rc','Wpisz URL i hasło.','r');
+  localStorage.setItem('ceva_url',u);localStorage.setItem('ceva_pass',p);
+  S.url=u;S.pass=p;setR('rc','✅ Zapisano. Kliknij "Testuj połączenie".','g');
+}
+
+async function testConn(){
+  var u=document.getElementById('iu').value.trim().replace(/\/+$/,'');
+  var p=document.getElementById('ip').value;
+  if(!u||!p)return setR('rc','Wpisz URL i hasło!','r');
+  S.url=u;S.pass=p;
+  var btn=document.getElementById('bt');btn.disabled=true;btn.textContent='⏳';
+  setR('rc','Łączenie…','i');
+  try{
+    var d=await apiGet(u+'/api/config');
+    setR('rc','✅ Połączono! Lokalizacji na serwerze: '+(d.locations||[]).length,'g');
+    setPill('pc','● Połączono','pok');fillSel(d.locations||[]);
+  }catch(e){setR('rc','❌ '+e.message,'r');setPill('pc','● Błąd','perr');}
+  btn.disabled=false;btn.textContent='🔌 Testuj połączenie';
+}
+
+async function fetchLocs(){
+  var u=getUrl();if(!u)return setR('rl','Skonfiguruj połączenie.','r');
+  var b=document.getElementById('bfl');b.disabled=true;b.textContent='⏳';
+  try{var d=await apiGet(u+'/api/config');fillSel(d.locations||[]);setR('rl','Lokalizacje: '+(d.locations||[]).join(', ')||'(brak)','g');}
+  catch(e){setR('rl','❌ '+e.message,'r');}
+  b.disabled=false;b.textContent='📋 Pobierz listę';
+}
+
+function fillSel(locs){
+  var s=document.getElementById('sel');
+  s.innerHTML='<option value="">— wybierz —</option>'+locs.map(function(l){return'<option>'+l+'</option>';}).join('');
+}
+
+async function loadCfg(){
+  var u=getUrl(),loc=document.getElementById('il').value.trim().toUpperCase();
+  if(!u)return setR('rl','Skonfiguruj połączenie.','r');
+  if(!loc)return setR('rl','Wpisz kod lokalizacji.','r');
+  var b=document.getElementById('bld');b.disabled=true;b.textContent='⏳ Pobieranie…';
+  try{
+    var cfg=await apiGet(u+'/api/config?location='+encodeURIComponent(loc));
+    applyConfig(cfg,loc);
+    var w=cfg._meta&&cfg._meta.savedAt?new Date(cfg._meta.savedAt).toLocaleString('pl-PL'):'?';
+    setR('rl','✅ Wczytano <strong>'+loc+'</strong> v'+(cfg._meta&&cfg._meta.version||'?')+' — '+w,'g');
+    setPill('pl','📍 '+loc,'pok');
+  }catch(e){setR('rl','❌ '+e.message,'r');}
+  b.disabled=false;b.textContent='⬇️ Wczytaj config tej lokalizacji';
+}
+
+function initEmpty(){
+  var loc=document.getElementById('il').value.trim().toUpperCase();
+  if(!loc)return setR('rl','Wpisz kod nowej lokalizacji.','r');
+  var e={zones:[],auditors:[],auditors5S:[],gembaParticipants:{level1:[],level2:[],level3:[]},gembaQuestions:{}};
+  QCATS.forEach(function(c){e.gembaQuestions[c]=[];});
+  applyConfig(e,loc);
+  setR('rl','✅ Nowa lokalizacja <strong>'+loc+'</strong> gotowa do edycji.','g');
+  setPill('pl','📍 '+loc+' (nowa)','pwarn');nav('zones');
+}
+
+function applyConfig(cfg,loc){
+  S.zones=cfg.zones||[];S.auditors=cfg.auditors||[];S.auditors5S=cfg.auditors5S||[];
+  S.participants=cfg.gembaParticipants||{level1:[],level2:[],level3:[]};
+  S.questions=cfg.gembaQuestions||{};
+  QCATS.forEach(function(c){if(!S.questions[c])S.questions[c]=[];});
+  S.meta=cfg._meta||{};S.location=loc||S.location;S.loaded=true;S.dirty=false;
+  renderAll();
+  document.getElementById('isl').value=S.location;
+  document.getElementById('isu').value=getUrl();
+  document.getElementById('dloc').textContent='📍 '+S.location;
+  setDirty(false);
+}
+
+function renderAll(){rZones();rList('auditors','aal','ac');rList('auditors5S','a5l','a5c');rParts();rQs();}
+
+function rZones(){
+  var z=S.zones;document.getElementById('zc').textContent=z.length;
+  var em=document.getElementById('ze'),tbl=document.getElementById('zt');
+  if(!z.length){em.style.display='block';tbl.style.display='none';em.textContent='Brak stref. Kliknij "+ Strefa".';return;}
+  em.style.display='none';tbl.style.display='table';
+  document.getElementById('zb').innerHTML=z.map(function(r,i){
+    return '<tr><td style="color:var(--muted);text-align:center;width:26px">'+(i+1)+'</td>'
+      +'<td><input value="'+esc(r.name)+'" oninput="S.zones['+i+'].name=this.value;setDirty(true)"></td>'
+      +'<td><input value="'+esc(r.responsible||'')+'" oninput="S.zones['+i+'].responsible=this.value;setDirty(true)"></td>'
+      +'<td><input type="number" value="'+(r.target||90)+'" min="0" max="100" oninput="S.zones['+i+'].target=+this.value;setDirty(true)" style="width:56px;text-align:center"></td>'
+      +'<td style="text-align:center"><button class="btn br sm" onclick="rmZ('+i+')">🗑</button></td></tr>';
+  }).join('');
+}
+function addZone(){
+  if(!S.loaded)return alert('Najpierw wczytaj config!');
+  S.zones.push({id:Date.now(),name:'',responsible:'',target:90});rZones();setDirty(true);
+  setTimeout(function(){var r=document.querySelectorAll('#zb tr');if(r.length){var inp=r[r.length-1].querySelector('input');if(inp)inp.focus();}},50);
+}
+function rmZ(i){if(!confirm('Usunąć "'+S.zones[i].name+'"?'))return;S.zones.splice(i,1);rZones();setDirty(true);}
+
+function rList(key,lid,cid){
+  var list=S[key]||[];document.getElementById(cid).textContent=list.length;
+  var el=document.getElementById(lid);
+  if(!list.length){el.innerHTML='<div class="empty">Brak wpisów. Kliknij "+ Dodaj".</div>';return;}
+  el.innerHTML=list.map(function(a,i){
+    return '<div class="li"><span class="lin">'+(i+1)+'</span>'
+      +'<input value="'+esc(a)+'" oninput="S[\''+key+'\']['+i+']=this.value;setDirty(true)">'
+      +'<button class="btn br sm" onclick="rmI(\''+key+'\','+i+',\''+lid+'\',\''+cid+'\')">🗑</button></div>';
+  }).join('');
+}
+function addItem(key,lid,cid){
+  if(!S.loaded)return alert('Najpierw wczytaj config!');
+  S[key].push('');rList(key,lid,cid);setDirty(true);
+  setTimeout(function(){var ii=document.querySelectorAll('#'+lid+' input');if(ii.length)ii[ii.length-1].focus();},50);
+}
+function rmI(key,i,lid,cid){if(!confirm('Usunąć "'+S[key][i]+'"?'))return;S[key].splice(i,1);rList(key,lid,cid);setDirty(true);}
+
+function rParts(){
+  [1,2,3].forEach(function(lvl){
+    var list=S.participants['level'+lvl]||[];
+    document.getElementById('p'+lvl+'c').textContent=list.length;
+    var el=document.getElementById('p'+lvl+'l');
+    if(!list.length){el.innerHTML='<div class="empty">Brak uczestników.</div>';return;}
+    el.innerHTML=list.map(function(p,i){
+      return '<div class="li"><span class="lin">'+(i+1)+'</span>'
+        +'<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px">'
+        +'<input value="'+esc(p.name||'')+'" placeholder="Imię Nazwisko" '
+        +'style="border:1px solid var(--bdr);border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.83em" '
+        +'oninput="S.participants.level'+lvl+'['+i+'].name=this.value;setDirty(true)">'
+        +'<input value="'+esc(p.email||'')+'" placeholder="email@ceva.com" '
+        +'style="border:1px solid var(--bdr);border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.83em" '
+        +'oninput="S.participants.level'+lvl+'['+i+'].email=this.value;setDirty(true)">'
+        +'</div><button class="btn br sm" onclick="rmP('+lvl+','+i+')">🗑</button></div>';
+    }).join('');
+  });
+}
+function addPart(lvl){
+  if(!S.loaded)return alert('Najpierw wczytaj config!');
+  S.participants['level'+lvl].push({name:'',email:''});rParts();setDirty(true);
+  setTimeout(function(){var ii=document.querySelectorAll('#p'+lvl+'l input');if(ii.length>=2)ii[ii.length-2].focus();},50);
+}
+function rmP(lvl,i){var p=S.participants['level'+lvl][i];if(!confirm('Usunąć "'+(p&&p.name||'uczestnika')+'"?'))return;S.participants['level'+lvl].splice(i,1);rParts();setDirty(true);}
+
+function rQs(){
+  var w=document.getElementById('qw'),cats=Object.keys(S.questions);
+  if(!cats.length){w.innerHTML='<div class="empty">Wczytaj config.</div>';return;}
+  w.innerHTML=cats.map(function(cat){
+    var qs=S.questions[cat]||[],clr=QCLR[cat]||'#6b7280',sid='q_'+slugify(cat);
+    return '<div class="card" style="border-left:4px solid '+clr+';margin-bottom:10px">'
+      +'<div class="ch"><div style="display:flex;align-items:center;gap:7px">'
+      +'<span style="font-weight:700;font-size:.88em;color:'+clr+'">'+esc(cat)+'</span>'
+      +'<span class="bdg">'+qs.length+'</span></div>'
+      +'<button class="btn bg sm" onclick="addQ(\''+cat.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')" >+ Pytanie</button></div>'
+      +'<div id="'+sid+'">'
+      +(qs.length?qs.map(function(q,i){return qRow(cat,i,q,clr);}).join(''):'<div class="empty">Brak pytań.</div>')
+      +'</div></div>';
+  }).join('');
+}
+function qRow(cat,i,q,clr){
+  var cj=JSON.stringify(cat);
+  return '<div class="qi" style="border-left-color:'+(clr||'#ccc')+'">'
+    +'<div class="qr"><span class="qn">'+(i+1)+'.</span>'
+    +'<textarea rows="2" oninput="S.questions['+cj+']['+i+'].question=this.value;setDirty(true)" '
+    +'style="flex:1;border:1px solid var(--bdr);border-radius:6px;padding:6px 8px;font-family:inherit;font-size:.83em">'
+    +esc(q.question||'')+'</textarea>'
+    +'<button class="btn br sm" style="flex-shrink:0;margin-top:1px" onclick="rmQ('+cj+','+i+')">🗑</button></div>'
+    +'<div class="ql"><span>Poziomy:</span>'
+    +[1,2,3].map(function(lvl){
+      return '<label><input type="checkbox" '+((q.levels&&q.levels.indexOf(lvl)>=0)?'checked':'')+' '
+        +'onchange="tglLvl('+cj+','+i+','+lvl+',this.checked)"> L'+lvl+'</label>';
+    }).join('')
+    +'</div></div>';
+}
+function addQ(cat){
+  if(!S.loaded)return alert('Najpierw wczytaj config!');
+  if(!S.questions[cat])S.questions[cat]=[];
+  S.questions[cat].push({question:'',levels:[1,2,3]});
+  rQs();setDirty(true);
+  setTimeout(function(){
+    var sid='q_'+slugify(cat),items=document.querySelectorAll('#'+sid+' .qi'),last=items[items.length-1];
+    if(last){last.scrollIntoView({behavior:'smooth',block:'center'});var ta=last.querySelector('textarea');if(ta)ta.focus();}
+  },60);
+}
+function rmQ(cat,i){if(!confirm('Usunąć pytanie?'))return;S.questions[cat].splice(i,1);rQs();setDirty(true);}
+function tglLvl(cat,i,lvl,checked){
+  var q=S.questions[cat][i];if(!q.levels)q.levels=[];
+  if(checked&&q.levels.indexOf(lvl)<0)q.levels.push(lvl);
+  else if(!checked)q.levels=q.levels.filter(function(l){return l!==lvl;});
+  q.levels.sort();setDirty(true);
+}
+
+function refSum(){
+  if(!S.loaded){document.getElementById('ss').textContent='Brak danych.';return;}
+  var tq=Object.values(S.questions).reduce(function(s,q){return s+q.length;},0);
+  document.getElementById('ss').innerHTML=[
+    ['📍 Lokalizacja',S.location||'?'],
+    ['📍 Strefy',S.zones.length],
+    ['👤 Prowadzący GEMBA',S.auditors.length],
+    ['🔍 Audytorzy 5S',S.auditors5S.length],
+    ['👥 Uczestnicy L1/L2/L3',(S.participants.level1||[]).length+'/'+(S.participants.level2||[]).length+'/'+(S.participants.level3||[]).length],
+    ['❓ Pytania łącznie',tq],
+  ].map(function(r){
+    return '<div style="display:flex;gap:14px;padding:4px 0;border-bottom:1px solid var(--bdr)">'
+      +'<span style="color:var(--muted);min-width:170px;font-size:.82em">'+r[0]+'</span>'
+      +'<strong style="font-size:.85em">'+r[1]+'</strong></div>';
+  }).join('');
+}
+
+async function sendCfg(){
+  var u=getUrl(),p=getPass(),loc=S.location;
+  var log=document.getElementById('slog'),btn=document.getElementById('bs'),dBtn=document.getElementById('bdb');
+  if(!u||!p)return logE(log,'❌ Brak połączenia. Wróć do zakładki "Serwer".');
+  if(!S.loaded||!loc)return logE(log,'❌ Brak wczytanego configa. Wróć do zakładki "Serwer".');
+  btn.disabled=true;dBtn.disabled=true;
+  btn.innerHTML='<div class="spin"></div> Wysyłanie…';
+  log.innerHTML='';
+  try{
+    logI(log,'🔄 Przygotowanie danych…');
+    var payload={location:loc,password:p,config:{
+      location:loc,zones:S.zones,auditors:S.auditors,auditors5S:S.auditors5S,
+      gembaParticipants:S.participants,gembaQuestions:S.questions,_meta:S.meta
+    }};
+    logI(log,'📤 Wysyłanie do '+u+'/api/config…');
+    var r=await apiPost(u+'/api/config',payload);
+    S.dirty=false;
+    logO(log,'✅ Sukces! Lokalizacja: '+r.location);
+    logO(log,'   Wersja: '+r.version+' | '+new Date(r.savedAt).toLocaleString('pl-PL'));
+    logI(log,'📱 Tablet pobierze ustawienia przy następnym otwarciu strony.');
+    logO(log,'🎉 Gotowe!');
+    setDirty(false);
+    document.getElementById('dh').textContent='✅ Wysłano '+loc+' o '+new Date().toLocaleTimeString('pl-PL');
+  }catch(e){logE(log,'❌ '+e.message);}
+  finally{
+    btn.disabled=false;dBtn.disabled=false;
+    btn.innerHTML='📤 Wyślij config na tablet';
+    dBtn.innerHTML='📤 Wyślij na tablet';
+  }
+}
+
+async function apiGet(url){var r=await fetch(url,{cache:'no-store'});var d=await r.json().catch(function(){return{error:'Błąd parsowania'};});if(!r.ok)throw new Error(d.error||'HTTP '+r.status);return d;}
+async function apiPost(url,body){var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});var d=await r.json().catch(function(){return{error:'Błąd parsowania'};});if(!r.ok)throw new Error(d.error||'HTTP '+r.status);return d;}
+
+function getUrl(){return S.url||localStorage.getItem('ceva_url')||'';}
+function getPass(){return S.pass||localStorage.getItem('ceva_pass')||'';}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function slugify(s){return String(s).replace(/[^a-z0-9]/gi,'_').toLowerCase().slice(0,30);}
+function togglePass(){var i=document.getElementById('ip');i.type=i.type==='password'?'text':'password';}
+function setDirty(v){S.dirty=v;document.getElementById('dh').textContent=v?'⚠️ Niezapisane zmiany — kliknij "Wyślij na tablet".':'Konfiguracja aktualna na serwerze.';}
+function setR(id,html,t){var el=document.getElementById(id);if(!el)return;var c={g:'var(--green)',r:'var(--red)',w:'var(--yellow)',i:'var(--muted)'};el.innerHTML=html?'<span style="color:'+(c[t]||'inherit')+'">'+html+'</span>':'';}
+function setPill(id,txt,cls){var el=document.getElementById(id);if(!el)return;el.className='pill '+cls;el.textContent=txt;}
+function logO(el,m){el.innerHTML+='<span class="lok">'+m+'</span>\n';el.scrollTop=el.scrollHeight;}
+function logE(el,m){el.innerHTML+='<span class="lerr">'+m+'</span>\n';el.scrollTop=el.scrollHeight;}
+function logI(el,m){el.innerHTML+='<span class="linf">'+m+'</span>\n';el.scrollTop=el.scrollHeight;}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var u=localStorage.getItem('ceva_url')||'',p=localStorage.getItem('ceva_pass')||'';
+  if(u){document.getElementById('iu').value=u;S.url=u;}
+  if(p){document.getElementById('ip').value=p;S.pass=p;}
+  window.addEventListener('beforeunload',function(e){if(S.dirty){e.preventDefault();e.returnValue='';}});
+});
+</script>
+</body>
+</html>
