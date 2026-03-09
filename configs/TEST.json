@@ -6,12 +6,6 @@
       "name": "MAG A",
       "responsible": "TEST",
       "target": 90
-    },
-    {
-      "id": 1773057944250,
-      "name": "MAG B",
-      "responsible": "TEST",
-      "target": 90
     }
   ],
   "auditors": [
@@ -34,7 +28,7 @@
   },
   "_meta": {
     "location": "TEST",
-    "savedAt": "2026-03-09T12:31:49.225Z",
-    "version": 4
+    "savedAt": "2026-03-09T12:40:06.241Z",
+    "version": 5
   }
 }
