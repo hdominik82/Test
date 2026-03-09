@@ -1,0 +1,29 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from   = "/api/config"
+  to     = "/.netlify/functions/config"
+  status = 200
+```
+5. **"Commit changes"** → **"Commit changes"**
+
+### Krok 4 — Utwórz `mobile-loader.js` w głównym folderze
+
+1. **"Add file"** → **"Create new file"**
+2. Nazwa: `mobile-loader.js` (bez żadnych folderów)
+3. Wklej zawartość pobranego pliku `mobile-loader.js`
+4. **"Commit changes"** → **"Commit changes"**
+
+---
+
+Po tych 4 krokach struktura repo powinna wyglądać tak:
+```
+📄 netlify.toml          ← główny folder
+📄 mobile-loader.js      ← główny folder
+📁 netlify/
+  📁 functions/
+    📄 config.js         ← tu już jest ✅
+📄 mobile-index.html
+📄 config.js
+...
