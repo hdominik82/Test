@@ -1,0 +1,30 @@
+{
+  "location": "TEST",
+  "zones": [
+    {
+      "id": 1773057099023,
+      "name": "MAG A",
+      "responsible": "TEST",
+      "target": 90
+    }
+  ],
+  "auditors": [],
+  "auditors5S": [],
+  "gembaParticipants": {
+    "level1": [],
+    "level2": [],
+    "level3": []
+  },
+  "gembaQuestions": {
+    "Identyfikacja strat": [],
+    "Analiza przyczyn i rozwiązywanie problemów": [],
+    "Standaryzacja i optymalizacja": [],
+    "Produktywność i KPI": [],
+    "Audyt operacyjny na magazynie (5S, BHP)": []
+  },
+  "_meta": {
+    "location": "TEST",
+    "savedAt": "2026-03-09T11:51:49.688Z",
+    "version": 1
+  }
+}
