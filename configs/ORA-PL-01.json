@@ -55,9 +55,7 @@
     "JOANNA KEMPCZYŃSKA",
     "ANNA KAPLER",
     "PIOTR ŻEBROWSKI",
-    "JAN SURWIŁO",
-    "TEST 1",
-    "TEST 2"
+    "JAN SURWIŁO"
   ],
   "gembaParticipants": {
     "level1": [
@@ -451,7 +449,7 @@
   },
   "_meta": {
     "location": "ORA-PL-01",
-    "savedAt": "2026-03-09T13:30:12.206Z",
+    "savedAt": "2026-03-09T13:36:17.790Z",
     "version": 1
   }
 }
