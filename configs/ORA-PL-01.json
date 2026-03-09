@@ -1,0 +1,457 @@
+{
+  "location": "ORA-PL-01",
+  "zones": [
+    {
+      "id": 1,
+      "name": "B2C",
+      "responsible": "Jan Surwilo",
+      "target": 90
+    },
+    {
+      "id": 2,
+      "name": "B2B",
+      "responsible": "Dominik Harezlak",
+      "target": 90
+    },
+    {
+      "id": 3,
+      "name": "ZWROTY",
+      "responsible": "Mariusz Maciąg",
+      "target": 90
+    },
+    {
+      "id": 4,
+      "name": "ODNOWA",
+      "responsible": "Konrad Kasinski",
+      "target": 90
+    },
+    {
+      "id": 5,
+      "name": "PRZYJĘCIA/ VAS",
+      "responsible": "Jan Surwilo",
+      "target": 90
+    },
+    {
+      "id": 6,
+      "name": "ZEWNĄTRZ BUDYNKU",
+      "responsible": "Piotr Żebrowski",
+      "target": 90
+    }
+  ],
+  "auditors": [
+    "Jan Surwilo",
+    "Renata Zegarek",
+    "Janusz Mandes",
+    "Jaroslaw Domanski",
+    "Rober Zach",
+    "Iwona Kaluza",
+    "Grzegorz Oniszczuk",
+    "Rafal Nowak"
+  ],
+  "auditors5S": [
+    "PAWEŁ ADAMCZYK",
+    "NATALIA FUDAŁA",
+    "MONIKA SOCHA",
+    "JOANNA KEMPCZYŃSKA",
+    "ANNA KAPLER",
+    "PIOTR ŻEBROWSKI",
+    "JAN SURWIŁO",
+    "TEST 1",
+    "TEST 2"
+  ],
+  "gembaParticipants": {
+    "level1": [
+      {
+        "name": "Brygadzista B2C",
+        "email": "wydania.skladanie@cevalogistics.com"
+      },
+      {
+        "name": "Brygadzista B2B",
+        "email": "Wydania.Realizacja@Cevalogistics.com"
+      },
+      {
+        "name": "Brygadzista Zwrotów",
+        "email": "ptk.zwroty@cevalogistics.com"
+      },
+      {
+        "name": "Brygadzista Odnowy",
+        "email": "kamil.markowski@cevalogistics.com"
+      },
+      {
+        "name": "Brygadzista Odnowy",
+        "email": "marcin.borysiak@cevalogistics.com"
+      }
+    ],
+    "level2": [
+      {
+        "name": "Kasiński Konrad",
+        "email": "konrad.kasinski@cevalogistics.com"
+      },
+      {
+        "name": "Maciąg Mariusz",
+        "email": "mariusz.maciag@cevalogistics.com"
+      },
+      {
+        "name": "Zegarek Renata",
+        "email": "renata.zegarek@cevalogistics.com"
+      },
+      {
+        "name": "Jan Surwiło",
+        "email": "jan.surwilo@cevalogistics.com"
+      },
+      {
+        "name": "Mandes Janusz",
+        "email": "janusz.mandes@cevalogistics.com"
+      },
+      {
+        "name": "Domański Jarosław",
+        "email": "jaroslaw.domanski@cevalogistics.com"
+      },
+      {
+        "name": "Żach Robert",
+        "email": "robert.zach@cevalogistics.com"
+      },
+      {
+        "name": "Kałuża Iwona",
+        "email": "iwona.kaluza@cevalogistics.com"
+      },
+      {
+        "name": "Grzegorz Oniszczuk",
+        "email": "Grzegorz.Oniszczuk@Cevalogistics.com"
+      },
+      {
+        "name": "Nowak Rafał",
+        "email": "Rafal.Nowak@Cevalogistics.com"
+      },
+      {
+        "name": "Piotr Żebrowski",
+        "email": "Piotr.Zebrowski@Cevalogistics.com"
+      },
+      {
+        "name": "Kawałek Tomasz",
+        "email": "Tomasz.Kawalek@cevalogistics.com"
+      }
+    ],
+    "level3": [
+      {
+        "name": "Wichrowski Piotr",
+        "email": "krzysztof.wilczynski@cevalogistics.com"
+      },
+      {
+        "name": "Wilczyński Krzysztof",
+        "email": "krzysztof.wilczynski@cevalogistics.com"
+      },
+      {
+        "name": "Dominik Haręźlak",
+        "email": "dominik.harezlak@cevalogistics.com"
+      },
+      {
+        "name": "Maciej Wesolowski",
+        "email": "maciej.wesolowski@cevalogistics.com"
+      },
+      {
+        "name": "Marta Jęznach",
+        "email": "marta.jeznach@cevalogistics.com"
+      }
+    ]
+  },
+  "gembaQuestions": {
+    "Identyfikacja strat": [
+      {
+        "question": "Jakie najczęstsze przestoje występują na tym stanowisku pracy i jak długo trwają?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Czy widzisz jakieś zbędne ruchy lub przemieszczenia podczas wykonywania zadań?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Ile czasu zajmuje oczekiwanie na materiały, narzędzia lub decyzje?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Czy występują problemy z jakością produktów? Jaki jest poziom braków/poprawek?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Jakie zapasy leżą niewykorzystane i od jak dawna?",
+        "levels": [
+          3
+        ]
+      },
+      {
+        "question": "Czy są zadania, które wykonujesz, a które uważasz za niepotrzebne?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Gdzie widzisz największe marnotrawstwo czasu w procesie?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "Analiza przyczyn i rozwiązywanie problemów": [
+      {
+        "question": "Dlaczego ten problem występuje? Co jest jego główną przyczyną?",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Czy możesz pokazać mi, jak dokładnie powstaje ten problem?",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Jakie działania podjęliście, aby rozwiązać ten problem? Czy przyniosły efekty?",
+        "levels": [
+          3
+        ]
+      },
+      {
+        "question": "Kto jest zaangażowany w rozwiązywanie problemów na tym obszarze?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Jak dokumentujecie problemy i ich rozwiązania?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "jakich używacie narzędzi typu do analizy  problemów?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Skąd wiecie, że problem został trwale rozwiązany?",
+        "levels": [
+          2,
+          3
+        ]
+      }
+    ],
+    "Standaryzacja i optymalizacja": [
+      {
+        "question": "Czy istnieje standardowa instrukcja dla tego procesu? Czy mogę ją zobaczyć?",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Jak często aktualizujecie standardy pracy?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Czy wszyscy pracownicy wykonują zadanie w ten sam sposób?",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Jakie pomysły na usprawnienia zgłaszali ostatnio pracownicy?",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Czy standardy uwzględnią najlepsze znane metody wykonania?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Jak sprawdzacie zgodność pracy ze standardem?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Co można zrobić, aby proces był bardziej efektywny?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Jaki jest główny cel tej instrukcji i dlaczego jest ważne, abyś wykonywał/a ją dokładnie w ten sposób?\" ",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Gdybyś miał/a wątpliwości co do jakiegoś kroku kroku , co zrobiłbyś/abyś w pierwszej kolejności, aby upewnić się, że robisz to poprawnie",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "W trakcie tego procesu, który krok niesie ze sobą największe ryzyko błędu lub niezgodności, i jak to minimalizujesz?",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Gdybyś zauważył/a, że instrukcja pracy jest nieaktualna lub trudna do wykonania, jaki jest Twój standardowy proces zgłaszania tego?",
+        "levels": [
+          1,
+          2
+        ]
+      }
+    ],
+    "Produktywność i KPI": [
+      {
+        "question": "Jakie wskaźniki KPI monitorujecie na tym obszarze?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Jak często sprawdzacie wyniki i gdzie są one wyświetlane?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Jaki jest cel dzienny/tygodniowy i czy jest osiągany?",
+        "levels": [
+          2
+        ]
+      },
+      {
+        "question": "Co robicie, gdy wskaźniki są poniżej celu?",
+        "levels": [
+          2
+        ]
+      },
+      {
+        "question": "Czy pracownicy rozumieją, jak ich praca wpływa na KPI?",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Jakie są główne przyczyny nieosiągania celów?",
+        "levels": [
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Jak mierzycie produktywność na tym stanowisku?",
+        "levels": [
+          2,
+          3
+        ]
+      }
+    ],
+    "Audyt operacyjny na magazynie, 5S, BHP": [
+      {
+        "question": "Czy wszystkie przedmioty mają wyznaczone i oznaczone miejsca?",
+        "levels": [
+          1
+        ]
+      },
+      {
+        "question": "Kiedy ostatnio przeprowadzaliście audyt 5S? Jakie były wyniki?",
+        "levels": [
+          1
+        ]
+      },
+      {
+        "question": "Czy standard sprzątania jest jasno określony i przestrzegany?",
+        "levels": [
+          1,
+          2
+        ]
+      },
+      {
+        "question": "Czy wszyscy pracownicy stosują wymagane środki ochrony osobistej?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Czy są zgłaszane wypadki lub sytuacje potencjalnie wypadkowe?",
+        "levels": [
+          1
+        ]
+      },
+      {
+        "question": "Czy drogi ewakuacyjne są drożne i oznaczone?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "question": "Jakie zagrożenia widzisz na tym stanowisku pracy?",
+        "levels": [
+          1
+        ]
+      },
+      {
+        "question": "Jakie są największe wyzwania w codziennej pracy magazynu?",
+        "levels": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "Audyt operacyjny na magazynie (5S, BHP)": []
+  },
+  "_meta": {
+    "location": "ORA-PL-01",
+    "savedAt": "2026-03-09T13:28:43.572Z",
+    "version": 1
+  }
+}
