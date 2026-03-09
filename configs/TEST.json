@@ -6,14 +6,40 @@
       "name": "MAG A",
       "responsible": "TEST",
       "target": 90
+    },
+    {
+      "id": 1773062253781,
+      "name": "A",
+      "responsible": "",
+      "target": 90
+    },
+    {
+      "id": 1773062253964,
+      "name": "b",
+      "responsible": "",
+      "target": 90
+    },
+    {
+      "id": 1773062254129,
+      "name": "c",
+      "responsible": "",
+      "target": 90
+    },
+    {
+      "id": 1773062254319,
+      "name": "d",
+      "responsible": "",
+      "target": 90
+    },
+    {
+      "id": 1773062254484,
+      "name": "f",
+      "responsible": "",
+      "target": 90
     }
   ],
-  "auditors": [
-    "TEST"
-  ],
-  "auditors5S": [
-    "TEST"
-  ],
+  "auditors": [],
+  "auditors5S": [],
   "gembaParticipants": {
     "level1": [],
     "level2": [],
@@ -28,7 +54,7 @@
   },
   "_meta": {
     "location": "TEST",
-    "savedAt": "2026-03-09T13:05:43.969Z",
-    "version": 6
+    "savedAt": "2026-03-09T13:17:49.906Z",
+    "version": 7
   }
 }
