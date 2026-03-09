@@ -36,6 +36,12 @@
       "name": "ZEWNĄTRZ BUDYNKU",
       "responsible": "Piotr Żebrowski",
       "target": 90
+    },
+    {
+      "id": 1773063661684,
+      "name": "TEST",
+      "responsible": "TEST",
+      "target": 90
     }
   ],
   "auditors": [
@@ -449,7 +455,7 @@
   },
   "_meta": {
     "location": "ORA-PL-01",
-    "savedAt": "2026-03-09T13:36:17.790Z",
+    "savedAt": "2026-03-09T13:41:30.572Z",
     "version": 1
   }
 }
