@@ -1,0 +1,10 @@
+# netlify.toml
+# Wrzuć do GŁÓWNEGO folderu repo (obok mobile-index.html, config.js itp.)
+
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from   = "/api/config"
+  to     = "/.netlify/functions/config"
+  status = 200
