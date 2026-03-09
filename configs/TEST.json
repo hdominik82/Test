@@ -6,10 +6,20 @@
       "name": "MAG A",
       "responsible": "TEST",
       "target": 90
+    },
+    {
+      "id": 1773057944250,
+      "name": "MAG B",
+      "responsible": "TEST",
+      "target": 90
     }
   ],
-  "auditors": [],
-  "auditors5S": [],
+  "auditors": [
+    "TEST"
+  ],
+  "auditors5S": [
+    "TEST"
+  ],
   "gembaParticipants": {
     "level1": [],
     "level2": [],
@@ -24,7 +34,7 @@
   },
   "_meta": {
     "location": "TEST",
-    "savedAt": "2026-03-09T11:51:55.511Z",
-    "version": 1
+    "savedAt": "2026-03-09T12:06:16.182Z",
+    "version": 2
   }
 }
