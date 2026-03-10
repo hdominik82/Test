@@ -169,19 +169,20 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sprawdź czy config został załadowany
-            if (typeof CEVA_CONFIG === 'undefined') {
-                alert('Błąd: Nie można załadować konfiguracji. Sprawdź czy plik config.js istnieje.');
-                return;
-            }
-
-            // Pobierz aktualny oddział
+        function applyBranchToUI() {
+            if (typeof CEVA_CONFIG === 'undefined' || !CEVA_CONFIG.getCurrentBranch) return;
             const branch = CEVA_CONFIG.getCurrentBranch();
-            
-            // Wyświetl informacje o oddziale
-            document.getElementById('branchName').textContent = branch.fullName || branch.name;
-            document.getElementById('branchCode').textContent = `${branch.code} - ${branch.country}`;
+            if (!branch) return;
+            document.getElementById('branchName').textContent = branch.fullName || branch.name || branch.code || '';
+            document.getElementById('branchCode').textContent = (branch.code || '') + (branch.country ? ' - ' + branch.country : '');
+        }
+
+        // Zastosuj po załadowaniu DOM
+        document.addEventListener('DOMContentLoaded', applyBranchToUI);
+
+        // Zastosuj też po załadowaniu localnego config przez mobile-loader
+        window.addEventListener('ceva-config-ready', function() {
+            applyBranchToUI();
         });
     </script>
 </body>
