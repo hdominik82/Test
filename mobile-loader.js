@@ -1,11 +1,7 @@
 /**
- * mobile-loader.js v3
- * Czyta config zapisany lokalnie przez load-config.html
- * Brak zależności od internetu / SharePoint / GitHub
- *
- * Dodaj jako PIERWSZY skrypt w każdej stronie tabletu:
- *   <script src="/mobile-loader.js"></script>
- *   <script src="/config.js"></script>
+ * mobile-loader.js v4
+ * Musi być załadowany PRZED config.js
+ * Czyta lokalny config i nadpisuje CEVA_CONFIG po jego załadowaniu
  */
 (function () {
   'use strict';
@@ -17,51 +13,84 @@
     catch(e) { return null; }
   }
 
-  function toast(msg, color, persist) {
-    var old = document.getElementById('_cvt');
-    if (old) old.remove();
-    var d = document.createElement('div');
-    d.id = '_cvt';
-    d.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:99999;'
-      + 'padding:10px 16px;background:' + color + ';color:#fff;'
-      + 'font:600 13px/1.4 sans-serif;text-align:center;cursor:pointer;';
-    d.textContent = msg;
-    d.onclick = function(){ d.remove(); };
-    document.body.appendChild(d);
-    if (!persist) setTimeout(function(){ if(d.parentNode) d.remove(); }, 4000);
+  function toast(msg, color) {
+    function doToast() {
+      var old = document.getElementById('_cvt');
+      if (old) old.remove();
+      var d = document.createElement('div');
+      d.id = '_cvt';
+      d.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:99999;'
+        + 'padding:10px 16px;background:' + color + ';color:#fff;'
+        + 'font:600 13px/1.4 sans-serif;text-align:center;cursor:pointer;';
+      d.textContent = msg;
+      d.onclick = function(){ d.remove(); };
+      document.body.appendChild(d);
+      setTimeout(function(){ if(d.parentNode) d.remove(); }, 5000);
+    }
+    if (document.body) doToast();
+    else document.addEventListener('DOMContentLoaded', doToast);
   }
 
-  function applyConfig(cfg) {
-    if (!cfg) return;
-    var loc = cfg.location || (cfg._meta && cfg._meta.location);
+  function applyToDOM(cfg) {
+    // Aktualizuj widoczne elementy na stronie jeśli istnieją
+    var loc = cfg.location || '';
+    var branch = cfg;
 
-    // Czekaj aż config.js załaduje CEVA_CONFIG
-    function inject() {
-      if (typeof CEVA_CONFIG === 'undefined' || !CEVA_CONFIG.branches) {
-        setTimeout(inject, 30);
+    var branchName = document.getElementById('branchName');
+    var branchCode = document.getElementById('branchCode');
+    if (branchName) branchName.textContent = cfg.fullName || cfg.name || loc;
+    if (branchCode) branchCode.textContent = loc + (cfg.country ? ' - ' + cfg.country : '');
+  }
+
+  function patchCevaConfig(cfg) {
+    var loc = cfg.location || (cfg._meta && cfg._meta.location) || '';
+
+    // Buduj obiekt branch z danych lokalnego config
+    var branch = {
+      code:             cfg.code || loc,
+      name:             cfg.name || loc,
+      fullName:         cfg.fullName || cfg.name || loc,
+      country:          cfg.country || '',
+      sharePointFolder: cfg.sharePointFolder || loc,
+      zones:            cfg.zones || [],
+      auditors:         cfg.auditors || [],
+      auditors5S:       cfg.auditors5S || [],
+      gembaParticipants:cfg.gembaParticipants || {level1:[],level2:[],level3:[]},
+      gembaQuestions:   cfg.gembaQuestions || {},
+      instructions:     cfg.instructions || [],
+      problemCategories:cfg.problemCategories || ['5S','Bezpieczeństwo','Jakość','Produktywność','Inne']
+    };
+
+    function patch() {
+      if (typeof CEVA_CONFIG === 'undefined') {
+        setTimeout(patch, 20);
         return;
       }
 
-      // Utwórz lub zaktualizuj branch
-      if (!CEVA_CONFIG.branches[loc]) CEVA_CONFIG.branches[loc] = {};
-      var b = CEVA_CONFIG.branches[loc];
-
-      if (cfg.zones)              b.zones              = cfg.zones;
-      if (cfg.auditors)           b.auditors           = cfg.auditors;
-      if (cfg.auditors5S)         b.auditors5S         = cfg.auditors5S;
-      if (cfg.gembaParticipants)  b.gembaParticipants  = cfg.gembaParticipants;
-      if (cfg.gembaQuestions)     b.gembaQuestions     = cfg.gembaQuestions;
-
-      // Ustaw jako aktywny branch
+      // Wstrzyknij branch
+      if (!CEVA_CONFIG.branches) CEVA_CONFIG.branches = {};
+      CEVA_CONFIG.branches[loc] = branch;
       CEVA_CONFIG.defaultBranch = loc;
+
+      // Nadpisz getCurrentBranch — zwraca ZAWSZE nasz branch
       CEVA_CONFIG.getCurrentBranch = function() {
         return CEVA_CONFIG.branches[loc];
       };
 
-      window.dispatchEvent(new CustomEvent('ceva-config-ready', { detail: cfg }));
+      // Aktualizuj DOM jeśli już załadowany
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ applyToDOM(branch); });
+      } else {
+        applyToDOM(branch);
+      }
+
+      // Wyemituj event dla innych skryptów
+      try {
+        window.dispatchEvent(new CustomEvent('ceva-config-ready', { detail: cfg }));
+      } catch(e) {}
     }
 
-    inject();
+    patch();
   }
 
   function showNoConfigBanner() {
@@ -80,48 +109,28 @@
         + '</div>';
       document.body.appendChild(d);
     }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', doShow);
-    } else {
-      doShow();
-    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', doShow);
+    else doShow();
   }
 
-  function start() {
-    var cfg = readLocal();
+  var cfg = readLocal();
 
-    if (!cfg) {
-      // Brak lokalnego config — pokaż komunikat
-      showNoConfigBanner();
-      return;
-    }
+  if (!cfg) {
+    showNoConfigBanner();
+  } else {
+    // Patch CEVA_CONFIG od razu — jeszcze przed DOMContentLoaded
+    patchCevaConfig(cfg);
 
-    // Mamy lokalny config — zastosuj
-    applyConfig(cfg);
-
-    var v   = cfg._meta && cfg._meta.version  ? 'v' + cfg._meta.version  : '';
+    var v   = cfg._meta && cfg._meta.version ? 'v' + cfg._meta.version : '';
     var loc = cfg.location || '';
-    var savedAt = cfg._meta && cfg._meta.savedAt
+    var dt  = cfg._meta && cfg._meta.savedAt
       ? new Date(cfg._meta.savedAt).toLocaleString('pl-PL') : '';
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function(){
-        toast('✅ Config ' + loc + ' ' + v + (savedAt ? ' (' + savedAt + ')' : ''), '#16a34a');
-      });
-    } else {
-      toast('✅ Config ' + loc + ' ' + v + (savedAt ? ' (' + savedAt + ')' : ''), '#16a34a');
-    }
+    toast('✅ Config: ' + loc + ' ' + v + (dt ? ' (' + dt + ')' : ''), '#16a34a');
   }
 
-  // Publiczne API
   window.CevaLoader = {
-    clearConfig: function() {
-      localStorage.removeItem(CACHE_KEY);
-      location.reload();
-    },
-    getConfig: readLocal
+    clearConfig: function() { localStorage.removeItem(CACHE_KEY); location.reload(); },
+    getConfig:   readLocal
   };
 
-  start();
 })();
