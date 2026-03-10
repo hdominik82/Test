@@ -1,78 +1,62 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Panel Admina CEVA</title>
 <style>
-:root{--navy:#021D49;--blue:#1D4289;--teal:#4ecdc4;--green:#16a34a;--red:#dc2626;--yellow:#d97706;--bg:#f0f4f8;--card:#fff;--bdr:#dde3ed;--txt:#1a2236;--muted:#64748b}
+:root{--bg:#f0f4f8;--card:#fff;--bdr:#e2e8f0;--txt:#1e293b;--muted:#64748b;--blue:#1D4289;--green:#16a34a;--red:#dc2626;--yellow:#d97706;--teal:#0d9488}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:14px;line-height:1.5}
-.hdr{background:linear-gradient(120deg,var(--navy),var(--blue));color:#fff;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(2,29,73,.3)}
-.hl{font-weight:800;font-size:1em}.hs{font-size:.68em;opacity:.55;margin-top:1px}
-.hr{display:flex;gap:7px;align-items:center}
-.pill{padding:3px 10px;border-radius:20px;font-size:.68em;font-weight:700}
-.pok{background:rgba(78,205,196,.25);color:#a7f3d0}.perr{background:rgba(220,38,38,.25);color:#fca5a5}.pwarn{background:rgba(217,119,6,.25);color:#fde68a}
-.lay{display:grid;grid-template-columns:190px 1fr;min-height:calc(100vh - 56px)}
-.side{background:var(--card);border-right:1px solid var(--bdr);padding:10px 7px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;display:flex;flex-direction:column;gap:1px}
-.sl{font-size:.6em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:9px 9px 3px}
-.sb{width:100%;display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;border:none;background:none;color:var(--txt);font-size:.82em;font-weight:500;cursor:pointer;text-align:left}
-.sb:hover{background:var(--bg)}.sb.on{background:#eff6ff;color:var(--blue);font-weight:700}
-.mn{padding:20px 24px 90px}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);font-size:14px;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#021D49,#1D4289);color:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hl{font-size:1.1em;font-weight:800}.hs{font-size:.72em;opacity:.75}
+.hr{display:flex;gap:8px;align-items:center}
+.lay{display:flex;min-height:calc(100vh - 50px - 48px)}
+.side{width:190px;background:var(--card);border-right:1px solid var(--bdr);padding:12px 0;flex-shrink:0;position:sticky;top:50px;height:calc(100vh - 50px - 48px);overflow-y:auto}
+.sl{font-size:.68em;font-weight:700;color:var(--muted);text-transform:uppercase;padding:10px 14px 4px;letter-spacing:.08em}
+.sb{display:flex;align-items:center;gap:8px;width:100%;padding:9px 14px;border:none;background:none;cursor:pointer;font-size:.84em;color:var(--txt);font-family:inherit;text-align:left;border-left:3px solid transparent;transition:all .12s}
+.sb:hover{background:#f8fafc}.sb.on{background:#eff6ff;color:var(--blue);border-left-color:var(--blue);font-weight:700}
+.mn{flex:1;padding:20px;max-width:780px;overflow-y:auto}
 .sec{display:none}.sec.on{display:block}
-.pt{font-size:1.05em;font-weight:800;color:var(--navy);margin-bottom:3px}
-.ps{font-size:.78em;color:var(--muted);margin-bottom:16px}
-.card{background:var(--card);border:1px solid var(--bdr);border-radius:9px;padding:14px 16px;margin-bottom:11px}
-.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
-.ct{font-size:.86em;font-weight:700;color:var(--navy)}
-label{font-size:.68em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px}
-input[type=text],input[type=password],input[type=number],input[type=email],textarea,select{width:100%;padding:7px 9px;border:1px solid var(--bdr);border-radius:7px;font-family:inherit;font-size:.84em;color:var(--txt);background:#fff;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,66,137,.08)}
-textarea{resize:vertical;min-height:50px}
-.fg{margin-bottom:10px}.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.btn{padding:6px 13px;border-radius:8px;border:none;font-family:inherit;font-size:.81em;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .1s;white-space:nowrap}
-.bn{background:var(--navy);color:#fff}.bn:hover{background:var(--blue)}
-.bg{background:var(--green);color:#fff}.bg:hover{opacity:.88}
-.br{background:var(--red);color:#fff}.br:hover{opacity:.88}
-.bx{background:var(--bg);color:var(--muted);border:1px solid var(--bdr)}.bx:hover{background:var(--bdr)}
-.bt{background:#0d9488;color:#fff}.bt:hover{opacity:.88}
-.sm{padding:3px 8px;font-size:.74em}.btn:disabled{opacity:.35;cursor:not-allowed}
-.tbl{width:100%;border-collapse:collapse;font-size:.82em}
-.tbl th{background:var(--navy);color:#fff;padding:7px 10px;text-align:left;font-size:.69em;text-transform:uppercase;letter-spacing:.05em}
-.tbl td{padding:6px 8px;border-bottom:1px solid var(--bdr);vertical-align:middle}
-.tbl tr:hover td{background:#f8faff}
-.tbl input{border:1px solid var(--bdr);border-radius:5px;padding:4px 7px;font-size:.83em;font-family:inherit;width:100%}
-.tbl input:focus{border-color:var(--blue);outline:none}
-.li{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--bg);border-radius:7px;margin-bottom:4px}
-.lin{font-size:.7em;font-weight:700;color:var(--muted);min-width:18px;text-align:center}
-.li input{flex:1;border:1px solid var(--bdr);border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.83em}
-.li input:focus{border-color:var(--blue);outline:none}
-.qi{background:var(--bg);border-radius:8px;padding:10px;margin-bottom:6px;border-left:3px solid #cbd5e1}
-.qr{display:flex;gap:6px;align-items:flex-start;margin-bottom:6px}
-.qn{font-size:.7em;font-weight:700;color:var(--muted);min-width:18px;padding-top:8px;text-align:center}
-.ql{display:flex;align-items:center;gap:9px;padding-left:24px}
-.empty{color:var(--muted);font-size:.82em;padding:12px 0;text-align:center;font-style:italic}
-.res{margin-top:8px;font-size:.8em;min-height:20px}
-.al{padding:8px 12px;border-radius:7px;font-size:.8em;margin-bottom:10px}
-.ai{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
-.aw{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
-.ag{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
-.dbar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--bdr);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;z-index:150;box-shadow:0 -2px 10px rgba(0,0,0,.06)}
-.dh{font-size:.76em;color:var(--muted)}.dr{display:flex;align-items:center;gap:9px}
-.sbtn{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:9px 22px;border-radius:8px;border:none;font-family:inherit;font-size:.88em;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;box-shadow:0 3px 10px rgba(22,163,74,.3);transition:all .15s}
-.sbtn:hover{transform:translateY(-1px)}.sbtn:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.bdg{padding:2px 7px;border-radius:10px;font-size:.67em;font-weight:700;background:#f1f5f9;color:var(--muted)}
-.pitem{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--bg);border-radius:7px;margin-bottom:4px}
-.pitem input[type=text]{flex:1}
-@media(max-width:580px){.lay{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap}.r2,.r3{grid-template-columns:1fr}}
+.pt{font-size:1.15em;font-weight:800;color:var(--blue);margin-bottom:4px}
+.ps{font-size:.8em;color:var(--muted);margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:16px;margin-bottom:14px}
+.ct{font-weight:700;font-size:.88em;margin-bottom:10px}
+label{display:block;font-size:.78em;font-weight:600;color:var(--muted);margin-bottom:4px;margin-top:10px}
+label:first-child{margin-top:0}
+input,select,textarea{width:100%;padding:8px 10px;border:1.5px solid var(--bdr);border-radius:7px;font-family:inherit;font-size:.85em;color:var(--txt);background:#fff;transition:border .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
+textarea{resize:vertical;min-height:60px}
+.btn{padding:7px 14px;border-radius:7px;border:none;font-family:inherit;font-size:.82em;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.bg{background:var(--green);color:#fff}.bb{background:var(--blue);color:#fff}.bt{background:var(--teal);color:#fff}
+.bd{background:#f1f5f9;color:var(--muted)}.br{background:#fef2f2;color:var(--red);border:1px solid #fecaca}
+table{width:100%;border-collapse:collapse;font-size:.82em}
+th{background:#f8fafc;padding:7px 10px;text-align:left;font-weight:700;color:var(--muted);border-bottom:2px solid var(--bdr)}
+td{padding:6px 8px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+td input,td select{padding:5px 7px;font-size:.82em}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.72em;font-weight:700}
+.pg{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.pw{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
+.res{margin-top:8px;font-size:.82em;min-height:18px}
+.dbar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--bdr);padding:9px 20px;display:flex;align-items:center;justify-content:space-between;z-index:150;box-shadow:0 -2px 10px rgba(0,0,0,.06)}
+.dh{font-size:.8em;color:var(--muted)}.dr{display:flex;gap:8px;align-items:center}
+.sbtn{background:linear-gradient(135deg,var(--teal),#0f766e);color:#fff;padding:8px 18px;border-radius:8px;border:none;font-family:inherit;font-size:.85em;font-weight:700;cursor:pointer}
+.sbtn:disabled{opacity:.35;cursor:not-allowed}
+.linkwrap{margin-top:10px;display:none}
+.linkwrap input{font-family:monospace;font-size:.72em;background:#f8fafc}
+.lvls{display:flex;gap:6px}
+.lvls label{display:inline-flex;align-items:center;gap:3px;font-size:.78em;font-weight:400;margin:0;width:auto}
+.lvls input[type=checkbox]{width:auto;padding:0}
+.cat-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:4px 0}
+.cat-body{padding-top:8px}
 </style>
 </head>
 <body>
 <div class="hdr">
-  <div><div class="hl">⚙️ Panel Admina CEVA</div><div class="hs">Edytuj → wyślij link na tablet → gotowe</div></div>
+  <div><div class="hl">⚙️ Panel Admina CEVA</div><div class="hs">Edytuj → generuj link → wyślij na tablet</div></div>
   <div class="hr">
-    <span id="pl" class="pill pwarn">📍 Brak danych</span>
-    <a href="https://spiffy-mochi-b15b80.netlify.app/mobile-index.html" target="_blank" style="padding:5px 12px;border-radius:7px;border:none;background:rgba(255,255,255,.15);color:#fff;font-family:inherit;font-size:.72em;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px">📱 Aplikacja</a>
-    <button onclick="generateLink()" style="padding:5px 12px;border-radius:7px;border:none;background:rgba(78,205,196,.25);color:#a7f3d0;font-family:inherit;font-size:.72em;font-weight:700;cursor:pointer">📤 Generuj link</button>
+    <span id="pl" class="pill pw">📍 Brak danych</span>
+    <button onclick="generateLink()" class="btn bt">📤 Generuj link</button>
   </div>
 </div>
 <div class="lay">
@@ -80,150 +64,107 @@ textarea{resize:vertical;min-height:50px}
   <div class="sl">Import</div>
   <button class="sb on" onclick="nav('import')" data-s="import"><span>📂</span>Wczytaj dane</button>
   <div class="sl">Konfiguracja</div>
-  <button class="sb" onclick="nav('info')"   data-s="info">  <span>🏢</span>Oddział</button>
-  <button class="sb" onclick="nav('zones')"  data-s="zones"> <span>📍</span>Strefy</button>
-  <button class="sb" onclick="nav('aud')"    data-s="aud">   <span>👤</span>Prowadzący GEMBA</button>
-  <button class="sb" onclick="nav('a5s')"    data-s="a5s">   <span>🔍</span>Audytorzy 5S</button>
-  <button class="sb" onclick="nav('part')"   data-s="part">  <span>👥</span>Uczestnicy</button>
-  <button class="sb" onclick="nav('quest')"  data-s="quest"> <span>❓</span>Pytania GEMBA</button>
+  <button class="sb" onclick="nav('info')"    data-s="info">  <span>🏢</span>Oddział</button>
+  <button class="sb" onclick="nav('zones')"   data-s="zones"> <span>📍</span>Strefy</button>
+  <button class="sb" onclick="nav('aud')"     data-s="aud">   <span>👤</span>Prowadzący GEMBA</button>
+  <button class="sb" onclick="nav('a5s')"     data-s="a5s">   <span>🔍</span>Audytorzy 5S</button>
+  <button class="sb" onclick="nav('part')"    data-s="part">  <span>👥</span>Uczestnicy</button>
+  <button class="sb" onclick="nav('quest')"   data-s="quest"> <span>❓</span>Pytania GEMBA</button>
+  <button class="sb" onclick="nav('instr')"   data-s="instr"> <span>📋</span>Instrukcje</button>
+  <button class="sb" onclick="nav('probcat')" data-s="probcat"><span>⚠️</span>Kategorie prob.</button>
   <div class="sl">Eksport</div>
-  <button class="sb" onclick="nav('export')" data-s="export"><span>📤</span>Wyślij na tablet</button>
+  <button class="sb" onclick="nav('export')"  data-s="export"><span>📤</span>Wyślij na tablet</button>
 </nav>
 <main class="mn">
 
-<!-- IMPORT -->
 <div id="s-import" class="sec on">
-  <div class="pt">📂 Wczytaj dane z config.js</div>
-  <div class="ps">Wgraj plik config.js lub wklej URL — dane trafią do edytora.</div>
-  <div class="card" style="border:2px solid var(--teal)">
-    <div class="ct" style="margin-bottom:10px;color:#0d9488">Opcja 1 — Wgraj plik config.js z dysku</div>
-    <input type="file" id="ffile" accept=".js" style="margin-bottom:10px">
-    <button class="btn bt" onclick="importFromFile()">📂 Wczytaj z pliku</button>
-    <div id="rfile" class="res"></div>
-  </div>
-  <div class="card">
-    <div class="ct" style="margin-bottom:10px">Opcja 2 — Wczytaj z URL (np. raw GitHub)</div>
-    <div class="fg"><label>URL pliku config.js</label>
-      <input type="text" id="iurl" placeholder="https://raw.githubusercontent.com/hdominik82/Test/main/config.js"></div>
-    <div class="fg"><label>Kod lokalizacji do edycji</label>
-      <input type="text" id="iloc" placeholder="ORA-PL-01" style="font-family:monospace;font-weight:700" oninput="this.value=this.value.toUpperCase()"></div>
-    <button class="btn bn" onclick="importFromUrl()" id="biurl">📥 Wczytaj z URL</button>
-    <div id="rurl" class="res"></div>
-  </div>
-  <div class="card">
-    <div class="ct" style="margin-bottom:10px">Opcja 3 — Nowy oddział od zera</div>
-    <div class="fg"><label>Kod lokalizacji</label>
-      <input type="text" id="inew" placeholder="KRA-PL-02" style="font-family:monospace;font-weight:700" oninput="this.value=this.value.toUpperCase()"></div>
-    <button class="btn bg" onclick="initNew()">✨ Utwórz nowy</button>
-    <div id="rnew" class="res"></div>
-  </div>
+  <div class="pt">📂 Wczytaj dane</div><div class="ps">Wczytaj config.js aby edytować.</div>
+  <div class="card"><div class="ct">📁 Z pliku</div><input type="file" id="ifile" accept=".js" onchange="importFromFile()"></div>
+  <div class="card"><div class="ct">🔗 Z URL</div>
+    <div style="display:flex;gap:8px"><input type="text" id="iurl" placeholder="https://raw.githubusercontent.com/…"><button class="btn bb" onclick="importFromUrl()">Wczytaj</button></div>
+    <div id="rurl" class="res"></div></div>
+  <div class="card"><div class="ct">✨ Nowy</div><button class="btn bd" onclick="initNew()">Utwórz pustą konfigurację</button></div>
 </div>
 
-<!-- INFO ODDZIAŁU -->
 <div id="s-info" class="sec">
-  <div class="pt">🏢 Informacje o oddziale</div><div class="ps">Podstawowe dane identyfikacyjne lokalizacji.</div>
+  <div class="pt">🏢 Dane oddziału</div><div class="ps">Podstawowe informacje o lokalizacji.</div>
   <div class="card">
-    <div class="r2">
-      <div class="fg"><label>Kod oddziału</label><input type="text" id="icode" oninput="S.branch.code=this.value.toUpperCase();this.value=S.branch.code;setDirty(true)"></div>
-      <div class="fg"><label>Kraj</label><input type="text" id="icountry" placeholder="PL" oninput="S.branch.country=this.value;setDirty(true)"></div>
-    </div>
-    <div class="fg"><label>Nazwa skrócona</label><input type="text" id="iname" oninput="S.branch.name=this.value;setDirty(true)"></div>
-    <div class="fg"><label>Pełna nazwa</label><input type="text" id="ifullname" oninput="S.branch.fullName=this.value;setDirty(true)"></div>
-    <div class="fg"><label>Folder SharePoint</label><input type="text" id="ispfolder" oninput="S.branch.sharePointFolder=this.value;setDirty(true)"></div>
+    <label>Kod oddziału</label><input id="b-code" oninput="S.branch.code=this.value;setDirty(true)">
+    <label>Nazwa skrócona</label><input id="b-name" oninput="S.branch.name=this.value;setDirty(true)">
+    <label>Pełna nazwa</label><input id="b-full" oninput="S.branch.fullName=this.value;setDirty(true)">
+    <label>Kraj</label><input id="b-country" oninput="S.branch.country=this.value;setDirty(true)">
+    <label>Folder SharePoint</label><input id="b-sp" oninput="S.branch.sharePointFolder=this.value;setDirty(true)">
   </div>
 </div>
 
-<!-- STREFY -->
 <div id="s-zones" class="sec">
-  <div class="pt">📍 Strefy magazynowe</div><div class="ps">Strefy widoczne na tablecie przy wyborze obszaru audytu.</div>
+  <div class="pt">📍 Strefy</div><div class="ps">Dostępne strefy w formularzach audytów.</div>
   <div class="card">
-    <div class="ch"><div class="ct">Strefy <span id="zc" class="bdg">0</span></div>
-      <button class="btn bg sm" onclick="addZone()">+ Strefa</button></div>
-    <div id="ze" class="empty">Najpierw wczytaj dane — zakładka Import</div>
-    <table class="tbl" id="zt" style="display:none">
-      <thead><tr><th>#</th><th>Nazwa strefy</th><th>Odpowiedzialny</th><th>Cel %</th><th></th></tr></thead>
-      <tbody id="zb"></tbody>
-    </table>
+    <table><thead><tr><th>Nazwa</th><th>Odpowiedzialny</th><th>Target %</th><th></th></tr></thead><tbody id="tz"></tbody></table>
+    <button class="btn bg" style="margin-top:10px" onclick="addZone()">+ Dodaj strefę</button>
   </div>
 </div>
 
-<!-- PROWADZĄCY -->
 <div id="s-aud" class="sec">
-  <div class="pt">👤 Prowadzący GEMBA Walk</div><div class="ps">Lista osób do wyboru jako prowadzący audyt.</div>
-  <div class="card"><div class="ch"><div class="ct">Prowadzący <span id="ac" class="bdg">0</span></div>
-    <button class="btn bg sm" onclick="addItem('auditors','aal','ac')">+ Dodaj</button></div>
-    <div id="aal"><div class="empty">Najpierw wczytaj dane</div></div>
-  </div>
+  <div class="pt">👤 Prowadzący GEMBA</div><div class="ps">Lista prowadzących audyt GEMBA Walk.</div>
+  <div class="card"><div id="l-aud"></div><button class="btn bg" style="margin-top:8px" onclick="addItem('auditors','l-aud','cnt-aud')">+ Dodaj</button> <span id="cnt-aud" style="font-size:.75em;color:var(--muted)"></span></div>
 </div>
 
-<!-- AUDYTORZY 5S -->
 <div id="s-a5s" class="sec">
-  <div class="pt">🔍 Audytorzy 5S</div><div class="ps">Lista audytorów 5S / BHP.</div>
-  <div class="card"><div class="ch"><div class="ct">Audytorzy 5S <span id="a5c" class="bdg">0</span></div>
-    <button class="btn bg sm" onclick="addItem('auditors5S','a5l','a5c')">+ Dodaj</button></div>
-    <div id="a5l"><div class="empty">Najpierw wczytaj dane</div></div>
-  </div>
+  <div class="pt">🔍 Audytorzy 5S</div><div class="ps">Lista przeprowadzających audyt 5S.</div>
+  <div class="card"><div id="l-a5s"></div><button class="btn bg" style="margin-top:8px" onclick="addItem('auditors5S','l-a5s','cnt-a5s')">+ Dodaj</button> <span id="cnt-a5s" style="font-size:.75em;color:var(--muted)"></span></div>
 </div>
 
-<!-- UCZESTNICY -->
 <div id="s-part" class="sec">
-  <div class="pt">👥 Uczestnicy GEMBA Walk</div><div class="ps">L1 = Brygadziści | L2 = Kierownicy | L3 = Zarząd</div>
-  <div class="card"><div class="ch"><div class="ct">Poziom 1 — Brygadziści <span id="p1c" class="bdg">0</span></div>
-    <button class="btn bg sm" onclick="addPart(1)">+ L1</button></div>
-    <div id="p1l"><div class="empty">Najpierw wczytaj dane</div></div></div>
-  <div class="card"><div class="ch"><div class="ct">Poziom 2 — Kierownicy <span id="p2c" class="bdg">0</span></div>
-    <button class="btn bg sm" onclick="addPart(2)">+ L2</button></div>
-    <div id="p2l"><div class="empty">Najpierw wczytaj dane</div></div></div>
-  <div class="card"><div class="ch"><div class="ct">Poziom 3 — Zarząd <span id="p3c" class="bdg">0</span></div>
-    <button class="btn bg sm" onclick="addPart(3)">+ L3</button></div>
-    <div id="p3l"><div class="empty">Najpierw wczytaj dane</div></div></div>
+  <div class="pt">👥 Uczestnicy GEMBA Walk</div><div class="ps">Uczestnicy wg poziomu (L1=Team Leader, L2=Manager, L3=Dyrektor).</div>
+  <div id="parts-wrap"></div>
 </div>
 
-<!-- PYTANIA -->
 <div id="s-quest" class="sec">
-  <div class="pt">❓ Pytania GEMBA</div><div class="ps">Pytania według kategorii z przypisaniem do poziomów L1/L2/L3.</div>
-  <div id="qw"><div class="empty">Najpierw wczytaj dane</div></div>
+  <div class="pt">❓ Pytania GEMBA</div><div class="ps">Pytania wg kategorii. Każde pytanie ma przypisane poziomy uczestników.</div>
+  <div id="qs-wrap"></div>
+  <button class="btn bb" onclick="addCategory()">+ Dodaj kategorię</button>
 </div>
 
-<!-- EKSPORT -->
+<div id="s-instr" class="sec">
+  <div class="pt">📋 Instrukcje stanowiskowe</div><div class="ps">Instrukcje w Audycie Procesu (Dział → Proces → Instrukcja).</div>
+  <div class="card">
+    <table><thead><tr><th>Kod</th><th>Nazwa</th><th>Dział</th><th>Proces</th><th style="width:60px">Aktywna</th><th></th></tr></thead><tbody id="ti"></tbody></table>
+    <button class="btn bg" style="margin-top:10px" onclick="addInstr()">+ Dodaj instrukcję</button>
+  </div>
+</div>
+
+<div id="s-probcat" class="sec">
+  <div class="pt">⚠️ Kategorie problemów</div><div class="ps">Kategorie w formularzu Zgłoś Problem.</div>
+  <div class="card"><div id="l-probcat"></div><button class="btn bg" style="margin-top:8px" onclick="addProbCat()">+ Dodaj kategorię</button></div>
+</div>
+
 <div id="s-export" class="sec">
-  <div class="pt">📤 Wyślij config na tablet</div>
-  <div class="ps">Wygeneruj link — wyślij przez Teams lub email — tablet zapisuje config lokalnie.</div>
-  <div class="card">
-    <div class="ct" style="margin-bottom:9px">📋 Podsumowanie danych</div>
-    <div id="ss" style="font-size:.83em;color:var(--muted)">Brak danych — najpierw wczytaj config.</div>
-  </div>
-  <div class="card" style="border:2px solid #0d9488">
-    <div class="ct" style="margin-bottom:8px;color:#0d9488">📤 Generuj link do tabletu</div>
-    <div class="al ai" style="margin-bottom:12px">Kliknij przycisk → skopiuj link → wyślij na tablet przez <strong>Teams, email lub QR kod</strong>.<br>Tablet otworzy link, zapisze config lokalnie i będzie go używał bez internetu.</div>
-    <button class="btn bt" onclick="generateLink()" id="bgl" style="font-size:.9em;padding:10px 22px">📤 Generuj link do tabletu</button>
-    <div id="rgl" class="res" style="margin-top:10px"></div>
-    <div id="linkbox" style="display:none;margin-top:10px">
-      <label>Link do skopiowania i wysłania na tablet:</label>
+  <div class="pt">📤 Wyślij na tablet</div><div class="ps">Wygeneruj link → wyślij przez Teams lub email → tablet zapisuje lokalnie.</div>
+  <div class="card"><div class="ct">📋 Podsumowanie</div><div id="ss" style="font-size:.82em;color:var(--muted)">Brak danych.</div></div>
+  <div class="card" style="border:2px solid var(--teal)">
+    <div class="ct" style="color:var(--teal)">📤 Generuj link do tabletu</div>
+    <div style="font-size:.8em;color:var(--muted);margin-bottom:10px">Kliknij → skopiuj link → wyślij przez <strong>Teams lub email</strong>.<br>Tablet otwiera link → klika "Załaduj" → dane zapisane lokalnie.</div>
+    <button class="btn bt" onclick="generateLink()" id="bgl">📤 Generuj link</button>
+    <div id="rgl" class="res"></div>
+    <div class="linkwrap" id="linkwrap">
+      <label>Link (skopiuj i wyślij na tablet):</label>
       <div style="display:flex;gap:6px;margin-top:4px">
-        <input type="text" id="linkout" readonly style="font-size:.75em;background:#f8fafc;font-family:monospace">
-        <button class="btn bn" onclick="copyLink()">📋 Kopiuj</button>
+        <input type="text" id="linkout" readonly>
+        <button class="btn bd" onclick="copyLink()">📋 Kopiuj</button>
       </div>
-      <div style="margin-top:10px;text-align:center">
-        <div id="qrbox"></div>
-        <div style="font-size:.75em;color:var(--muted);margin-top:4px">Zeskanuj QR kodem na tablecie</div>
-      </div>
+      <div id="qrbox" style="margin-top:10px;text-align:center"></div>
     </div>
   </div>
   <div class="card">
-    <div class="ct" style="margin-bottom:8px">⬇️ Alternatywnie — pobierz config.js na dysk</div>
-    <div style="font-size:.78em;color:var(--muted);margin-bottom:8px">Pobierz plik i wyślij go ręcznie na tablet przez Teams/email jako załącznik.</div>
-    <button class="btn bg" onclick="downloadConfig()" id="bdl">⬇️ Pobierz config.js</button>
-    <div id="rdl" class="res"></div>
-  </div>
-  <div class="card">
-    <div class="ct" style="margin-bottom:8px">📱 Linki do aplikacji</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
-      <a href="https://spiffy-mochi-b15b80.netlify.app/mobile-index.html" target="_blank" class="btn bt" style="text-decoration:none">📱 Strona główna</a>
-      <a href="https://spiffy-mochi-b15b80.netlify.app/gemba-audit.html" target="_blank" class="btn bx" style="text-decoration:none">👁 GEMBA Walk</a>
-      <a href="https://spiffy-mochi-b15b80.netlify.app/5s-audit-simple.html" target="_blank" class="btn bx" style="text-decoration:none">📋 Audyt 5S</a>
-      <a href="https://spiffy-mochi-b15b80.netlify.app/process-audit.html" target="_blank" class="btn bx" style="text-decoration:none">⚙️ Audyt Procesu</a>
-    </div>
+    <div class="ct">ℹ️ Jak to działa?</div>
+    <ol style="font-size:.8em;color:var(--muted);padding-left:18px;line-height:2.2">
+      <li>Edytuj dane w panelu</li>
+      <li>Kliknij <strong>Generuj link</strong></li>
+      <li>Wyślij link przez <strong>Teams lub email</strong> na tablet</li>
+      <li>Na tablecie: otwórz link → kliknij <strong>Załaduj konfigurację</strong></li>
+      <li>Gotowe — wszystkie moduły używają nowych danych</li>
+    </ol>
   </div>
 </div>
 
@@ -233,9 +174,8 @@ textarea{resize:vertical;min-height:50px}
 <div class="dbar">
   <div class="dh" id="dh">Wczytaj dane → edytuj → wyślij link na tablet</div>
   <div class="dr">
-    <span id="dloc" style="font-size:.77em;color:var(--muted)"></span>
-    <a href="https://spiffy-mochi-b15b80.netlify.app/mobile-index.html" target="_blank" class="btn bt" style="text-decoration:none;font-size:.82em">📱 Aplikacja</a>
-    <button class="sbtn" onclick="generateLink()" id="bdb" disabled>📤 Generuj link do tabletu</button>
+    <span id="dloc" style="font-size:.75em;color:var(--muted)"></span>
+    <button class="sbtn" onclick="generateLink()" id="bdb" disabled>📤 Generuj link</button>
   </div>
 </div>
 
@@ -243,436 +183,229 @@ textarea{resize:vertical;min-height:50px}
 var S={branch:{code:'',name:'',fullName:'',country:'',sharePointFolder:''},
   zones:[],auditors:[],auditors5S:[],
   participants:{level1:[],level2:[],level3:[]},
-  questions:{},originalConfig:null,loaded:false,dirty:false};
-
-var QCATS=['Identyfikacja strat','Analiza przyczyn i rozwiązywanie problemów','Standaryzacja i optymalizacja','Produktywność i KPI','Audyt operacyjny na magazynie (5S, BHP)'];
-var QCLR={'Identyfikacja strat':'#3b82f6','Analiza przyczyn i rozwiązywanie problemów':'#10b981','Standaryzacja i optymalizacja':'#f59e0b','Produktywność i KPI':'#ef4444','Audyt operacyjny na magazynie (5S, BHP)':'#8b5cf6'};
+  questions:{},instructions:[],problemCategories:[],
+  loaded:false,dirty:false,meta:{}};
 
 function nav(id){
-  document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on')});
-  document.querySelectorAll('.sb').forEach(function(b){b.classList.remove('on')});
-  document.getElementById('s-'+id).classList.add('on');
-  var b=document.querySelector('[data-s="'+id+'"]');if(b)b.classList.add('on');
+  document.querySelectorAll('.sec').forEach(function(e){e.classList.remove('on');});
+  document.querySelectorAll('.sb').forEach(function(e){e.classList.remove('on');});
+  var s=document.getElementById('s-'+id); if(s)s.classList.add('on');
+  var b=document.querySelector('[data-s="'+id+'"]'); if(b)b.classList.add('on');
   if(id==='export')refSum();
 }
 
-// ── IMPORT ──────────────────────────────────────────────
-function parseConfigJs(text, loc){
+function parseConfigJs(text){
   var clean=text.replace(/if\s*\(typeof module[^}]+\}/gs,'').replace(/module\.exports\s*=.*/g,'');
   var fn=new Function(clean+'\n return CEVA_CONFIG;');
   var cfg=fn();
   if(!cfg||!cfg.branches)throw new Error('Nie znaleziono CEVA_CONFIG.branches');
-  S.originalConfig=cfg;
-  var code=loc||(cfg.defaultBranch)||Object.keys(cfg.branches)[0];
-  var branch=cfg.branches[code];
-  if(!branch)throw new Error('Brak lokalizacji "'+code+'". Dostępne: '+Object.keys(cfg.branches).join(', '));
-  applyBranch(branch, code);
+  return cfg;
 }
 
-function applyBranch(branch, code){
-  S.branch={
-    code:            branch.code||code,
-    name:            branch.name||'',
-    fullName:        branch.fullName||'',
-    country:         branch.country||'',
-    sharePointFolder:branch.sharePointFolder||''
+function applyConfig(cfg,loc){
+  if(!loc)loc=cfg.defaultBranch||Object.keys(cfg.branches)[0];
+  var b=cfg.branches[loc]; if(!b)throw new Error('Branch nie znaleziony: '+loc);
+  S.branch={code:b.code||loc,name:b.name||'',fullName:b.fullName||'',country:b.country||'',sharePointFolder:b.sharePointFolder||''};
+  S.zones=(b.zones||[]).map(function(z){return {id:z.id,name:z.name,responsible:z.responsible||'',target:z.target||90};});
+  S.auditors=(b.auditors||[]).slice();
+  S.auditors5S=(b.auditors5S||[]).slice();
+  S.participants={
+    level1:((b.gembaParticipants||{}).level1||[]).map(function(p){return {name:p.name||'',email:p.email||''};}) ,
+    level2:((b.gembaParticipants||{}).level2||[]).map(function(p){return {name:p.name||'',email:p.email||''};}) ,
+    level3:((b.gembaParticipants||{}).level3||[]).map(function(p){return {name:p.name||'',email:p.email||''};})
   };
-  S.zones=       JSON.parse(JSON.stringify(branch.zones||[]));
-  S.auditors=    JSON.parse(JSON.stringify(branch.auditors||[]));
-  S.auditors5S=  JSON.parse(JSON.stringify(branch.auditors5S||[]));
-  S.participants=JSON.parse(JSON.stringify(branch.gembaParticipants||{level1:[],level2:[],level3:[]}));
-  S.questions=   JSON.parse(JSON.stringify(branch.gembaQuestions||{}));
-  QCATS.forEach(function(c){if(!S.questions[c])S.questions[c]=[];});
-  S.loaded=true;
+  S.questions=JSON.parse(JSON.stringify(b.gembaQuestions||{}));
+  S.instructions=(b.instructions||[]).map(function(i){return {code:i.code||'',name:i.name||'',department:i.department||'',process:i.process||'',assigned:i.assigned!==false};});
+  S.problemCategories=(b.problemCategories||[]).slice();
+  S.loaded=true; S.dirty=false;
   renderAll();
-  setPill('pl','📍 '+S.branch.code,'pok');
-  document.getElementById('dloc').textContent='📍 '+S.branch.code;
+  setPill('pl','📍 '+loc,'pg');
   document.getElementById('bdb').disabled=false;
-  var bgl=document.getElementById('bgl');if(bgl)bgl.disabled=false;
   setDirty(false);
-  nav('info');
 }
 
 function importFromFile(){
-  var f=document.getElementById('ffile').files[0];
-  if(!f)return setR('rfile','Wybierz plik config.js.','r');
-  var loc=prompt('Kod lokalizacji do edycji (np. ORA-PL-01):','ORA-PL-01');
-  if(!loc)return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    try{parseConfigJs(e.target.result,loc.toUpperCase());setR('rfile','✅ Wczytano lokalizację: '+S.branch.code,'g');}
-    catch(err){setR('rfile','❌ '+err.message,'r');}
-  };
-  reader.readAsText(f);
+  var f=document.getElementById('ifile').files[0]; if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){try{applyConfig(parseConfigJs(e.target.result));nav('info');}catch(ex){alert('Błąd: '+ex.message);}};
+  r.readAsText(f);
 }
-
 async function importFromUrl(){
-  var url=document.getElementById('iurl').value.trim();
-  var loc=document.getElementById('iloc').value.trim().toUpperCase();
-  if(!url)return setR('rurl','Wpisz URL do config.js.','r');
-  if(!loc)return setR('rurl','Wpisz kod lokalizacji.','r');
-  var btn=document.getElementById('biurl');btn.disabled=true;btn.textContent='⏳…';
-  setR('rurl','Pobieranie…','i');
+  var url=document.getElementById('iurl').value.trim(); if(!url)return;
+  setR('rurl','⏳ Pobieranie…','i');
   try{
-    var r=await fetch(url+'?t='+Date.now());
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    var text=await r.text();
-    parseConfigJs(text,loc);
-    setR('rurl','✅ Wczytano: '+S.branch.code+' — '+S.zones.length+' stref, '+S.auditors.length+' prowadzących','g');
+    var res=await fetch(url); if(!res.ok)throw new Error('HTTP '+res.status);
+    applyConfig(parseConfigJs(await res.text())); nav('info'); setR('rurl','✅ Wczytano.','g');
   }catch(e){setR('rurl','❌ '+e.message,'r');}
-  btn.disabled=false;btn.textContent='📥 Wczytaj z URL';
 }
-
 function initNew(){
-  var loc=document.getElementById('inew').value.trim().toUpperCase();
-  if(!loc)return setR('rnew','Wpisz kod lokalizacji.','r');
-  var empty={code:loc,name:'',fullName:'',country:'PL',sharePointFolder:loc,
-    zones:[],auditors:[],auditors5S:[],
-    gembaParticipants:{level1:[],level2:[],level3:[]},gembaQuestions:{}};
-  S.originalConfig=null;
-  applyBranch(empty,loc);
-  setR('rnew','✅ Nowa lokalizacja '+loc+' gotowa do edycji.','g');
+  applyConfig({defaultBranch:'NOWY',branches:{NOWY:{code:'NOWY',name:'Nowy',fullName:'',country:'PL',sharePointFolder:'',zones:[],auditors:[],auditors5S:[],gembaParticipants:{level1:[],level2:[],level3:[]},gembaQuestions:{},instructions:[],problemCategories:['5S','Bezpieczeństwo','Jakość','Produktywność','Inne']}}});
+  nav('info');
 }
 
-// ── RENDER ──────────────────────────────────────────────
 function renderAll(){
-  // Info
-  document.getElementById('icode').value=S.branch.code||'';
-  document.getElementById('icountry').value=S.branch.country||'';
-  document.getElementById('iname').value=S.branch.name||'';
-  document.getElementById('ifullname').value=S.branch.fullName||'';
-  document.getElementById('ispfolder').value=S.branch.sharePointFolder||'';
-  rZones();
-  rList('auditors','aal','ac');
-  rList('auditors5S','a5l','a5c');
-  rParts();
-  rQs();
+  document.getElementById('b-code').value=S.branch.code;
+  document.getElementById('b-name').value=S.branch.name;
+  document.getElementById('b-full').value=S.branch.fullName;
+  document.getElementById('b-country').value=S.branch.country;
+  document.getElementById('b-sp').value=S.branch.sharePointFolder;
+  rZones();rList('auditors','l-aud','cnt-aud');rList('auditors5S','l-a5s','cnt-a5s');
+  rParts();rQs();rInstr();rProbCat();
 }
 
 function rZones(){
-  var z=S.zones;document.getElementById('zc').textContent=z.length;
-  var em=document.getElementById('ze'),tbl=document.getElementById('zt');
-  if(!z.length){em.style.display='block';tbl.style.display='none';em.textContent='Brak stref.';return;}
-  em.style.display='none';tbl.style.display='table';
-  document.getElementById('zb').innerHTML=z.map(function(r,i){
-    return '<tr><td style="color:var(--muted);text-align:center;width:26px">'+(i+1)+'</td>'
-      +'<td><input value="'+esc(r.name)+'" oninput="S.zones['+i+'].name=this.value;setDirty(true)"></td>'
-      +'<td><input value="'+esc(r.responsible)+'" oninput="S.zones['+i+'].responsible=this.value;setDirty(true)"></td>'
-      +'<td><input type="number" value="'+(r.target||90)+'" min="0" max="100" style="width:60px" oninput="S.zones['+i+'].target=+this.value;setDirty(true)"></td>'
-      +'<td><button class="btn br sm" onclick="S.zones.splice('+i+',1);rZones();setDirty(true)">🗑</button></td></tr>';
+  document.getElementById('tz').innerHTML=S.zones.map(function(z,i){
+    return '<tr><td><input value="'+esc(z.name)+'" oninput="S.zones['+i+'].name=this.value;setDirty(true)"></td>'
+      +'<td><input value="'+esc(z.responsible)+'" oninput="S.zones['+i+'].responsible=this.value;setDirty(true)"></td>'
+      +'<td><input type="number" min="0" max="100" value="'+z.target+'" style="width:70px" oninput="S.zones['+i+'].target=+this.value;setDirty(true)"></td>'
+      +'<td><button class="btn br" onclick="S.zones.splice('+i+',1);rZones();setDirty(true)">✕</button></td></tr>';
   }).join('');
 }
-
-function addZone(){
-  if(!S.loaded)return alert('Najpierw wczytaj dane!');
-  S.zones.push({id:Date.now(),name:'',responsible:'',target:90});
-  rZones();setDirty(true);
-  setTimeout(function(){var rows=document.querySelectorAll('#zb tr');if(rows.length)rows[rows.length-1].querySelector('input').focus();},50);
-}
+function addZone(){S.zones.push({id:Date.now(),name:'Nowa strefa',responsible:'',target:90});rZones();setDirty(true);}
 
 function rList(key,listId,cntId){
-  var arr=S[key];document.getElementById(cntId).textContent=arr.length;
-  var el=document.getElementById(listId);
-  if(!arr.length){el.innerHTML='<div class="empty">Brak wpisów.</div>';return;}
-  el.innerHTML=arr.map(function(v,i){
-    return '<div class="li"><span class="lin">'+(i+1)+'</span>'
-      +'<input value="'+esc(v)+'" oninput="S[\''+key+'\']['+i+']=this.value;setDirty(true)">'
-      +'<button class="btn br sm" onclick="S[\''+key+'\'].splice('+i+',1);rList(\''+key+'\',\''+listId+'\',\''+cntId+'\');setDirty(true)">🗑</button></div>';
+  document.getElementById(listId).innerHTML=S[key].map(function(v,i){
+    return '<div style="display:flex;gap:6px;margin-bottom:6px">'
+      +'<input value="'+esc(v)+'" oninput="S[\''+key+'\']['+i+']=this.value;setDirty(true)" style="flex:1">'
+      +'<button class="btn br" onclick="S[\''+key+'\'].splice('+i+',1);rList(\''+key+'\',\''+listId+'\',\''+cntId+'\');setDirty(true)">✕</button></div>';
   }).join('');
+  var c=document.getElementById(cntId); if(c)c.textContent=S[key].length+' os.';
 }
-
-function addItem(key,listId,cntId){
-  if(!S.loaded)return alert('Najpierw wczytaj dane!');
-  S[key].push('');rList(key,listId,cntId);setDirty(true);
-  setTimeout(function(){var ins=document.querySelectorAll('#'+listId+' input');if(ins.length)ins[ins.length-1].focus();},50);
-}
+function addItem(key,listId,cntId){S[key].push('');rList(key,listId,cntId);setDirty(true);}
 
 function rParts(){
-  [1,2,3].forEach(function(lv){
-    var arr=S.participants['level'+lv]||[];
-    document.getElementById('p'+lv+'c').textContent=arr.length;
-    var el=document.getElementById('p'+lv+'l');
-    if(!arr.length){el.innerHTML='<div class="empty">Brak uczestników L'+lv+'.</div>';return;}
-    el.innerHTML=arr.map(function(p,i){
-      var nm=typeof p==='string'?p:(p.name||'');
-      var em=typeof p==='object'?(p.email||''):'';
-      return '<div class="pitem">'
-        +'<span class="lin">'+(i+1)+'</span>'
-        +'<input type="text" placeholder="Imię i nazwisko" value="'+esc(nm)+'" oninput="setPart('+lv+','+i+',\'name\',this.value)">'
-        +'<input type="email" placeholder="email@firma.com" value="'+esc(em)+'" style="flex:.8" oninput="setPart('+lv+','+i+',\'email\',this.value)">'
-        +'<button class="btn br sm" onclick="S.participants.level'+lv+'.splice('+i+',1);rParts();setDirty(true)">🗑</button></div>';
+  document.getElementById('parts-wrap').innerHTML=['level1','level2','level3'].map(function(lv,li){
+    var title=['Level 1 — Team Leader','Level 2 — Manager','Level 3 — Dyrektor'][li];
+    var rows=S.participants[lv].map(function(p,i){
+      return '<div style="display:flex;gap:6px;margin-bottom:6px">'
+        +'<input value="'+esc(p.name)+'" placeholder="Imię i nazwisko" oninput="S.participants.'+lv+'['+i+'].name=this.value;setDirty(true)" style="flex:1">'
+        +'<input value="'+esc(p.email||'')+'" placeholder="email" oninput="S.participants.'+lv+'['+i+'].email=this.value;setDirty(true)" style="flex:1">'
+        +'<button class="btn br" onclick="S.participants.'+lv+'.splice('+i+',1);rParts();setDirty(true)">✕</button></div>';
     }).join('');
-  });
-}
-
-function setPart(lv,i,field,val){
-  var arr=S.participants['level'+lv];
-  if(typeof arr[i]==='string')arr[i]={name:arr[i],email:''};
-  arr[i][field]=val;setDirty(true);
-}
-
-function addPart(lv){
-  if(!S.loaded)return alert('Najpierw wczytaj dane!');
-  S.participants['level'+lv].push({name:'',email:''});rParts();setDirty(true);
-  setTimeout(function(){var el=document.getElementById('p'+lv+'l');var ins=el.querySelectorAll('input');if(ins.length)ins[ins.length-2].focus();},50);
-}
-
-function rQs(){
-  var el=document.getElementById('qw');
-  if(!S.loaded){el.innerHTML='<div class="empty">Najpierw wczytaj dane</div>';return;}
-  el.innerHTML=QCATS.map(function(cat){
-    var qs=S.questions[cat]||[];var clr=QCLR[cat]||'#ccc';
-    return '<div class="card" style="border-left:4px solid '+clr+'">'
-      +'<div class="ch"><div class="ct" style="color:'+clr+'">'+cat+' <span class="bdg">'+qs.length+'</span></div>'
-      +'<button class="btn bg sm" onclick="addQ(\''+escJ(cat)+'\')">+ Pytanie</button></div>'
-      +(qs.length?qs.map(function(q,i){return qRow(cat,i,q,clr);}).join(''):'<div class="empty">Brak pytań.</div>')
-      +'</div>';
+    return '<div class="card"><div class="ct">'+title+' <span style="font-size:.75em;color:var(--muted)">('+S.participants[lv].length+' os.)</span></div>'
+      +rows+'<button class="btn bg" onclick="S.participants.'+lv+'.push({name:\'\',email:\'\'});rParts();setDirty(true)">+ Dodaj</button></div>';
   }).join('');
 }
 
-function escJ(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
-
-function qRow(cat,i,q,clr){
-  var cj=JSON.stringify(cat);
-  return '<div class="qi" style="border-left-color:'+(clr||'#ccc')+'">'
-    +'<div class="qr"><span class="qn">'+(i+1)+'.</span>'
-    +'<textarea rows="2" oninput="S.questions['+cj+']['+i+'].question=this.value;setDirty(true)" '
-    +'style="flex:1;border:1px solid var(--bdr);border-radius:6px;padding:6px 8px;font-family:inherit;font-size:.83em">'
-    +esc(q.question||'')+'</textarea>'
-    +'<button class="btn br sm" style="flex-shrink:0;margin-top:1px" onclick="rmQ('+cj+','+i+')">🗑</button></div>'
-    +'<div class="ql"><span>Poziomy:</span>'
-    +[1,2,3].map(function(lvl){
-      return '<label style="display:flex;align-items:center;gap:3px;cursor:pointer"><input type="checkbox" '
-        +((q.levels&&q.levels.indexOf(lvl)>=0)?'checked':'')+' '
-        +'onchange="tglLvl('+cj+','+i+','+lvl+',this.checked)"> L'+lvl+'</label>';
-    }).join('')
-    +'</div></div>';
+var COLORS=['#667eea','#764ba2','#f5576c','#4facfe','#43e97b','#f093fb'];
+function rQs(){
+  var cats=Object.keys(S.questions);
+  document.getElementById('qs-wrap').innerHTML=cats.map(function(cat,ci){
+    var clr=COLORS[ci%COLORS.length];
+    var qs=S.questions[cat];
+    var rows=qs.map(function(q,qi){
+      var lvls=[1,2,3].map(function(lv){
+        var chk=(q.levels||[]).indexOf(lv)>-1?'checked':'';
+        return '<label><input type="checkbox" '+chk+' onchange="tglLvl(\''+escJ(cat)+'\','+qi+','+lv+',this.checked)"> L'+lv+'</label>';
+      }).join('');
+      return '<div style="display:flex;gap:6px;margin-bottom:8px;align-items:flex-start">'
+        +'<textarea style="flex:1;min-height:48px" oninput="S.questions[\''+escJ(cat)+'\']['+qi+'].question=this.value;setDirty(true)">'+esc(q.question||'')+'</textarea>'
+        +'<div style="min-width:110px"><div class="lvls">'+lvls+'</div>'
+        +'<button class="btn br" style="margin-top:4px;width:100%;font-size:.75em" onclick="rmQ(\''+escJ(cat)+'\','+qi+')">✕ Usuń</button></div></div>';
+    }).join('');
+    return '<div class="card" style="border-left:3px solid '+clr+'">'
+      +'<div class="cat-head" onclick="var b=this.nextSibling;b.style.display=b.style.display===\'none\'?\'block\':\'none\'">'
+      +'<strong>'+esc(cat)+'</strong> <span style="font-size:.75em;color:var(--muted)">('+qs.length+' pytań)</span>'
+      +'<div style="display:flex;gap:6px">'
+      +'<button class="btn bd" style="font-size:.75em" onclick="event.stopPropagation();renameCat(\''+escJ(cat)+'\')">✎</button>'
+      +'<button class="btn br" style="font-size:.75em" onclick="event.stopPropagation();delCat(\''+escJ(cat)+'\')">✕</button>'
+      +'</div></div>'
+      +'<div class="cat-body">'+rows
+      +'<button class="btn bg" style="margin-top:4px" onclick="addQ(\''+escJ(cat)+'\')">+ Pytanie</button></div></div>';
+  }).join('');
 }
-
-function addQ(cat){
-  if(!S.loaded)return alert('Najpierw wczytaj dane!');
-  if(!S.questions[cat])S.questions[cat]=[];
-  S.questions[cat].push({question:'',levels:[1,2,3]});
-  rQs();setDirty(true);
-}
+function escJ(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+function addCategory(){var n=prompt('Nazwa kategorii:');if(!n)return;if(S.questions[n]){alert('Istnieje.');return;}S.questions[n]=[];rQs();setDirty(true);}
+function renameCat(old){var n=prompt('Nowa nazwa:',old);if(!n||n===old)return;var qs=S.questions[old];delete S.questions[old];S.questions[n]=qs;rQs();setDirty(true);}
+function delCat(cat){if(!confirm('Usunąć "'+cat+'" i pytania?'))return;delete S.questions[cat];rQs();setDirty(true);}
+function addQ(cat){if(!S.questions[cat])S.questions[cat]=[];S.questions[cat].push({question:'',levels:[1,2,3]});rQs();setDirty(true);}
 function rmQ(cat,i){if(!confirm('Usunąć pytanie?'))return;S.questions[cat].splice(i,1);rQs();setDirty(true);}
-function tglLvl(cat,i,lvl,checked){
-  var q=S.questions[cat][i];if(!q.levels)q.levels=[];
-  if(checked&&q.levels.indexOf(lvl)<0)q.levels.push(lvl);
-  else if(!checked)q.levels=q.levels.filter(function(l){return l!==lvl;});
-  q.levels.sort();setDirty(true);
+function tglLvl(cat,i,lv,checked){var q=S.questions[cat][i];if(!q.levels)q.levels=[];var idx=q.levels.indexOf(lv);if(checked&&idx===-1)q.levels.push(lv);else if(!checked&&idx>-1)q.levels.splice(idx,1);setDirty(true);}
+
+function rInstr(){
+  document.getElementById('ti').innerHTML=S.instructions.map(function(ins,i){
+    return '<tr><td><input value="'+esc(ins.code)+'" style="width:110px" oninput="S.instructions['+i+'].code=this.value;setDirty(true)"></td>'
+      +'<td><input value="'+esc(ins.name)+'" oninput="S.instructions['+i+'].name=this.value;setDirty(true)"></td>'
+      +'<td><input value="'+esc(ins.department)+'" style="width:90px" oninput="S.instructions['+i+'].department=this.value;setDirty(true)"></td>'
+      +'<td><input value="'+esc(ins.process)+'" style="width:90px" oninput="S.instructions['+i+'].process=this.value;setDirty(true)"></td>'
+      +'<td style="text-align:center"><input type="checkbox" '+(ins.assigned?'checked':'')+' onchange="S.instructions['+i+'].assigned=this.checked;setDirty(true)" style="width:auto;padding:0"></td>'
+      +'<td><button class="btn br" onclick="S.instructions.splice('+i+',1);rInstr();setDirty(true)">✕</button></td></tr>';
+  }).join('');
 }
+function addInstr(){S.instructions.push({code:'',name:'',department:'',process:'',assigned:true});rInstr();setDirty(true);}
+
+function rProbCat(){
+  document.getElementById('l-probcat').innerHTML=S.problemCategories.map(function(v,i){
+    return '<div style="display:flex;gap:6px;margin-bottom:6px">'
+      +'<input value="'+esc(v)+'" oninput="S.problemCategories['+i+']=this.value;setDirty(true)" style="flex:1">'
+      +'<button class="btn br" onclick="S.problemCategories.splice('+i+',1);rProbCat();setDirty(true)">✕</button></div>';
+  }).join('');
+}
+function addProbCat(){S.problemCategories.push('');rProbCat();setDirty(true);}
 
 function refSum(){
-  if(!S.loaded){document.getElementById('ss').textContent='Brak danych.';return;}
-  var tq=Object.values(S.questions).reduce(function(s,q){return s+q.length;},0);
-  document.getElementById('ss').innerHTML=[
-    ['🏢 Oddział',S.branch.fullName||S.branch.name||S.branch.code],
-    ['📍 Kod',S.branch.code],
-    ['📍 Strefy',S.zones.length],
-    ['👤 Prowadzący GEMBA',S.auditors.length],
-    ['🔍 Audytorzy 5S',S.auditors5S.length],
-    ['👥 L1/L2/L3',(S.participants.level1||[]).length+'/'+(S.participants.level2||[]).length+'/'+(S.participants.level3||[]).length],
-    ['❓ Pytania łącznie',tq],
-  ].map(function(r){
-    return '<div style="display:flex;gap:14px;padding:4px 0;border-bottom:1px solid var(--bdr)">'
-      +'<span style="color:var(--muted);min-width:160px;font-size:.82em">'+r[0]+'</span>'
-      +'<strong style="font-size:.85em">'+r[1]+'</strong></div>';
-  }).join('');
-}
-
-// ── GENEROWANIE config.js ────────────────────────────────
-function generateConfigJs(){
-  if(!S.loaded)throw new Error('Brak danych do eksportu');
-
-  var orig=S.originalConfig;
-  var code=S.branch.code;
-
-  // Zbuduj zaktualizowany branch
-  var updatedBranch={
-    code:             S.branch.code,
-    name:             S.branch.name,
-    country:          S.branch.country,
-    fullName:         S.branch.fullName,
-    sharePointFolder: S.branch.sharePointFolder,
-    zones:            S.zones,
-    auditors:         S.auditors,
-    auditors5S:       S.auditors5S,
-    instructions:     (orig&&orig.branches&&orig.branches[code]&&orig.branches[code].instructions)||[],
-    gembaParticipants:S.participants,
-    gembaQuestions:   S.questions,
-    problemCategories:(orig&&orig.branches&&orig.branches[code]&&orig.branches[code].problemCategories)||['5S','Bezpieczeństwo','Jakość','Produktywność','Inne']
-  };
-
-  // Zbuduj cały obiekt branches (zachowaj inne lokalizacje jeśli były)
-  var allBranches={};
-  if(orig&&orig.branches){
-    Object.keys(orig.branches).forEach(function(k){allBranches[k]=orig.branches[k];});
-  }
-  allBranches[code]=updatedBranch;
-
-  var sharePointSite=(orig&&orig.sharePointSite)||'https://cevalogisticsoffice365.sharepoint.com/sites/AuditTool';
-  var sharePointDocuments=(orig&&orig.sharePointDocuments)||'Shared%20Documents';
-  var defaultBranch=(orig&&orig.defaultBranch)||code;
-
-  var now=new Date().toISOString().split('T')[0];
-  var js='// KONFIGURACJA SYSTEMU AUDYTÓW CEVA\n'
-    +'// Wygenerowano przez Panel Admina: '+now+'\n\n'
-    +'const CEVA_CONFIG = {\n'
-    +'    sharePointSite: '+JSON.stringify(sharePointSite)+',\n'
-    +'    sharePointDocuments: '+JSON.stringify(sharePointDocuments)+',\n\n'
-    +'    getSharePointFolderUrl: function(branchCode, folderType) {\n'
-    +'        const branch = this.branches[branchCode];\n'
-    +'        if (!branch) return this.sharePointSite;\n'
-    +'        const folderName = this.folders[folderType];\n'
-    +'        return `${this.sharePointSite}/${this.sharePointDocuments}/Forms/AllItems.aspx?id=%2Fsites%2FAuditTool%2F${this.sharePointDocuments}%2F${branch.sharePointFolder}%2F${folderName}`;\n'
-    +'    },\n\n'
-    +'    folders: { fiveS: "5S", gemba: "Gemba", process: "Process", problems: "Problems" },\n\n'
-    +'    branches: '+JSON.stringify(allBranches,null,8)+',\n\n'
-    +'    defaultBranch: '+JSON.stringify(defaultBranch)+',\n\n'
-    +'    getBranch: function(code) { return this.branches[code] || this.branches[this.defaultBranch]; },\n\n'
-    +'    getCurrentBranch: function() {\n'
-    +'        const saved = localStorage.getItem("ceva_selected_branch");\n'
-    +'        return this.branches[saved] || this.branches[this.defaultBranch];\n'
-    +'    },\n\n'
-    +'    setBranch: function(code) {\n'
-    +'        if (this.branches[code]) { localStorage.setItem("ceva_selected_branch", code); return true; }\n'
-    +'        return false;\n'
-    +'    },\n\n'
-    +'    generateFileName: function(type, zone, date) {\n'
-    +'        const branch = this.getCurrentBranch();\n'
-    +'        const dateStr = date || new Date().toISOString().split("T")[0];\n'
-    +'        const zoneStr = zone.replace(/\\s+/g, "");\n'
-    +'        return `${type}_${branch.code}_${zoneStr}_${dateStr}.json`;\n'
-    +'    },\n\n'
-    +'    getGembaQuestions: function(level, category) {\n'
-    +'        const branch = this.getCurrentBranch();\n'
-    +'        const questions = branch.gembaQuestions[category];\n'
-    +'        if (!questions) return [];\n'
-    +'        return questions.filter(q => q.levels.includes(level));\n'
-    +'    },\n\n'
-    +'    getGembaParticipants: function(level) {\n'
-    +'        const branch = this.getCurrentBranch();\n'
-    +'        if (level === 1) return [...branch.gembaParticipants.level1];\n'
-    +'        if (level === 2) return [...branch.gembaParticipants.level1, ...branch.gembaParticipants.level2];\n'
-    +'        if (level === 3) return [...branch.gembaParticipants.level1, ...branch.gembaParticipants.level2, ...branch.gembaParticipants.level3];\n'
-    +'        return [];\n'
-    +'    },\n\n'
-    +'    getGembaCategories: function() { return Object.keys(this.getCurrentBranch().gembaQuestions); },\n\n'
-    +'    getDepartments: function() { const b=this.getCurrentBranch(); return [...new Set((b.instructions||[]).map(i=>i.department))].sort(); },\n\n'
-    +'    getProcessesByDepartment: function(department) { const b=this.getCurrentBranch(); return [...new Set((b.instructions||[]).filter(i=>i.department===department&&i.assigned).map(i=>i.process))].sort(); },\n\n'
-    +'    getInstructionsByDepartmentAndProcess: function(department, process) {\n'
-    +'        const b=this.getCurrentBranch();\n'
-    +'        const seen=new Set(); const result=[];\n'
-    +'        (b.instructions||[]).filter(i=>i.department===department&&i.process===process&&i.assigned).forEach(i=>{ if(!seen.has(i.code)){seen.add(i.code);result.push({code:i.code,name:i.name,fullName:`${i.code} - ${i.name}`});} });\n'
-    +'        return result;\n'
-    +'    },\n\n'
-    +'    getAllInstructions: function() {\n'
-    +'        const b=this.getCurrentBranch(); const seen=new Set(); const result=[];\n'
-    +'        (b.instructions||[]).filter(i=>i.assigned).forEach(i=>{ if(!seen.has(i.code)){seen.add(i.code);result.push({code:i.code,name:i.name,fullName:`${i.code} - ${i.name}`});} });\n'
-    +'        return result.sort((a,b)=>a.code.localeCompare(b.code));\n'
-    +'    },\n\n'
-    +'    getInstructionDetails: function(code) { return (this.getCurrentBranch().instructions||[]).filter(i=>i.code===code&&i.assigned); }\n'
-    +'};\n\n'
-    +'if (typeof module !== "undefined" && module.exports) { module.exports = CEVA_CONFIG; }\n';
-
-  return js;
-}
-
-function downloadConfig(){
-  if(!S.loaded)return alert('Najpierw wczytaj dane!');
-  try{
-    var js=generateConfigJs();
-    var blob=new Blob([js],{type:'text/javascript'});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=url;a.download='config.js';
-    document.body.appendChild(a);a.click();
-    document.body.removeChild(a);URL.revokeObjectURL(url);
-    setR('rdl','✅ Pobrano config.js — wyślij plik na tablet.','g');
-    setDirty(false);
-  }catch(e){setR('rdl','❌ '+e.message,'r');}
+  var el=document.getElementById('ss'); if(!S.loaded){el.textContent='Brak danych.';return;}
+  el.innerHTML='📍 '+esc(S.branch.fullName)+' ('+esc(S.branch.code)+')<br>'
+    +'Strefy: '+S.zones.length+' &nbsp;|&nbsp; Prowadzący: '+S.auditors.length+' &nbsp;|&nbsp; Audytorzy 5S: '+S.auditors5S.length+'<br>'
+    +'Pytania GEMBA: '+Object.values(S.questions).reduce(function(a,b){return a+b.length;},0)
+    +' &nbsp;|&nbsp; Instrukcje: '+S.instructions.length+' &nbsp;|&nbsp; Kategorie: '+S.problemCategories.length;
 }
 
 function generateLink(){
   if(!S.loaded)return alert('Najpierw wczytaj dane!');
   try{
-    // Buduj payload — tylko dane potrzebne tabletowi
+    var v=((S.meta&&S.meta._v)||0)+1;
     var payload={
-      location: S.branch.code,
-      zones:    S.zones,
-      auditors: S.auditors,
-      auditors5S: S.auditors5S,
-      gembaParticipants: S.participants,
-      gembaQuestions:    S.questions,
-      _meta:{ savedAt: new Date().toISOString(), version: ((S.meta&&S.meta.version)||0)+1 }
+      location:S.branch.code, code:S.branch.code, name:S.branch.name,
+      fullName:S.branch.fullName, country:S.branch.country, sharePointFolder:S.branch.sharePointFolder,
+      zones:S.zones, auditors:S.auditors, auditors5S:S.auditors5S,
+      gembaParticipants:S.participants, gembaQuestions:S.questions,
+      instructions:S.instructions, problemCategories:S.problemCategories,
+      _v:v, _ts:new Date().toISOString()
     };
+    // Enkodowanie UTF-8 bezpieczne dla iOS/Edge
     var json=JSON.stringify(payload);
-    var b64=btoa(unescape(encodeURIComponent(json)));
-    var base='https://spiffy-mochi-b15b80.netlify.app/load-config.html#';
-    var link=base+b64;
-
-    if(link.length > 30000){
-      setR('rgl','⚠️ Dane są zbyt duże dla linku ('+Math.round(link.length/1024)+'KB). Użyj przycisku "Pobierz config.js" i wyślij plik przez Teams.','w');
-      return;
-    }
-
+    var bytes=new TextEncoder().encode(json);
+    var bin=String.fromCharCode.apply(null,bytes);
+    var b64=btoa(bin);
+    var base=location.protocol==='file:'
+      ?'https://spiffy-mochi-b15b80.netlify.app/'
+      :location.href.replace(/[^/]*$/, '').replace(/\?.*$/, '').replace(/#.*$/, '');
+    // ?d= zamiast # — działa w Teams, Edge i iOS Safari
+    var link=base+'import-config.html?d='+encodeURIComponent(b64);
+    if(link.length>60000){setR('rgl','⚠️ Dane za duże ('+Math.round(link.length/1024)+'KB). Zmniejsz ilość danych.','w');return;}
     document.getElementById('linkout').value=link;
-    document.getElementById('linkbox').style.display='block';
-    setR('rgl','✅ Link gotowy — skopiuj i wyślij na tablet przez Teams lub email.','g');
-
-    // Generuj QR kod
-    generateQR(link);
-    setDirty(false);
+    document.getElementById('linkwrap').style.display='block';
+    setR('rgl','✅ Link gotowy ('+Math.round(link.length/1024)+'KB) — skopiuj i wyślij na tablet.','g');
+    makeQR(link); setDirty(false);
   }catch(e){setR('rgl','❌ '+e.message,'r');}
 }
-
 function copyLink(){
-  var inp=document.getElementById('linkout');
-  inp.select();
-  try{
-    document.execCommand('copy');
-    var btn=event.target;
-    btn.textContent='✅ Skopiowano!';
-    setTimeout(function(){btn.textContent='📋 Kopiuj';},2000);
-  }catch(e){
-    navigator.clipboard.writeText(inp.value).then(function(){
-      var btn=event.target;btn.textContent='✅ Skopiowano!';
-      setTimeout(function(){btn.textContent='📋 Kopiuj';},2000);
-    });
-  }
+  var inp=document.getElementById('linkout'); inp.select();
+  try{document.execCommand('copy');}catch(e){navigator.clipboard&&navigator.clipboard.writeText(inp.value);}
+  var btn=event.target; btn.textContent='✅ Skopiowano!';
+  setTimeout(function(){btn.textContent='📋 Kopiuj';},2000);
 }
-
-function generateQR(text){
-  var box=document.getElementById('qrbox');
-  box.innerHTML='';
-  // Użyj zewnętrznego serwisu QR
-  var img=document.createElement('img');
-  img.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(text.substring(0,2000));
-  img.style.cssText='width:160px;height:160px;border-radius:8px;border:3px solid var(--bdr)';
-  img.title='QR kod do skanowania';
-  // Jeśli link za długi na QR — pokaż info
-  if(text.length > 2000){
-    box.innerHTML='<div style="font-size:.75em;color:var(--muted);padding:8px;background:var(--bg);border-radius:6px">Link jest za długi na QR kod — wyślij przez Teams/email.</div>';
-    return;
-  }
+function makeQR(text){
+  var box=document.getElementById('qrbox'); box.innerHTML='';
+  if(text.length>2953){box.innerHTML='<div style="font-size:.75em;color:var(--muted)">Link za długi na QR — wyślij przez Teams.</div>';return;}
+  var img=new Image(); img.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data='+encodeURIComponent(text);
+  img.style.cssText='border-radius:8px;border:3px solid var(--bdr)'; img.alt='QR kod';
   box.appendChild(img);
+  box.innerHTML+='<div style="font-size:.72em;color:var(--muted);margin-top:4px">Zeskanuj aparatem na tablecie</div>';
 }
-
 function setDirty(v){
   S.dirty=v;
-  document.getElementById('dh').textContent=v
-    ?'⚠️ Niezapisane zmiany — kliknij "Generuj link" aby wysłać na tablet.'
-    :'✅ Link wygenerowany — wyślij na tablet.';
+  document.getElementById('dh').textContent=v?'⚠️ Niezapisane zmiany — kliknij "Generuj link".':'✅ Link wygenerowany — wyślij na tablet.';
 }
 function setR(id,html,t){var el=document.getElementById(id);if(!el)return;var c={g:'var(--green)',r:'var(--red)',w:'var(--yellow)',i:'var(--muted)'};el.innerHTML=html?'<span style="color:'+(c[t]||'inherit')+'">'+html+'</span>':'';}
 function setPill(id,txt,cls){var el=document.getElementById(id);if(!el)return;el.className='pill '+cls;el.textContent=txt;}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
 document.addEventListener('DOMContentLoaded',function(){
-  var savedUrl=localStorage.getItem('ceva_configjs_url')||'https://raw.githubusercontent.com/hdominik82/Test/main/config.js';
-  document.getElementById('iurl').value=savedUrl;
-  document.getElementById('iurl').oninput=function(){localStorage.setItem('ceva_configjs_url',this.value.trim());};
+  var url=localStorage.getItem('ceva_admin_url')||'https://raw.githubusercontent.com/hdominik82/Test/main/config.js';
+  document.getElementById('iurl').value=url;
+  document.getElementById('iurl').oninput=function(){localStorage.setItem('ceva_admin_url',this.value.trim());};
   window.addEventListener('beforeunload',function(e){if(S.dirty){e.preventDefault();e.returnValue='';}});
 });
 </script>
