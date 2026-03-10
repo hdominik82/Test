@@ -9,7 +9,7 @@
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:14px;line-height:1.5}
 .hdr{background:linear-gradient(120deg,var(--navy),var(--blue));color:#fff;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(2,29,73,.3)}
 .hl{font-weight:800;font-size:1em}.hs{font-size:.68em;opacity:.55;margin-top:1px}
-.hr{display:flex;gap:7px}
+.hr{display:flex;gap:7px;align-items:center}
 .pill{padding:3px 10px;border-radius:20px;font-size:.68em;font-weight:700}
 .pok{background:rgba(78,205,196,.25);color:#a7f3d0}.perr{background:rgba(220,38,38,.25);color:#fca5a5}.pwarn{background:rgba(217,119,6,.25);color:#fde68a}
 .lay{display:grid;grid-template-columns:190px 1fr;min-height:calc(100vh - 56px)}
@@ -25,15 +25,16 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 .ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
 .ct{font-size:.86em;font-weight:700;color:var(--navy)}
 label{font-size:.68em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px}
-input[type=text],input[type=password],input[type=number],textarea,select{width:100%;padding:7px 9px;border:1px solid var(--bdr);border-radius:7px;font-family:inherit;font-size:.84em;color:var(--txt);background:#fff;outline:none}
+input[type=text],input[type=password],input[type=number],input[type=email],textarea,select{width:100%;padding:7px 9px;border:1px solid var(--bdr);border-radius:7px;font-family:inherit;font-size:.84em;color:var(--txt);background:#fff;outline:none}
 input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,66,137,.08)}
 textarea{resize:vertical;min-height:50px}
-.fg{margin-bottom:10px}.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fg{margin-bottom:10px}.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .btn{padding:6px 13px;border-radius:8px;border:none;font-family:inherit;font-size:.81em;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .1s;white-space:nowrap}
 .bn{background:var(--navy);color:#fff}.bn:hover{background:var(--blue)}
 .bg{background:var(--green);color:#fff}.bg:hover{opacity:.88}
 .br{background:var(--red);color:#fff}.br:hover{opacity:.88}
 .bx{background:var(--bg);color:var(--muted);border:1px solid var(--bdr)}.bx:hover{background:var(--bdr)}
+.bt{background:#0d9488;color:#fff}.bt:hover{opacity:.88}
 .sm{padding:3px 8px;font-size:.74em}.btn:disabled{opacity:.35;cursor:not-allowed}
 .tbl{width:100%;border-collapse:collapse;font-size:.82em}
 .tbl th{background:var(--navy);color:#fff;padding:7px 10px;text-align:left;font-size:.69em;text-transform:uppercase;letter-spacing:.05em}
@@ -44,114 +45,101 @@ textarea{resize:vertical;min-height:50px}
 .li{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--bg);border-radius:7px;margin-bottom:4px}
 .lin{font-size:.7em;font-weight:700;color:var(--muted);min-width:18px;text-align:center}
 .li input{flex:1;border:1px solid var(--bdr);border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.83em}
+.li input:focus{border-color:var(--blue);outline:none}
 .qi{background:var(--bg);border-radius:8px;padding:10px;margin-bottom:6px;border-left:3px solid #cbd5e1}
 .qr{display:flex;gap:6px;align-items:flex-start;margin-bottom:6px}
 .qn{font-size:.7em;font-weight:700;color:var(--muted);min-width:18px;padding-top:8px;text-align:center}
 .ql{display:flex;align-items:center;gap:9px;padding-left:24px}
-.ql span{font-size:.67em;font-weight:700;color:var(--muted);text-transform:uppercase}
-.ql label{display:flex;align-items:center;gap:4px;font-size:.79em;cursor:pointer}
-.ql input[type=checkbox]{width:auto;cursor:pointer}
-.al{display:flex;gap:9px;padding:10px 14px;border-radius:8px;margin:9px 0;font-size:.84em;line-height:1.5}
-.ai{background:#eff6ff;border-left:3px solid var(--blue)}
-.aw{background:#fffbeb;border-left:3px solid var(--yellow);color:#78350f}
-.res{font-size:.81em;margin-top:6px;min-height:16px}
-.empty{text-align:center;padding:20px;color:var(--muted);font-size:.82em;background:var(--bg);border-radius:8px;border:1px dashed var(--bdr)}
-.log{background:#0d1117;color:#8b949e;font-family:monospace;font-size:.74em;border-radius:8px;padding:11px;height:150px;overflow-y:auto;line-height:1.7;white-space:pre-wrap}
-.lok{color:#3fb950}.lerr{color:#f85149}.linf{color:#58a6ff}
+.empty{color:var(--muted);font-size:.82em;padding:12px 0;text-align:center;font-style:italic}
+.res{margin-top:8px;font-size:.8em;min-height:20px}
+.al{padding:8px 12px;border-radius:7px;font-size:.8em;margin-bottom:10px}
+.ai{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+.aw{background:#fffbeb;color:#92400e;border:1px solid #fde68a}
+.ag{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
 .dbar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--bdr);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;z-index:150;box-shadow:0 -2px 10px rgba(0,0,0,.06)}
 .dh{font-size:.76em;color:var(--muted)}.dr{display:flex;align-items:center;gap:9px}
-.sbtn{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:9px 22px;border-radius:8px;border:none;font-family:inherit;font-size:.88em;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;box-shadow:0 3px 10px rgba(2,29,73,.22);transition:all .15s}
+.sbtn{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;padding:9px 22px;border-radius:8px;border:none;font-family:inherit;font-size:.88em;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;box-shadow:0 3px 10px rgba(22,163,74,.3);transition:all .15s}
 .sbtn:hover{transform:translateY(-1px)}.sbtn:disabled{opacity:.35;cursor:not-allowed;transform:none}
 .bdg{padding:2px 7px;border-radius:10px;font-size:.67em;font-weight:700;background:#f1f5f9;color:var(--muted)}
-@keyframes sp{to{transform:rotate(360deg)}}
-.spin{width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite}
-@media(max-width:580px){.lay{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap}.r2{grid-template-columns:1fr}}
+.pitem{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--bg);border-radius:7px;margin-bottom:4px}
+.pitem input[type=text]{flex:1}
+@media(max-width:580px){.lay{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap}.r2,.r3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="hdr">
-  <div><div class="hl">⚙️ Panel Admina CEVA</div><div class="hs">Zarządzanie konfiguracją tabletów</div></div>
+  <div><div class="hl">⚙️ Panel Admina CEVA</div><div class="hs">Edytuj → wyślij link na tablet → gotowe</div></div>
   <div class="hr">
-    <span id="pc" class="pill perr">● Nie połączono</span>
-    <span id="pl" class="pill pwarn">📍 Brak lokalizacji</span>
-    <button onclick="openTablet()" id="btab" style="padding:4px 11px;border-radius:7px;border:none;background:rgba(78,205,196,.25);color:#a7f3d0;font-family:inherit;font-size:.72em;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px" title="Otwórz widok tabletu dla aktualnej lokalizacji">📱 Podgląd tabletu</button>
+    <span id="pl" class="pill pwarn">📍 Brak danych</span>
+    <a href="https://spiffy-mochi-b15b80.netlify.app/mobile-index.html" target="_blank" style="padding:5px 12px;border-radius:7px;border:none;background:rgba(255,255,255,.15);color:#fff;font-family:inherit;font-size:.72em;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px">📱 Aplikacja</a>
+    <button onclick="generateLink()" style="padding:5px 12px;border-radius:7px;border:none;background:rgba(78,205,196,.25);color:#a7f3d0;font-family:inherit;font-size:.72em;font-weight:700;cursor:pointer">📤 Generuj link</button>
   </div>
 </div>
 <div class="lay">
 <nav class="side">
+  <div class="sl">Import</div>
+  <button class="sb on" onclick="nav('import')" data-s="import"><span>📂</span>Wczytaj dane</button>
   <div class="sl">Konfiguracja</div>
-  <button class="sb on" onclick="nav('conn')"  data-s="conn"> <span>🔌</span>Serwer</button>
-  <button class="sb"    onclick="nav('zones')" data-s="zones"><span>📍</span>Strefy</button>
-  <button class="sb"    onclick="nav('aud')"   data-s="aud">  <span>👤</span>Prowadzący GEMBA</button>
-  <button class="sb"    onclick="nav('a5s')"   data-s="a5s">  <span>🔍</span>Audytorzy 5S</button>
-  <button class="sb"    onclick="nav('part')"  data-s="part"> <span>👥</span>Uczestnicy</button>
-  <button class="sb"    onclick="nav('quest')" data-s="quest"><span>❓</span>Pytania GEMBA</button>
-  <div class="sl">Publikacja</div>
-  <button class="sb"    onclick="nav('send')"  data-s="send"> <span>🚀</span>Wyślij na tablet</button>
+  <button class="sb" onclick="nav('info')"   data-s="info">  <span>🏢</span>Oddział</button>
+  <button class="sb" onclick="nav('zones')"  data-s="zones"> <span>📍</span>Strefy</button>
+  <button class="sb" onclick="nav('aud')"    data-s="aud">   <span>👤</span>Prowadzący GEMBA</button>
+  <button class="sb" onclick="nav('a5s')"    data-s="a5s">   <span>🔍</span>Audytorzy 5S</button>
+  <button class="sb" onclick="nav('part')"   data-s="part">  <span>👥</span>Uczestnicy</button>
+  <button class="sb" onclick="nav('quest')"  data-s="quest"> <span>❓</span>Pytania GEMBA</button>
+  <div class="sl">Eksport</div>
+  <button class="sb" onclick="nav('export')" data-s="export"><span>📤</span>Wyślij na tablet</button>
 </nav>
 <main class="mn">
 
-<div id="s-conn" class="sec on">
-  <div class="pt">🔌 Połączenie z serwerem</div>
-  <div class="ps">Ustawienia zapisywane lokalnie w tej przeglądarce.</div>
-  <div class="al ai">ℹ️ Panel wysyła config bezpośrednio do Netlify. <strong>Dane nie przechodzą przez GitHub.</strong></div>
-  <div class="card">
-    <div class="ct" style="margin-bottom:11px">⚙️ Dane serwera</div>
-    <div class="fg"><label>URL aplikacji Netlify (bez / na końcu)</label>
-      <input type="text" id="iu" placeholder="https://twoja-nazwa.netlify.app"></div>
-    <div class="fg"><label>Hasło admina (zmienna ADMIN_PASSWORD w Netlify → Environment variables)</label>
-      <div style="display:flex;gap:7px">
-        <input type="password" id="ip" placeholder="hasło" style="flex:1" onkeydown="if(event.key==='Enter')saveConn()">
-        <button class="btn bx" onclick="togglePass()">👁</button>
-      </div>
-    </div>
-    <div class="fg"><label>URL strony tabletu (opcjonalnie — jeśli inny niż URL serwera)</label>
-      <input type="text" id="itab" placeholder="https://twoja-nazwa.netlify.app" oninput="localStorage.setItem('ceva_tablet_url',this.value.trim())">
-      <div style="font-size:.72em;color:var(--muted);margin-top:3px">Strona otwierana po kliknięciu 📱 Podgląd tabletu. Domyślnie: ten sam URL co serwer + /mobile-index.html</div>
-    </div>
-    <div style="display:flex;gap:7px">
-      <button class="btn bn" onclick="saveConn()">💾 Zapisz</button>
-      <button class="btn bx" onclick="testConn()" id="bt">🔌 Testuj połączenie</button>
-      <button class="btn bx" onclick="openTablet()" style="background:#0d9488;color:#fff;border:none">📱 Podgląd tabletu</button>
-    </div>
-    <div id="rc" class="res"></div>
+<!-- IMPORT -->
+<div id="s-import" class="sec on">
+  <div class="pt">📂 Wczytaj dane z config.js</div>
+  <div class="ps">Wgraj plik config.js lub wklej URL — dane trafią do edytora.</div>
+  <div class="card" style="border:2px solid var(--teal)">
+    <div class="ct" style="margin-bottom:10px;color:#0d9488">Opcja 1 — Wgraj plik config.js z dysku</div>
+    <input type="file" id="ffile" accept=".js" style="margin-bottom:10px">
+    <button class="btn bt" onclick="importFromFile()">📂 Wczytaj z pliku</button>
+    <div id="rfile" class="res"></div>
   </div>
   <div class="card">
-    <div class="ct" style="margin-bottom:11px">📍 Lokalizacja</div>
-    <div class="al aw">💡 Wybierz istniejącą lokalizację lub wpisz nową kod aby stworzyć od zera.</div>
-    <div class="r2" style="margin-top:10px">
-      <div class="fg"><label>Kod lokalizacji</label>
-        <input type="text" id="il" placeholder="ORA-PL-01" style="font-family:monospace;font-weight:700" oninput="this.value=this.value.toUpperCase()"></div>
-      <div class="fg"><label>Istniejące na serwerze</label>
-        <select id="sel" onchange="if(this.value)document.getElementById('il').value=this.value"><option value="">— kliknij Pobierz listę —</option></select></div>
-    </div>
-    <div style="display:flex;gap:7px;flex-wrap:wrap">
-      <button class="btn bx" onclick="fetchLocs()" id="bfl">📋 Pobierz listę</button>
-      <button class="btn bn" onclick="loadCfg()"   id="bld">⬇️ Wczytaj z serwera</button>
-      <button class="btn bg" onclick="initEmpty()">✨ Nowa lokalizacja</button>
-    </div>
-    <div id="rl" class="res"></div>
+    <div class="ct" style="margin-bottom:10px">Opcja 2 — Wczytaj z URL (np. raw GitHub)</div>
+    <div class="fg"><label>URL pliku config.js</label>
+      <input type="text" id="iurl" placeholder="https://raw.githubusercontent.com/hdominik82/Test/main/config.js"></div>
+    <div class="fg"><label>Kod lokalizacji do edycji</label>
+      <input type="text" id="iloc" placeholder="ORA-PL-01" style="font-family:monospace;font-weight:700" oninput="this.value=this.value.toUpperCase()"></div>
+    <button class="btn bn" onclick="importFromUrl()" id="biurl">📥 Wczytaj z URL</button>
+    <div id="rurl" class="res"></div>
   </div>
-  <div class="card" style="border:2px dashed #4ecdc4">
-    <div class="ct" style="margin-bottom:6px;color:#0d9488">📂 Import z config.js (plik w repo)</div>
-    <div style="font-size:.78em;color:var(--muted);margin-bottom:10px">Wczytaj dane bezpośrednio z pliku <strong>config.js</strong> dla wybranego kodu lokalizacji. Dane trafią do edytora — możesz je przejrzeć i wysłać na serwer.</div>
-    <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
-      <div>
-        <label style="font-size:.68em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px">URL config.js (w repo)</label>
-        <input type="text" id="icfgurl" placeholder="https://raw.githubusercontent.com/hdominik82/Test/main/config.js" style="width:340px;font-size:.78em">
-      </div>
-      <button class="btn bx" onclick="importFromConfigJs()" id="bimp" style="background:#0d9488;color:#fff;border:none;margin-top:14px">📂 Importuj z config.js</button>
-    </div>
-    <div id="ril" class="res"></div>
+  <div class="card">
+    <div class="ct" style="margin-bottom:10px">Opcja 3 — Nowy oddział od zera</div>
+    <div class="fg"><label>Kod lokalizacji</label>
+      <input type="text" id="inew" placeholder="KRA-PL-02" style="font-family:monospace;font-weight:700" oninput="this.value=this.value.toUpperCase()"></div>
+    <button class="btn bg" onclick="initNew()">✨ Utwórz nowy</button>
+    <div id="rnew" class="res"></div>
   </div>
 </div>
 
+<!-- INFO ODDZIAŁU -->
+<div id="s-info" class="sec">
+  <div class="pt">🏢 Informacje o oddziale</div><div class="ps">Podstawowe dane identyfikacyjne lokalizacji.</div>
+  <div class="card">
+    <div class="r2">
+      <div class="fg"><label>Kod oddziału</label><input type="text" id="icode" oninput="S.branch.code=this.value.toUpperCase();this.value=S.branch.code;setDirty(true)"></div>
+      <div class="fg"><label>Kraj</label><input type="text" id="icountry" placeholder="PL" oninput="S.branch.country=this.value;setDirty(true)"></div>
+    </div>
+    <div class="fg"><label>Nazwa skrócona</label><input type="text" id="iname" oninput="S.branch.name=this.value;setDirty(true)"></div>
+    <div class="fg"><label>Pełna nazwa</label><input type="text" id="ifullname" oninput="S.branch.fullName=this.value;setDirty(true)"></div>
+    <div class="fg"><label>Folder SharePoint</label><input type="text" id="ispfolder" oninput="S.branch.sharePointFolder=this.value;setDirty(true)"></div>
+  </div>
+</div>
+
+<!-- STREFY -->
 <div id="s-zones" class="sec">
   <div class="pt">📍 Strefy magazynowe</div><div class="ps">Strefy widoczne na tablecie przy wyborze obszaru audytu.</div>
   <div class="card">
     <div class="ch"><div class="ct">Strefy <span id="zc" class="bdg">0</span></div>
       <button class="btn bg sm" onclick="addZone()">+ Strefa</button></div>
-    <div id="ze" class="empty">Wczytaj config — zakładka Serwer</div>
+    <div id="ze" class="empty">Najpierw wczytaj dane — zakładka Import</div>
     <table class="tbl" id="zt" style="display:none">
       <thead><tr><th>#</th><th>Nazwa strefy</th><th>Odpowiedzialny</th><th>Cel %</th><th></th></tr></thead>
       <tbody id="zb"></tbody>
@@ -159,73 +147,104 @@ textarea{resize:vertical;min-height:50px}
   </div>
 </div>
 
+<!-- PROWADZĄCY -->
 <div id="s-aud" class="sec">
   <div class="pt">👤 Prowadzący GEMBA Walk</div><div class="ps">Lista osób do wyboru jako prowadzący audyt.</div>
   <div class="card"><div class="ch"><div class="ct">Prowadzący <span id="ac" class="bdg">0</span></div>
     <button class="btn bg sm" onclick="addItem('auditors','aal','ac')">+ Dodaj</button></div>
-    <div id="aal"><div class="empty">Wczytaj config — zakładka Serwer</div></div>
+    <div id="aal"><div class="empty">Najpierw wczytaj dane</div></div>
   </div>
 </div>
 
+<!-- AUDYTORZY 5S -->
 <div id="s-a5s" class="sec">
   <div class="pt">🔍 Audytorzy 5S</div><div class="ps">Lista audytorów 5S / BHP.</div>
   <div class="card"><div class="ch"><div class="ct">Audytorzy 5S <span id="a5c" class="bdg">0</span></div>
     <button class="btn bg sm" onclick="addItem('auditors5S','a5l','a5c')">+ Dodaj</button></div>
-    <div id="a5l"><div class="empty">Wczytaj config — zakładka Serwer</div></div>
+    <div id="a5l"><div class="empty">Najpierw wczytaj dane</div></div>
   </div>
 </div>
 
+<!-- UCZESTNICY -->
 <div id="s-part" class="sec">
   <div class="pt">👥 Uczestnicy GEMBA Walk</div><div class="ps">L1 = Brygadziści | L2 = Kierownicy | L3 = Zarząd</div>
-  <div class="card"><div class="ch"><div class="ct">Poziom 1 <span id="p1c" class="bdg">0</span></div>
+  <div class="card"><div class="ch"><div class="ct">Poziom 1 — Brygadziści <span id="p1c" class="bdg">0</span></div>
     <button class="btn bg sm" onclick="addPart(1)">+ L1</button></div>
-    <div id="p1l"><div class="empty">Wczytaj config</div></div></div>
-  <div class="card"><div class="ch"><div class="ct">Poziom 2 <span id="p2c" class="bdg">0</span></div>
+    <div id="p1l"><div class="empty">Najpierw wczytaj dane</div></div></div>
+  <div class="card"><div class="ch"><div class="ct">Poziom 2 — Kierownicy <span id="p2c" class="bdg">0</span></div>
     <button class="btn bg sm" onclick="addPart(2)">+ L2</button></div>
-    <div id="p2l"><div class="empty">Wczytaj config</div></div></div>
-  <div class="card"><div class="ch"><div class="ct">Poziom 3 <span id="p3c" class="bdg">0</span></div>
+    <div id="p2l"><div class="empty">Najpierw wczytaj dane</div></div></div>
+  <div class="card"><div class="ch"><div class="ct">Poziom 3 — Zarząd <span id="p3c" class="bdg">0</span></div>
     <button class="btn bg sm" onclick="addPart(3)">+ L3</button></div>
-    <div id="p3l"><div class="empty">Wczytaj config</div></div></div>
+    <div id="p3l"><div class="empty">Najpierw wczytaj dane</div></div></div>
 </div>
 
+<!-- PYTANIA -->
 <div id="s-quest" class="sec">
   <div class="pt">❓ Pytania GEMBA</div><div class="ps">Pytania według kategorii z przypisaniem do poziomów L1/L2/L3.</div>
-  <div id="qw"><div class="empty">Wczytaj config — zakładka Serwer</div></div>
+  <div id="qw"><div class="empty">Najpierw wczytaj dane</div></div>
 </div>
 
-<div id="s-send" class="sec">
-  <div class="pt">🚀 Wyślij config na tablet</div>
-  <div class="ps">Config zostanie zapisany na serwerze — tablet pobierze go przy następnym uruchomieniu.</div>
-  <div class="card"><div class="ct" style="margin-bottom:9px">📋 Podsumowanie</div>
-    <div id="ss" style="font-size:.83em;color:var(--muted)">Brak danych.</div></div>
+<!-- EKSPORT -->
+<div id="s-export" class="sec">
+  <div class="pt">📤 Wyślij config na tablet</div>
+  <div class="ps">Wygeneruj link — wyślij przez Teams lub email — tablet zapisuje config lokalnie.</div>
   <div class="card">
-    <div class="r2">
-      <div class="fg"><label>Lokalizacja docelowa</label>
-        <input type="text" id="isl" readonly style="font-family:monospace;font-weight:700;background:#f8fafc"></div>
-      <div class="fg"><label>Serwer Netlify</label>
-        <input type="text" id="isu" readonly style="background:#f8fafc;font-size:.78em;color:var(--muted)"></div>
-    </div>
-    <div class="al ai" style="margin-bottom:10px">📱 Tablet pobierze nowe ustawienia przy następnym otwarciu strony.</div>
-    <button class="btn bn" onclick="sendCfg()" id="bs" style="font-size:.9em;padding:10px 22px">📤 Wyślij config na tablet</button>
+    <div class="ct" style="margin-bottom:9px">📋 Podsumowanie danych</div>
+    <div id="ss" style="font-size:.83em;color:var(--muted)">Brak danych — najpierw wczytaj config.</div>
   </div>
-  <div class="card"><div class="ct" style="margin-bottom:8px">📟 Log</div>
-    <div class="log" id="slog">Oczekiwanie…<br></div></div>
+  <div class="card" style="border:2px solid #0d9488">
+    <div class="ct" style="margin-bottom:8px;color:#0d9488">📤 Generuj link do tabletu</div>
+    <div class="al ai" style="margin-bottom:12px">Kliknij przycisk → skopiuj link → wyślij na tablet przez <strong>Teams, email lub QR kod</strong>.<br>Tablet otworzy link, zapisze config lokalnie i będzie go używał bez internetu.</div>
+    <button class="btn bt" onclick="generateLink()" id="bgl" style="font-size:.9em;padding:10px 22px">📤 Generuj link do tabletu</button>
+    <div id="rgl" class="res" style="margin-top:10px"></div>
+    <div id="linkbox" style="display:none;margin-top:10px">
+      <label>Link do skopiowania i wysłania na tablet:</label>
+      <div style="display:flex;gap:6px;margin-top:4px">
+        <input type="text" id="linkout" readonly style="font-size:.75em;background:#f8fafc;font-family:monospace">
+        <button class="btn bn" onclick="copyLink()">📋 Kopiuj</button>
+      </div>
+      <div style="margin-top:10px;text-align:center">
+        <div id="qrbox"></div>
+        <div style="font-size:.75em;color:var(--muted);margin-top:4px">Zeskanuj QR kodem na tablecie</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct" style="margin-bottom:8px">⬇️ Alternatywnie — pobierz config.js na dysk</div>
+    <div style="font-size:.78em;color:var(--muted);margin-bottom:8px">Pobierz plik i wyślij go ręcznie na tablet przez Teams/email jako załącznik.</div>
+    <button class="btn bg" onclick="downloadConfig()" id="bdl">⬇️ Pobierz config.js</button>
+    <div id="rdl" class="res"></div>
+  </div>
+  <div class="card">
+    <div class="ct" style="margin-bottom:8px">📱 Linki do aplikacji</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+      <a href="https://spiffy-mochi-b15b80.netlify.app/mobile-index.html" target="_blank" class="btn bt" style="text-decoration:none">📱 Strona główna</a>
+      <a href="https://spiffy-mochi-b15b80.netlify.app/gemba-audit.html" target="_blank" class="btn bx" style="text-decoration:none">👁 GEMBA Walk</a>
+      <a href="https://spiffy-mochi-b15b80.netlify.app/5s-audit-simple.html" target="_blank" class="btn bx" style="text-decoration:none">📋 Audyt 5S</a>
+      <a href="https://spiffy-mochi-b15b80.netlify.app/process-audit.html" target="_blank" class="btn bx" style="text-decoration:none">⚙️ Audyt Procesu</a>
+    </div>
+  </div>
 </div>
 
 </main>
 </div>
 
 <div class="dbar">
-  <div class="dh" id="dh">Wczytaj config z serwera, edytuj i wyślij na tablet.</div>
+  <div class="dh" id="dh">Wczytaj dane → edytuj → wyślij link na tablet</div>
   <div class="dr">
     <span id="dloc" style="font-size:.77em;color:var(--muted)"></span>
-    <button class="btn bx" onclick="openTablet()" style="background:#0d9488;color:#fff;border:none;font-size:.82em">📱 Podgląd tabletu</button>
-    <button class="sbtn" onclick="nav('send');sendCfg()" id="bdb">📤 Wyślij na tablet</button>
+    <a href="https://spiffy-mochi-b15b80.netlify.app/mobile-index.html" target="_blank" class="btn bt" style="text-decoration:none;font-size:.82em">📱 Aplikacja</a>
+    <button class="sbtn" onclick="generateLink()" id="bdb" disabled>📤 Generuj link do tabletu</button>
   </div>
 </div>
 
 <script>
-var S={zones:[],auditors:[],auditors5S:[],participants:{level1:[],level2:[],level3:[]},questions:{},meta:{},url:'',pass:'',location:'',loaded:false,dirty:false};
+var S={branch:{code:'',name:'',fullName:'',country:'',sharePointFolder:''},
+  zones:[],auditors:[],auditors5S:[],
+  participants:{level1:[],level2:[],level3:[]},
+  questions:{},originalConfig:null,loaded:false,dirty:false};
+
 var QCATS=['Identyfikacja strat','Analiza przyczyn i rozwiązywanie problemów','Standaryzacja i optymalizacja','Produktywność i KPI','Audyt operacyjny na magazynie (5S, BHP)'];
 var QCLR={'Identyfikacja strat':'#3b82f6','Analiza przyczyn i rozwiązywanie problemów':'#10b981','Standaryzacja i optymalizacja':'#f59e0b','Produktywność i KPI':'#ef4444','Audyt operacyjny na magazynie (5S, BHP)':'#8b5cf6'};
 
@@ -234,214 +253,185 @@ function nav(id){
   document.querySelectorAll('.sb').forEach(function(b){b.classList.remove('on')});
   document.getElementById('s-'+id).classList.add('on');
   var b=document.querySelector('[data-s="'+id+'"]');if(b)b.classList.add('on');
-  if(id==='send')refSum();
+  if(id==='export')refSum();
 }
 
-async function importFromConfigJs(){
-  var loc=document.getElementById('il').value.trim().toUpperCase();
-  if(!loc)return setR('ril','Najpierw wpisz kod lokalizacji (np. ORA-PL-01).','r');
-  var cfgUrl=document.getElementById('icfgurl').value.trim();
-  if(!cfgUrl)return setR('ril','Wpisz URL do config.js.','r');
-  var btn=document.getElementById('bimp');btn.disabled=true;btn.textContent='⏳ Importowanie…';
-  setR('ril','Pobieranie config.js…','i');
-  try{
-    var r=await fetch(cfgUrl+'?t='+Date.now());
-    if(!r.ok)throw new Error('HTTP '+r.status+' — sprawdź URL do config.js');
-    var text=await r.text();
-
-    // Wyodrębnij obiekt CEVA_CONFIG z pliku JS
-    // Uruchom skrypt w sandboxie — usuń export i odczytaj zmienną
-    var clean=text
-      .replace(/if\s*\(typeof module[^}]+\}/gs,'')
-      .replace(/module\.exports\s*=.*/g,'');
-    var fn=new Function(clean+'\n return CEVA_CONFIG;');
-    var cfg=fn();
-
-    if(!cfg||!cfg.branches)throw new Error('Nie znaleziono CEVA_CONFIG.branches w pliku.');
-    var branch=cfg.branches[loc];
-    if(!branch)throw new Error('Brak lokalizacji "'+loc+'" w config.js. Dostępne: '+Object.keys(cfg.branches).join(', '));
-
-    // Mapuj strukturę branch → płaski format Panelu Admina
-    var mapped={
-      location:       loc,
-      zones:          branch.zones||[],
-      auditors:       branch.auditors||[],
-      auditors5S:     branch.auditors5S||[],
-      gembaParticipants: branch.gembaParticipants||{level1:[],level2:[],level3:[]},
-      gembaQuestions: branch.gembaQuestions||{},
-    };
-    QCATS.forEach(function(c){if(!mapped.gembaQuestions[c])mapped.gembaQuestions[c]=[];});
-
-    applyConfig(mapped,loc);
-    setR('ril','✅ Zaimportowano z config.js: '+branch.zones.length+' stref, '+branch.auditors.length+' prowadzących, '+(branch.auditors5S||[]).length+' audytorów 5S.','g');
-    setPill('pl','📍 '+loc+' (import)','pwarn');
-    nav('zones');
-  }catch(e){setR('ril','❌ '+e.message,'r');}
-  btn.disabled=false;btn.textContent='📂 Importuj z config.js';
-}
-function openTablet(){
-  var loc=S.location||localStorage.getItem('ceva_location');
-  var u=getUrl();
-  if(!u){alert('Najpierw skonfiguruj URL serwera w zakładce Serwer.');return;}
-  if(!loc){alert('Najpierw wczytaj lokalizację w zakładce Serwer.');return;}
-  var tabUrl=localStorage.getItem('ceva_tablet_url')||u;
-  var full=tabUrl.replace(/\/+$/,'')+'/mobile-index.html?location='+encodeURIComponent(loc)+'&refresh=1&t='+Date.now();
-  window.open(full,'_blank');
-}
-function saveConn(){
-  var u=document.getElementById('iu').value.trim().replace(/\/+$/,'');
-  var p=document.getElementById('ip').value;
-  if(!u||!p)return setR('rc','Wpisz URL i hasło.','r');
-  localStorage.setItem('ceva_url',u);localStorage.setItem('ceva_pass',p);
-  S.url=u;S.pass=p;setR('rc','✅ Zapisano. Kliknij "Testuj połączenie".','g');
+// ── IMPORT ──────────────────────────────────────────────
+function parseConfigJs(text, loc){
+  var clean=text.replace(/if\s*\(typeof module[^}]+\}/gs,'').replace(/module\.exports\s*=.*/g,'');
+  var fn=new Function(clean+'\n return CEVA_CONFIG;');
+  var cfg=fn();
+  if(!cfg||!cfg.branches)throw new Error('Nie znaleziono CEVA_CONFIG.branches');
+  S.originalConfig=cfg;
+  var code=loc||(cfg.defaultBranch)||Object.keys(cfg.branches)[0];
+  var branch=cfg.branches[code];
+  if(!branch)throw new Error('Brak lokalizacji "'+code+'". Dostępne: '+Object.keys(cfg.branches).join(', '));
+  applyBranch(branch, code);
 }
 
-async function testConn(){
-  var u=document.getElementById('iu').value.trim().replace(/\/+$/,'');
-  var p=document.getElementById('ip').value;
-  if(!u||!p)return setR('rc','Wpisz URL i hasło!','r');
-  S.url=u;S.pass=p;
-  var btn=document.getElementById('bt');btn.disabled=true;btn.textContent='⏳';
-  setR('rc','Łączenie…','i');
-  try{
-    var d=await apiGet(u+'/api/config');
-    setR('rc','✅ Połączono! Lokalizacji na serwerze: '+(d.locations||[]).length,'g');
-    setPill('pc','● Połączono','pok');fillSel(d.locations||[]);
-  }catch(e){setR('rc','❌ '+e.message,'r');setPill('pc','● Błąd','perr');}
-  btn.disabled=false;btn.textContent='🔌 Testuj połączenie';
-}
-
-async function fetchLocs(){
-  var u=getUrl();if(!u)return setR('rl','Skonfiguruj połączenie.','r');
-  var b=document.getElementById('bfl');b.disabled=true;b.textContent='⏳';
-  try{var d=await apiGet(u+'/api/config');fillSel(d.locations||[]);setR('rl','Lokalizacje: '+(d.locations||[]).join(', ')||'(brak)','g');}
-  catch(e){setR('rl','❌ '+e.message,'r');}
-  b.disabled=false;b.textContent='📋 Pobierz listę';
-}
-
-function fillSel(locs){
-  var s=document.getElementById('sel');
-  s.innerHTML='<option value="">— wybierz —</option>'+locs.map(function(l){return'<option>'+l+'</option>';}).join('');
-}
-
-async function loadCfg(){
-  var u=getUrl(),loc=document.getElementById('il').value.trim().toUpperCase();
-  if(!u)return setR('rl','Skonfiguruj połączenie.','r');
-  if(!loc)return setR('rl','Wpisz kod lokalizacji.','r');
-  var b=document.getElementById('bld');b.disabled=true;b.textContent='⏳ Pobieranie…';
-  try{
-    var cfg=await apiGet(u+'/api/config?location='+encodeURIComponent(loc));
-    applyConfig(cfg,loc);
-    var w=cfg._meta&&cfg._meta.savedAt?new Date(cfg._meta.savedAt).toLocaleString('pl-PL'):'?';
-    setR('rl','✅ Wczytano <strong>'+loc+'</strong> v'+(cfg._meta&&cfg._meta.version||'?')+' — '+w,'g');
-    setPill('pl','📍 '+loc,'pok');
-  }catch(e){setR('rl','❌ '+e.message,'r');}
-  b.disabled=false;b.textContent='⬇️ Wczytaj config tej lokalizacji';
-}
-
-function initEmpty(){
-  var loc=document.getElementById('il').value.trim().toUpperCase();
-  if(!loc)return setR('rl','Wpisz kod nowej lokalizacji.','r');
-  var e={zones:[],auditors:[],auditors5S:[],gembaParticipants:{level1:[],level2:[],level3:[]},gembaQuestions:{}};
-  QCATS.forEach(function(c){e.gembaQuestions[c]=[];});
-  applyConfig(e,loc);
-  setR('rl','✅ Nowa lokalizacja <strong>'+loc+'</strong> gotowa do edycji.','g');
-  setPill('pl','📍 '+loc+' (nowa)','pwarn');nav('zones');
-}
-
-function applyConfig(cfg,loc){
-  S.zones=cfg.zones||[];S.auditors=cfg.auditors||[];S.auditors5S=cfg.auditors5S||[];
-  S.participants=cfg.gembaParticipants||{level1:[],level2:[],level3:[]};
-  S.questions=cfg.gembaQuestions||{};
+function applyBranch(branch, code){
+  S.branch={
+    code:            branch.code||code,
+    name:            branch.name||'',
+    fullName:        branch.fullName||'',
+    country:         branch.country||'',
+    sharePointFolder:branch.sharePointFolder||''
+  };
+  S.zones=       JSON.parse(JSON.stringify(branch.zones||[]));
+  S.auditors=    JSON.parse(JSON.stringify(branch.auditors||[]));
+  S.auditors5S=  JSON.parse(JSON.stringify(branch.auditors5S||[]));
+  S.participants=JSON.parse(JSON.stringify(branch.gembaParticipants||{level1:[],level2:[],level3:[]}));
+  S.questions=   JSON.parse(JSON.stringify(branch.gembaQuestions||{}));
   QCATS.forEach(function(c){if(!S.questions[c])S.questions[c]=[];});
-  S.meta=cfg._meta||{};S.location=loc||S.location;S.loaded=true;S.dirty=false;
+  S.loaded=true;
   renderAll();
-  document.getElementById('isl').value=S.location;
-  document.getElementById('isu').value=getUrl();
-  document.getElementById('dloc').textContent='📍 '+S.location;
+  setPill('pl','📍 '+S.branch.code,'pok');
+  document.getElementById('dloc').textContent='📍 '+S.branch.code;
+  document.getElementById('bdb').disabled=false;
+  var bgl=document.getElementById('bgl');if(bgl)bgl.disabled=false;
   setDirty(false);
+  nav('info');
 }
 
-function renderAll(){rZones();rList('auditors','aal','ac');rList('auditors5S','a5l','a5c');rParts();rQs();}
+function importFromFile(){
+  var f=document.getElementById('ffile').files[0];
+  if(!f)return setR('rfile','Wybierz plik config.js.','r');
+  var loc=prompt('Kod lokalizacji do edycji (np. ORA-PL-01):','ORA-PL-01');
+  if(!loc)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{parseConfigJs(e.target.result,loc.toUpperCase());setR('rfile','✅ Wczytano lokalizację: '+S.branch.code,'g');}
+    catch(err){setR('rfile','❌ '+err.message,'r');}
+  };
+  reader.readAsText(f);
+}
+
+async function importFromUrl(){
+  var url=document.getElementById('iurl').value.trim();
+  var loc=document.getElementById('iloc').value.trim().toUpperCase();
+  if(!url)return setR('rurl','Wpisz URL do config.js.','r');
+  if(!loc)return setR('rurl','Wpisz kod lokalizacji.','r');
+  var btn=document.getElementById('biurl');btn.disabled=true;btn.textContent='⏳…';
+  setR('rurl','Pobieranie…','i');
+  try{
+    var r=await fetch(url+'?t='+Date.now());
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    var text=await r.text();
+    parseConfigJs(text,loc);
+    setR('rurl','✅ Wczytano: '+S.branch.code+' — '+S.zones.length+' stref, '+S.auditors.length+' prowadzących','g');
+  }catch(e){setR('rurl','❌ '+e.message,'r');}
+  btn.disabled=false;btn.textContent='📥 Wczytaj z URL';
+}
+
+function initNew(){
+  var loc=document.getElementById('inew').value.trim().toUpperCase();
+  if(!loc)return setR('rnew','Wpisz kod lokalizacji.','r');
+  var empty={code:loc,name:'',fullName:'',country:'PL',sharePointFolder:loc,
+    zones:[],auditors:[],auditors5S:[],
+    gembaParticipants:{level1:[],level2:[],level3:[]},gembaQuestions:{}};
+  S.originalConfig=null;
+  applyBranch(empty,loc);
+  setR('rnew','✅ Nowa lokalizacja '+loc+' gotowa do edycji.','g');
+}
+
+// ── RENDER ──────────────────────────────────────────────
+function renderAll(){
+  // Info
+  document.getElementById('icode').value=S.branch.code||'';
+  document.getElementById('icountry').value=S.branch.country||'';
+  document.getElementById('iname').value=S.branch.name||'';
+  document.getElementById('ifullname').value=S.branch.fullName||'';
+  document.getElementById('ispfolder').value=S.branch.sharePointFolder||'';
+  rZones();
+  rList('auditors','aal','ac');
+  rList('auditors5S','a5l','a5c');
+  rParts();
+  rQs();
+}
 
 function rZones(){
   var z=S.zones;document.getElementById('zc').textContent=z.length;
   var em=document.getElementById('ze'),tbl=document.getElementById('zt');
-  if(!z.length){em.style.display='block';tbl.style.display='none';em.textContent='Brak stref. Kliknij "+ Strefa".';return;}
+  if(!z.length){em.style.display='block';tbl.style.display='none';em.textContent='Brak stref.';return;}
   em.style.display='none';tbl.style.display='table';
   document.getElementById('zb').innerHTML=z.map(function(r,i){
     return '<tr><td style="color:var(--muted);text-align:center;width:26px">'+(i+1)+'</td>'
       +'<td><input value="'+esc(r.name)+'" oninput="S.zones['+i+'].name=this.value;setDirty(true)"></td>'
-      +'<td><input value="'+esc(r.responsible||'')+'" oninput="S.zones['+i+'].responsible=this.value;setDirty(true)"></td>'
-      +'<td><input type="number" value="'+(r.target||90)+'" min="0" max="100" oninput="S.zones['+i+'].target=+this.value;setDirty(true)" style="width:56px;text-align:center"></td>'
-      +'<td style="text-align:center"><button class="btn br sm" onclick="rmZ('+i+')">🗑</button></td></tr>';
+      +'<td><input value="'+esc(r.responsible)+'" oninput="S.zones['+i+'].responsible=this.value;setDirty(true)"></td>'
+      +'<td><input type="number" value="'+(r.target||90)+'" min="0" max="100" style="width:60px" oninput="S.zones['+i+'].target=+this.value;setDirty(true)"></td>'
+      +'<td><button class="btn br sm" onclick="S.zones.splice('+i+',1);rZones();setDirty(true)">🗑</button></td></tr>';
   }).join('');
 }
-function addZone(){
-  if(!S.loaded)return alert('Najpierw wczytaj config!');
-  S.zones.push({id:Date.now(),name:'',responsible:'',target:90});rZones();setDirty(true);
-  setTimeout(function(){var r=document.querySelectorAll('#zb tr');if(r.length){var inp=r[r.length-1].querySelector('input');if(inp)inp.focus();}},50);
-}
-function rmZ(i){if(!confirm('Usunąć "'+S.zones[i].name+'"?'))return;S.zones.splice(i,1);rZones();setDirty(true);}
 
-function rList(key,lid,cid){
-  var list=S[key]||[];document.getElementById(cid).textContent=list.length;
-  var el=document.getElementById(lid);
-  if(!list.length){el.innerHTML='<div class="empty">Brak wpisów. Kliknij "+ Dodaj".</div>';return;}
-  el.innerHTML=list.map(function(a,i){
+function addZone(){
+  if(!S.loaded)return alert('Najpierw wczytaj dane!');
+  S.zones.push({id:Date.now(),name:'',responsible:'',target:90});
+  rZones();setDirty(true);
+  setTimeout(function(){var rows=document.querySelectorAll('#zb tr');if(rows.length)rows[rows.length-1].querySelector('input').focus();},50);
+}
+
+function rList(key,listId,cntId){
+  var arr=S[key];document.getElementById(cntId).textContent=arr.length;
+  var el=document.getElementById(listId);
+  if(!arr.length){el.innerHTML='<div class="empty">Brak wpisów.</div>';return;}
+  el.innerHTML=arr.map(function(v,i){
     return '<div class="li"><span class="lin">'+(i+1)+'</span>'
-      +'<input value="'+esc(a)+'" oninput="S[\''+key+'\']['+i+']=this.value;setDirty(true)">'
-      +'<button class="btn br sm" onclick="rmI(\''+key+'\','+i+',\''+lid+'\',\''+cid+'\')">🗑</button></div>';
+      +'<input value="'+esc(v)+'" oninput="S[\''+key+'\']['+i+']=this.value;setDirty(true)">'
+      +'<button class="btn br sm" onclick="S[\''+key+'\'].splice('+i+',1);rList(\''+key+'\',\''+listId+'\',\''+cntId+'\');setDirty(true)">🗑</button></div>';
   }).join('');
 }
-function addItem(key,lid,cid){
-  if(!S.loaded)return alert('Najpierw wczytaj config!');
-  S[key].push('');rList(key,lid,cid);setDirty(true);
-  setTimeout(function(){var ii=document.querySelectorAll('#'+lid+' input');if(ii.length)ii[ii.length-1].focus();},50);
+
+function addItem(key,listId,cntId){
+  if(!S.loaded)return alert('Najpierw wczytaj dane!');
+  S[key].push('');rList(key,listId,cntId);setDirty(true);
+  setTimeout(function(){var ins=document.querySelectorAll('#'+listId+' input');if(ins.length)ins[ins.length-1].focus();},50);
 }
-function rmI(key,i,lid,cid){if(!confirm('Usunąć "'+S[key][i]+'"?'))return;S[key].splice(i,1);rList(key,lid,cid);setDirty(true);}
 
 function rParts(){
-  [1,2,3].forEach(function(lvl){
-    var list=S.participants['level'+lvl]||[];
-    document.getElementById('p'+lvl+'c').textContent=list.length;
-    var el=document.getElementById('p'+lvl+'l');
-    if(!list.length){el.innerHTML='<div class="empty">Brak uczestników.</div>';return;}
-    el.innerHTML=list.map(function(p,i){
-      return '<div class="li"><span class="lin">'+(i+1)+'</span>'
-        +'<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px">'
-        +'<input value="'+esc(p.name||'')+'" placeholder="Imię Nazwisko" '
-        +'style="border:1px solid var(--bdr);border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.83em" '
-        +'oninput="S.participants.level'+lvl+'['+i+'].name=this.value;setDirty(true)">'
-        +'<input value="'+esc(p.email||'')+'" placeholder="email@ceva.com" '
-        +'style="border:1px solid var(--bdr);border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.83em" '
-        +'oninput="S.participants.level'+lvl+'['+i+'].email=this.value;setDirty(true)">'
-        +'</div><button class="btn br sm" onclick="rmP('+lvl+','+i+')">🗑</button></div>';
+  [1,2,3].forEach(function(lv){
+    var arr=S.participants['level'+lv]||[];
+    document.getElementById('p'+lv+'c').textContent=arr.length;
+    var el=document.getElementById('p'+lv+'l');
+    if(!arr.length){el.innerHTML='<div class="empty">Brak uczestników L'+lv+'.</div>';return;}
+    el.innerHTML=arr.map(function(p,i){
+      var nm=typeof p==='string'?p:(p.name||'');
+      var em=typeof p==='object'?(p.email||''):'';
+      return '<div class="pitem">'
+        +'<span class="lin">'+(i+1)+'</span>'
+        +'<input type="text" placeholder="Imię i nazwisko" value="'+esc(nm)+'" oninput="setPart('+lv+','+i+',\'name\',this.value)">'
+        +'<input type="email" placeholder="email@firma.com" value="'+esc(em)+'" style="flex:.8" oninput="setPart('+lv+','+i+',\'email\',this.value)">'
+        +'<button class="btn br sm" onclick="S.participants.level'+lv+'.splice('+i+',1);rParts();setDirty(true)">🗑</button></div>';
     }).join('');
   });
 }
-function addPart(lvl){
-  if(!S.loaded)return alert('Najpierw wczytaj config!');
-  S.participants['level'+lvl].push({name:'',email:''});rParts();setDirty(true);
-  setTimeout(function(){var ii=document.querySelectorAll('#p'+lvl+'l input');if(ii.length>=2)ii[ii.length-2].focus();},50);
+
+function setPart(lv,i,field,val){
+  var arr=S.participants['level'+lv];
+  if(typeof arr[i]==='string')arr[i]={name:arr[i],email:''};
+  arr[i][field]=val;setDirty(true);
 }
-function rmP(lvl,i){var p=S.participants['level'+lvl][i];if(!confirm('Usunąć "'+(p&&p.name||'uczestnika')+'"?'))return;S.participants['level'+lvl].splice(i,1);rParts();setDirty(true);}
+
+function addPart(lv){
+  if(!S.loaded)return alert('Najpierw wczytaj dane!');
+  S.participants['level'+lv].push({name:'',email:''});rParts();setDirty(true);
+  setTimeout(function(){var el=document.getElementById('p'+lv+'l');var ins=el.querySelectorAll('input');if(ins.length)ins[ins.length-2].focus();},50);
+}
 
 function rQs(){
-  var w=document.getElementById('qw'),cats=Object.keys(S.questions);
-  if(!cats.length){w.innerHTML='<div class="empty">Wczytaj config.</div>';return;}
-  w.innerHTML=cats.map(function(cat){
-    var qs=S.questions[cat]||[],clr=QCLR[cat]||'#6b7280',sid='q_'+slugify(cat);
-    return '<div class="card" style="border-left:4px solid '+clr+';margin-bottom:10px">'
-      +'<div class="ch"><div style="display:flex;align-items:center;gap:7px">'
-      +'<span style="font-weight:700;font-size:.88em;color:'+clr+'">'+esc(cat)+'</span>'
-      +'<span class="bdg">'+qs.length+'</span></div>'
-      +'<button class="btn bg sm" onclick="addQ(\''+cat.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')" >+ Pytanie</button></div>'
-      +'<div id="'+sid+'">'
+  var el=document.getElementById('qw');
+  if(!S.loaded){el.innerHTML='<div class="empty">Najpierw wczytaj dane</div>';return;}
+  el.innerHTML=QCATS.map(function(cat){
+    var qs=S.questions[cat]||[];var clr=QCLR[cat]||'#ccc';
+    return '<div class="card" style="border-left:4px solid '+clr+'">'
+      +'<div class="ch"><div class="ct" style="color:'+clr+'">'+cat+' <span class="bdg">'+qs.length+'</span></div>'
+      +'<button class="btn bg sm" onclick="addQ(\''+escJ(cat)+'\')">+ Pytanie</button></div>'
       +(qs.length?qs.map(function(q,i){return qRow(cat,i,q,clr);}).join(''):'<div class="empty">Brak pytań.</div>')
-      +'</div></div>';
+      +'</div>';
   }).join('');
 }
+
+function escJ(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+
 function qRow(cat,i,q,clr){
   var cj=JSON.stringify(cat);
   return '<div class="qi" style="border-left-color:'+(clr||'#ccc')+'">'
@@ -452,20 +442,18 @@ function qRow(cat,i,q,clr){
     +'<button class="btn br sm" style="flex-shrink:0;margin-top:1px" onclick="rmQ('+cj+','+i+')">🗑</button></div>'
     +'<div class="ql"><span>Poziomy:</span>'
     +[1,2,3].map(function(lvl){
-      return '<label><input type="checkbox" '+((q.levels&&q.levels.indexOf(lvl)>=0)?'checked':'')+' '
+      return '<label style="display:flex;align-items:center;gap:3px;cursor:pointer"><input type="checkbox" '
+        +((q.levels&&q.levels.indexOf(lvl)>=0)?'checked':'')+' '
         +'onchange="tglLvl('+cj+','+i+','+lvl+',this.checked)"> L'+lvl+'</label>';
     }).join('')
     +'</div></div>';
 }
+
 function addQ(cat){
-  if(!S.loaded)return alert('Najpierw wczytaj config!');
+  if(!S.loaded)return alert('Najpierw wczytaj dane!');
   if(!S.questions[cat])S.questions[cat]=[];
   S.questions[cat].push({question:'',levels:[1,2,3]});
   rQs();setDirty(true);
-  setTimeout(function(){
-    var sid='q_'+slugify(cat),items=document.querySelectorAll('#'+sid+' .qi'),last=items[items.length-1];
-    if(last){last.scrollIntoView({behavior:'smooth',block:'center'});var ta=last.querySelector('textarea');if(ta)ta.focus();}
-  },60);
 }
 function rmQ(cat,i){if(!confirm('Usunąć pytanie?'))return;S.questions[cat].splice(i,1);rQs();setDirty(true);}
 function tglLvl(cat,i,lvl,checked){
@@ -479,74 +467,212 @@ function refSum(){
   if(!S.loaded){document.getElementById('ss').textContent='Brak danych.';return;}
   var tq=Object.values(S.questions).reduce(function(s,q){return s+q.length;},0);
   document.getElementById('ss').innerHTML=[
-    ['📍 Lokalizacja',S.location||'?'],
+    ['🏢 Oddział',S.branch.fullName||S.branch.name||S.branch.code],
+    ['📍 Kod',S.branch.code],
     ['📍 Strefy',S.zones.length],
     ['👤 Prowadzący GEMBA',S.auditors.length],
     ['🔍 Audytorzy 5S',S.auditors5S.length],
-    ['👥 Uczestnicy L1/L2/L3',(S.participants.level1||[]).length+'/'+(S.participants.level2||[]).length+'/'+(S.participants.level3||[]).length],
+    ['👥 L1/L2/L3',(S.participants.level1||[]).length+'/'+(S.participants.level2||[]).length+'/'+(S.participants.level3||[]).length],
     ['❓ Pytania łącznie',tq],
   ].map(function(r){
     return '<div style="display:flex;gap:14px;padding:4px 0;border-bottom:1px solid var(--bdr)">'
-      +'<span style="color:var(--muted);min-width:170px;font-size:.82em">'+r[0]+'</span>'
+      +'<span style="color:var(--muted);min-width:160px;font-size:.82em">'+r[0]+'</span>'
       +'<strong style="font-size:.85em">'+r[1]+'</strong></div>';
   }).join('');
 }
 
-async function sendCfg(){
-  var u=getUrl(),p=getPass(),loc=S.location;
-  var log=document.getElementById('slog'),btn=document.getElementById('bs'),dBtn=document.getElementById('bdb');
-  if(!u||!p)return logE(log,'❌ Brak połączenia. Wróć do zakładki "Serwer".');
-  if(!S.loaded||!loc)return logE(log,'❌ Brak wczytanego configa. Wróć do zakładki "Serwer".');
-  btn.disabled=true;dBtn.disabled=true;
-  btn.innerHTML='<div class="spin"></div> Wysyłanie…';
-  log.innerHTML='';
+// ── GENEROWANIE config.js ────────────────────────────────
+function generateConfigJs(){
+  if(!S.loaded)throw new Error('Brak danych do eksportu');
+
+  var orig=S.originalConfig;
+  var code=S.branch.code;
+
+  // Zbuduj zaktualizowany branch
+  var updatedBranch={
+    code:             S.branch.code,
+    name:             S.branch.name,
+    country:          S.branch.country,
+    fullName:         S.branch.fullName,
+    sharePointFolder: S.branch.sharePointFolder,
+    zones:            S.zones,
+    auditors:         S.auditors,
+    auditors5S:       S.auditors5S,
+    instructions:     (orig&&orig.branches&&orig.branches[code]&&orig.branches[code].instructions)||[],
+    gembaParticipants:S.participants,
+    gembaQuestions:   S.questions,
+    problemCategories:(orig&&orig.branches&&orig.branches[code]&&orig.branches[code].problemCategories)||['5S','Bezpieczeństwo','Jakość','Produktywność','Inne']
+  };
+
+  // Zbuduj cały obiekt branches (zachowaj inne lokalizacje jeśli były)
+  var allBranches={};
+  if(orig&&orig.branches){
+    Object.keys(orig.branches).forEach(function(k){allBranches[k]=orig.branches[k];});
+  }
+  allBranches[code]=updatedBranch;
+
+  var sharePointSite=(orig&&orig.sharePointSite)||'https://cevalogisticsoffice365.sharepoint.com/sites/AuditTool';
+  var sharePointDocuments=(orig&&orig.sharePointDocuments)||'Shared%20Documents';
+  var defaultBranch=(orig&&orig.defaultBranch)||code;
+
+  var now=new Date().toISOString().split('T')[0];
+  var js='// KONFIGURACJA SYSTEMU AUDYTÓW CEVA\n'
+    +'// Wygenerowano przez Panel Admina: '+now+'\n\n'
+    +'const CEVA_CONFIG = {\n'
+    +'    sharePointSite: '+JSON.stringify(sharePointSite)+',\n'
+    +'    sharePointDocuments: '+JSON.stringify(sharePointDocuments)+',\n\n'
+    +'    getSharePointFolderUrl: function(branchCode, folderType) {\n'
+    +'        const branch = this.branches[branchCode];\n'
+    +'        if (!branch) return this.sharePointSite;\n'
+    +'        const folderName = this.folders[folderType];\n'
+    +'        return `${this.sharePointSite}/${this.sharePointDocuments}/Forms/AllItems.aspx?id=%2Fsites%2FAuditTool%2F${this.sharePointDocuments}%2F${branch.sharePointFolder}%2F${folderName}`;\n'
+    +'    },\n\n'
+    +'    folders: { fiveS: "5S", gemba: "Gemba", process: "Process", problems: "Problems" },\n\n'
+    +'    branches: '+JSON.stringify(allBranches,null,8)+',\n\n'
+    +'    defaultBranch: '+JSON.stringify(defaultBranch)+',\n\n'
+    +'    getBranch: function(code) { return this.branches[code] || this.branches[this.defaultBranch]; },\n\n'
+    +'    getCurrentBranch: function() {\n'
+    +'        const saved = localStorage.getItem("ceva_selected_branch");\n'
+    +'        return this.branches[saved] || this.branches[this.defaultBranch];\n'
+    +'    },\n\n'
+    +'    setBranch: function(code) {\n'
+    +'        if (this.branches[code]) { localStorage.setItem("ceva_selected_branch", code); return true; }\n'
+    +'        return false;\n'
+    +'    },\n\n'
+    +'    generateFileName: function(type, zone, date) {\n'
+    +'        const branch = this.getCurrentBranch();\n'
+    +'        const dateStr = date || new Date().toISOString().split("T")[0];\n'
+    +'        const zoneStr = zone.replace(/\\s+/g, "");\n'
+    +'        return `${type}_${branch.code}_${zoneStr}_${dateStr}.json`;\n'
+    +'    },\n\n'
+    +'    getGembaQuestions: function(level, category) {\n'
+    +'        const branch = this.getCurrentBranch();\n'
+    +'        const questions = branch.gembaQuestions[category];\n'
+    +'        if (!questions) return [];\n'
+    +'        return questions.filter(q => q.levels.includes(level));\n'
+    +'    },\n\n'
+    +'    getGembaParticipants: function(level) {\n'
+    +'        const branch = this.getCurrentBranch();\n'
+    +'        if (level === 1) return [...branch.gembaParticipants.level1];\n'
+    +'        if (level === 2) return [...branch.gembaParticipants.level1, ...branch.gembaParticipants.level2];\n'
+    +'        if (level === 3) return [...branch.gembaParticipants.level1, ...branch.gembaParticipants.level2, ...branch.gembaParticipants.level3];\n'
+    +'        return [];\n'
+    +'    },\n\n'
+    +'    getGembaCategories: function() { return Object.keys(this.getCurrentBranch().gembaQuestions); },\n\n'
+    +'    getDepartments: function() { const b=this.getCurrentBranch(); return [...new Set((b.instructions||[]).map(i=>i.department))].sort(); },\n\n'
+    +'    getProcessesByDepartment: function(department) { const b=this.getCurrentBranch(); return [...new Set((b.instructions||[]).filter(i=>i.department===department&&i.assigned).map(i=>i.process))].sort(); },\n\n'
+    +'    getInstructionsByDepartmentAndProcess: function(department, process) {\n'
+    +'        const b=this.getCurrentBranch();\n'
+    +'        const seen=new Set(); const result=[];\n'
+    +'        (b.instructions||[]).filter(i=>i.department===department&&i.process===process&&i.assigned).forEach(i=>{ if(!seen.has(i.code)){seen.add(i.code);result.push({code:i.code,name:i.name,fullName:`${i.code} - ${i.name}`});} });\n'
+    +'        return result;\n'
+    +'    },\n\n'
+    +'    getAllInstructions: function() {\n'
+    +'        const b=this.getCurrentBranch(); const seen=new Set(); const result=[];\n'
+    +'        (b.instructions||[]).filter(i=>i.assigned).forEach(i=>{ if(!seen.has(i.code)){seen.add(i.code);result.push({code:i.code,name:i.name,fullName:`${i.code} - ${i.name}`});} });\n'
+    +'        return result.sort((a,b)=>a.code.localeCompare(b.code));\n'
+    +'    },\n\n'
+    +'    getInstructionDetails: function(code) { return (this.getCurrentBranch().instructions||[]).filter(i=>i.code===code&&i.assigned); }\n'
+    +'};\n\n'
+    +'if (typeof module !== "undefined" && module.exports) { module.exports = CEVA_CONFIG; }\n';
+
+  return js;
+}
+
+function downloadConfig(){
+  if(!S.loaded)return alert('Najpierw wczytaj dane!');
   try{
-    logI(log,'🔄 Przygotowanie danych…');
-    var payload={location:loc,password:p,config:{
-      location:loc,zones:S.zones,auditors:S.auditors,auditors5S:S.auditors5S,
-      gembaParticipants:S.participants,gembaQuestions:S.questions,_meta:S.meta
-    }};
-    logI(log,'📤 Wysyłanie do '+u+'/api/config…');
-    var r=await apiPost(u+'/api/config',payload);
-    S.dirty=false;
-    logO(log,'✅ Sukces! Lokalizacja: '+r.location);
-    logO(log,'   Wersja: '+r.version+' | '+new Date(r.savedAt).toLocaleString('pl-PL'));
-    logI(log,'📱 Tablet pobierze ustawienia przy następnym otwarciu strony.');
-    logO(log,'🎉 Gotowe!');
+    var js=generateConfigJs();
+    var blob=new Blob([js],{type:'text/javascript'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download='config.js';
+    document.body.appendChild(a);a.click();
+    document.body.removeChild(a);URL.revokeObjectURL(url);
+    setR('rdl','✅ Pobrano config.js — wyślij plik na tablet.','g');
     setDirty(false);
-    document.getElementById('dh').textContent='✅ Wysłano '+loc+' o '+new Date().toLocaleTimeString('pl-PL');
-  }catch(e){logE(log,'❌ '+e.message);}
-  finally{
-    btn.disabled=false;dBtn.disabled=false;
-    btn.innerHTML='📤 Wyślij config na tablet';
-    dBtn.innerHTML='📤 Wyślij na tablet';
+  }catch(e){setR('rdl','❌ '+e.message,'r');}
+}
+
+function generateLink(){
+  if(!S.loaded)return alert('Najpierw wczytaj dane!');
+  try{
+    // Buduj payload — tylko dane potrzebne tabletowi
+    var payload={
+      location: S.branch.code,
+      zones:    S.zones,
+      auditors: S.auditors,
+      auditors5S: S.auditors5S,
+      gembaParticipants: S.participants,
+      gembaQuestions:    S.questions,
+      _meta:{ savedAt: new Date().toISOString(), version: ((S.meta&&S.meta.version)||0)+1 }
+    };
+    var json=JSON.stringify(payload);
+    var b64=btoa(unescape(encodeURIComponent(json)));
+    var base='https://spiffy-mochi-b15b80.netlify.app/load-config.html#';
+    var link=base+b64;
+
+    if(link.length > 30000){
+      setR('rgl','⚠️ Dane są zbyt duże dla linku ('+Math.round(link.length/1024)+'KB). Użyj przycisku "Pobierz config.js" i wyślij plik przez Teams.','w');
+      return;
+    }
+
+    document.getElementById('linkout').value=link;
+    document.getElementById('linkbox').style.display='block';
+    setR('rgl','✅ Link gotowy — skopiuj i wyślij na tablet przez Teams lub email.','g');
+
+    // Generuj QR kod
+    generateQR(link);
+    setDirty(false);
+  }catch(e){setR('rgl','❌ '+e.message,'r');}
+}
+
+function copyLink(){
+  var inp=document.getElementById('linkout');
+  inp.select();
+  try{
+    document.execCommand('copy');
+    var btn=event.target;
+    btn.textContent='✅ Skopiowano!';
+    setTimeout(function(){btn.textContent='📋 Kopiuj';},2000);
+  }catch(e){
+    navigator.clipboard.writeText(inp.value).then(function(){
+      var btn=event.target;btn.textContent='✅ Skopiowano!';
+      setTimeout(function(){btn.textContent='📋 Kopiuj';},2000);
+    });
   }
 }
 
-async function apiGet(url){var r=await fetch(url,{cache:'no-store'});var d=await r.json().catch(function(){return{error:'Błąd parsowania'};});if(!r.ok)throw new Error(d.error||'HTTP '+r.status);return d;}
-async function apiPost(url,body){var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});var d=await r.json().catch(function(){return{error:'Błąd parsowania'};});if(!r.ok)throw new Error(d.error||'HTTP '+r.status);return d;}
+function generateQR(text){
+  var box=document.getElementById('qrbox');
+  box.innerHTML='';
+  // Użyj zewnętrznego serwisu QR
+  var img=document.createElement('img');
+  img.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(text.substring(0,2000));
+  img.style.cssText='width:160px;height:160px;border-radius:8px;border:3px solid var(--bdr)';
+  img.title='QR kod do skanowania';
+  // Jeśli link za długi na QR — pokaż info
+  if(text.length > 2000){
+    box.innerHTML='<div style="font-size:.75em;color:var(--muted);padding:8px;background:var(--bg);border-radius:6px">Link jest za długi na QR kod — wyślij przez Teams/email.</div>';
+    return;
+  }
+  box.appendChild(img);
+}
 
-function getUrl(){return S.url||localStorage.getItem('ceva_url')||'';}
-function getPass(){return S.pass||localStorage.getItem('ceva_pass')||'';}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
-function slugify(s){return String(s).replace(/[^a-z0-9]/gi,'_').toLowerCase().slice(0,30);}
-function togglePass(){var i=document.getElementById('ip');i.type=i.type==='password'?'text':'password';}
-function setDirty(v){S.dirty=v;document.getElementById('dh').textContent=v?'⚠️ Niezapisane zmiany — kliknij "Wyślij na tablet".':'Konfiguracja aktualna na serwerze.';}
+function setDirty(v){
+  S.dirty=v;
+  document.getElementById('dh').textContent=v
+    ?'⚠️ Niezapisane zmiany — kliknij "Generuj link" aby wysłać na tablet.'
+    :'✅ Link wygenerowany — wyślij na tablet.';
+}
 function setR(id,html,t){var el=document.getElementById(id);if(!el)return;var c={g:'var(--green)',r:'var(--red)',w:'var(--yellow)',i:'var(--muted)'};el.innerHTML=html?'<span style="color:'+(c[t]||'inherit')+'">'+html+'</span>':'';}
 function setPill(id,txt,cls){var el=document.getElementById(id);if(!el)return;el.className='pill '+cls;el.textContent=txt;}
-function logO(el,m){el.innerHTML+='<span class="lok">'+m+'</span>\n';el.scrollTop=el.scrollHeight;}
-function logE(el,m){el.innerHTML+='<span class="lerr">'+m+'</span>\n';el.scrollTop=el.scrollHeight;}
-function logI(el,m){el.innerHTML+='<span class="linf">'+m+'</span>\n';el.scrollTop=el.scrollHeight;}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
 document.addEventListener('DOMContentLoaded',function(){
-  var u=localStorage.getItem('ceva_url')||'',p=localStorage.getItem('ceva_pass')||'';
-  var tu=localStorage.getItem('ceva_tablet_url')||'';
-  var cu=localStorage.getItem('ceva_configjs_url')||'https://raw.githubusercontent.com/hdominik82/Test/main/config.js';
-  if(u){document.getElementById('iu').value=u;S.url=u;}
-  if(p){document.getElementById('ip').value=p;S.pass=p;}
-  if(tu){document.getElementById('itab').value=tu;}
-  document.getElementById('icfgurl').value=cu;
-  document.getElementById('icfgurl').oninput=function(){localStorage.setItem('ceva_configjs_url',this.value.trim());};
+  var savedUrl=localStorage.getItem('ceva_configjs_url')||'https://raw.githubusercontent.com/hdominik82/Test/main/config.js';
+  document.getElementById('iurl').value=savedUrl;
+  document.getElementById('iurl').oninput=function(){localStorage.setItem('ceva_configjs_url',this.value.trim());};
   window.addEventListener('beforeunload',function(e){if(S.dirty){e.preventDefault();e.returnValue='';}});
 });
 </script>
