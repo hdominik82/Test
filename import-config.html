@@ -57,19 +57,25 @@ var _pending = null;
 
 // === DEKODOWANIE — obsługuje UTF-8 i polskie znaki ===
 function decodeData(str) {
-  // Metoda 1: TextDecoder (nowoczesna, działa na iOS 13+)
+  // Oczyść str z ewentualnych spacji/newlines (Teams może je dodać)
+  str = str.replace(/\s/g, '');
+  // Metoda 1: encodeURIComponent/btoa (nowa metoda admina)
   try {
-    var bytes = Uint8Array.from(atob(str), function(c){ return c.charCodeAt(0); });
-    return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+    return JSON.parse(decodeURIComponent(atob(str).split('').map(function(c){
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join('')));
   } catch(e1) {}
-  // Metoda 2: decodeURIComponent escape (stara)
+  // Metoda 2: TextDecoder
+  try {
+    var bytes = Uint8Array.from(atob(str), function(ch){ return ch.charCodeAt(0); });
+    return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+  } catch(e2) {}
+  // Metoda 3: stara escape metoda
   try {
     return JSON.parse(decodeURIComponent(escape(atob(str))));
-  } catch(e2) {}
-  // Metoda 3: bezpośrednio
-  try {
-    return JSON.parse(atob(str));
   } catch(e3) {}
+  // Metoda 4: bezpośrednio
+  try { return JSON.parse(atob(str)); } catch(e4) {}
   return null;
 }
 
