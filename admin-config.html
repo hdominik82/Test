@@ -150,7 +150,7 @@ td input,td select{padding:5px 7px;font-size:.82em}
     <div class="linkwrap" id="linkwrap">
       <label>Link (skopiuj i wyślij na tablet):</label>
       <div style="display:flex;gap:6px;margin-top:4px">
-        <input type="text" id="linkout" readonly>
+        <input type="text" id="linkout" readonly style="text-decoration:underline;color:var(--blue);cursor:pointer" onclick="this.select()">
         <button class="btn bd" onclick="copyLink()">📋 Kopiuj</button>
       </div>
       <div id="qrbox" style="margin-top:10px;text-align:center"></div>
@@ -363,11 +363,9 @@ function generateLink(){
       instructions:S.instructions, problemCategories:S.problemCategories,
       _v:v, _ts:new Date().toISOString()
     };
-    // Enkodowanie UTF-8 bezpieczne dla iOS/Edge
+    // Enkodowanie UTF-8 — bezpieczne dla dużych danych, iOS i Edge
     var json=JSON.stringify(payload);
-    var bytes=new TextEncoder().encode(json);
-    var bin=String.fromCharCode.apply(null,bytes);
-    var b64=btoa(bin);
+    var b64=btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g,function(m,p){return String.fromCharCode(parseInt(p,16));}));
     var base=location.protocol==='file:'
       ?'https://spiffy-mochi-b15b80.netlify.app/'
       :location.href.replace(/[^/]*$/, '').replace(/\?.*$/, '').replace(/#.*$/, '');
