@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CEVA — Wczytaj konfigurację</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#021D49,#1D4289);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.box{background:#fff;border-radius:16px;padding:28px 22px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.icon{font-size:2.8em;text-align:center;margin-bottom:10px}
+h1{font-size:1.2em;font-weight:800;color:#021D49;text-align:center;margin-bottom:6px}
+.sub{font-size:.83em;color:#64748b;text-align:center;margin-bottom:20px;line-height:1.5}
+.info{background:#f1f5f9;border-radius:10px;padding:12px;margin-bottom:16px;font-size:.82em}
+.row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #e2e8f0}
+.row:last-child{border:none}
+.lbl{color:#64748b}.val{font-weight:700;color:#021D49}
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-family:inherit;font-size:.95em;font-weight:700;cursor:pointer;margin-bottom:8px}
+.ok{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}
+.cancel{background:#f1f5f9;color:#64748b}
+.msg{padding:12px;border-radius:8px;font-size:.85em;font-weight:600;margin-bottom:14px;display:none;text-align:center}
+.msg.ok{background:#f0fdf4;color:#166534;border:2px solid #bbf7d0;display:block}
+.msg.err{background:#fef2f2;color:#dc2626;border:2px solid #fecaca;display:block}
+.links{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.lnk{display:block;padding:12px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.88em;color:#fff;text-align:center;background:linear-gradient(135deg,#021D49,#1D4289)}
+</style>
+</head>
+<body>
+<div class="box" id="box">
+  <div id="view-confirm">
+    <div class="icon">📥</div>
+    <h1 id="title">Wczytywanie…</h1>
+    <div class="sub" id="sub"></div>
+    <div class="info" id="info" style="display:none"></div>
+    <div class="msg" id="msg"></div>
+    <button class="btn ok" id="btnOk" style="display:none" onclick="doSave()">✅ Załaduj konfigurację</button>
+    <button class="btn cancel" id="btnCancel" style="display:none" onclick="history.back()">✖ Anuluj</button>
+    <div class="links" id="links" style="display:none">
+      <a href="mobile-index.html" class="lnk">📱 Otwórz aplikację</a>
+    </div>
+  </div>
+</div>
+<script>
+var KEY = 'ceva_cfg';
+var _pending = null;
+
+function $(id){ return document.getElementById(id); }
+function show(el){ $(el).style.display='block'; }
+function hide(el){ $(el).style.display='none'; }
+
+function parseHash(){
+  var h = location.hash.slice(1);
+  if(!h) return null;
+  try { return JSON.parse(decodeURIComponent(escape(atob(h)))); }
+  catch(e){ return null; }
+}
+
+window.addEventListener('load', function(){
+  var cfg = parseHash();
+  if(!cfg || !cfg.location){
+    $('title').textContent = 'Nieprawidłowy link';
+    $('sub').textContent   = 'Link jest niepoprawny lub niekompletny. Poproś o nowy link.';
+    return;
+  }
+  _pending = cfg;
+  var existing = null;
+  try{ existing = JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+
+  $('title').textContent = 'Nowy config dla tabletu';
+  $('sub').textContent   = 'Chcesz załadować konfigurację? Zostanie zapisana lokalnie.';
+
+  var html = '<div class="row"><span class="lbl">📍 Lokalizacja</span><span class="val">'+(cfg.location||'')+(cfg._v?' v'+cfg._v:'')+'</span></div>'
+    + '<div class="row"><span class="lbl">📍 Strefy</span><span class="val">'+((cfg.zones||[]).length)+'</span></div>'
+    + '<div class="row"><span class="lbl">👤 Prowadzący</span><span class="val">'+((cfg.auditors||[]).length)+'</span></div>'
+    + '<div class="row"><span class="lbl">❓ Pytania GEMBA</span><span class="val">'+Object.values(cfg.gembaQuestions||{}).reduce(function(s,a){return s+a.length;},0)+'</span></div>'
+    + '<div class="row"><span class="lbl">📋 Instrukcje</span><span class="val">'+((cfg.instructions||[]).length)+'</span></div>';
+  if(existing) html += '<div style="margin-top:8px;font-size:.78em;color:#92400e;background:#fffbeb;border-radius:6px;padding:6px">⚠️ Nadpisze istniejący config: '+(existing.location||'?')+(existing._v?' v'+existing._v:'')+'</div>';
+  $('info').innerHTML = html;
+  show('info'); show('btnOk'); show('btnCancel');
+});
+
+function doSave(){
+  if(!_pending) return;
+  try{
+    localStorage.setItem(KEY, JSON.stringify(_pending));
+    $('title').textContent = 'Config zapisany!';
+    $('sub').textContent   = 'Konfiguracja dla '+(_pending.location||'')+' została zapisana.';
+    hide('info'); hide('btnOk'); hide('btnCancel');
+    $('msg').className='msg ok';
+    $('msg').textContent = '✅ Dane zapisane — otwórz aplikację.';
+    show('links');
+  }catch(e){
+    $('msg').className='msg err';
+    $('msg').textContent = '❌ Błąd zapisu: '+e.message;
+  }
+}
+</script>
+</body>
+</html>
