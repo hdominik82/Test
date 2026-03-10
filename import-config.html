@@ -12,88 +12,180 @@ body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#021D49
 h1{font-size:1.2em;font-weight:800;color:#021D49;text-align:center;margin-bottom:6px}
 .sub{font-size:.83em;color:#64748b;text-align:center;margin-bottom:20px;line-height:1.5}
 .info{background:#f1f5f9;border-radius:10px;padding:12px;margin-bottom:16px;font-size:.82em}
-.row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #e2e8f0}
+.row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #e2e8f0}
 .row:last-child{border:none}
 .lbl{color:#64748b}.val{font-weight:700;color:#021D49}
-.btn{width:100%;padding:13px;border-radius:10px;border:none;font-family:inherit;font-size:.95em;font-weight:700;cursor:pointer;margin-bottom:8px}
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-family:inherit;font-size:.95em;font-weight:700;cursor:pointer;margin-bottom:8px;-webkit-appearance:none}
 .ok{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff}
 .cancel{background:#f1f5f9;color:#64748b}
-.msg{padding:12px;border-radius:8px;font-size:.85em;font-weight:600;margin-bottom:14px;display:none;text-align:center}
-.msg.ok{background:#f0fdf4;color:#166534;border:2px solid #bbf7d0;display:block}
-.msg.err{background:#fef2f2;color:#dc2626;border:2px solid #fecaca;display:block}
+.msg{padding:12px;border-radius:8px;font-size:.85em;font-weight:600;margin-bottom:14px;text-align:center}
+.msg-ok{background:#f0fdf4;color:#166534;border:2px solid #bbf7d0}
+.msg-err{background:#fef2f2;color:#dc2626;border:2px solid #fecaca}
+.msg-warn{background:#fffbeb;color:#92400e;border:2px solid #fde68a}
 .links{display:flex;flex-direction:column;gap:8px;margin-top:4px}
-.lnk{display:block;padding:12px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.88em;color:#fff;text-align:center;background:linear-gradient(135deg,#021D49,#1D4289)}
+.lnk{display:block;padding:13px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9em;color:#fff;text-align:center;background:linear-gradient(135deg,#021D49,#1D4289);-webkit-tap-highlight-color:transparent}
+hr{border:none;border-top:1px solid #e2e8f0;margin:16px 0}
+.step{font-size:.78em;color:#64748b;line-height:1.8;padding-left:16px}
 </style>
 </head>
 <body>
-<div class="box" id="box">
-  <div id="view-confirm">
-    <div class="icon">📥</div>
+<div class="box">
+  <div id="view-main">
+    <div class="icon" id="ico">⏳</div>
     <h1 id="title">Wczytywanie…</h1>
     <div class="sub" id="sub"></div>
     <div class="info" id="info" style="display:none"></div>
-    <div class="msg" id="msg"></div>
-    <button class="btn ok" id="btnOk" style="display:none" onclick="doSave()">✅ Załaduj konfigurację</button>
+    <div class="msg" id="msg" style="display:none"></div>
+    <button class="btn ok"     id="btnOk"     style="display:none" onclick="doSave()">✅ Załaduj konfigurację</button>
     <button class="btn cancel" id="btnCancel" style="display:none" onclick="history.back()">✖ Anuluj</button>
     <div class="links" id="links" style="display:none">
-      <a href="mobile-index.html" class="lnk">📱 Otwórz aplikację</a>
+      <a href="mobile-index.html" class="lnk">📱 Otwórz aplikację CEVA</a>
+    </div>
+    <div id="manual-section" style="display:none">
+      <hr>
+      <div style="font-size:.8em;font-weight:700;color:#021D49;margin-bottom:6px">📋 Ręczne wklejenie danych</div>
+      <div style="font-size:.78em;color:#64748b;margin-bottom:8px">Skopiuj dane z wiadomości Teams i wklej poniżej:</div>
+      <textarea id="manual-input" style="width:100%;height:80px;border:1.5px solid #e2e8f0;border-radius:8px;padding:8px;font-size:.75em;font-family:monospace;resize:none" placeholder="Wklej dane tutaj…"></textarea>
+      <button class="btn ok" style="margin-top:8px" onclick="parseManual()">✅ Wczytaj wklejone dane</button>
     </div>
   </div>
 </div>
+
 <script>
 var KEY = 'ceva_cfg';
 var _pending = null;
 
-function $(id){ return document.getElementById(id); }
-function show(el){ $(el).style.display='block'; }
-function hide(el){ $(el).style.display='none'; }
-
-function parseHash(){
-  var h = location.hash.slice(1);
-  if(!h) return null;
-  try { return JSON.parse(decodeURIComponent(escape(atob(h)))); }
-  catch(e){ return null; }
+// === DEKODOWANIE — obsługuje UTF-8 i polskie znaki ===
+function decodeData(str) {
+  // Metoda 1: TextDecoder (nowoczesna, działa na iOS 13+)
+  try {
+    var bytes = Uint8Array.from(atob(str), function(c){ return c.charCodeAt(0); });
+    return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+  } catch(e1) {}
+  // Metoda 2: decodeURIComponent escape (stara)
+  try {
+    return JSON.parse(decodeURIComponent(escape(atob(str))));
+  } catch(e2) {}
+  // Metoda 3: bezpośrednio
+  try {
+    return JSON.parse(atob(str));
+  } catch(e3) {}
+  return null;
 }
 
-window.addEventListener('load', function(){
-  var cfg = parseHash();
-  if(!cfg || !cfg.location){
-    $('title').textContent = 'Nieprawidłowy link';
-    $('sub').textContent   = 'Link jest niepoprawny lub niekompletny. Poproś o nowy link.';
+// === ZAPIS — obsługuje iOS private mode ===
+function saveToStorage(data) {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(data));
+    // Weryfikacja zapisu
+    var check = localStorage.getItem(KEY);
+    if (!check) throw new Error('Zapis nie powiódł się');
+    return { ok: true };
+  } catch(e) {
+    // iOS Safari private mode — sessionStorage jako fallback
+    try {
+      sessionStorage.setItem(KEY, JSON.stringify(data));
+      return { ok: true, session: true };
+    } catch(e2) {
+      return { ok: false, error: e.message };
+    }
+  }
+}
+
+function readFromStorage() {
+  try { return JSON.parse(localStorage.getItem(KEY) || sessionStorage.getItem(KEY)); }
+  catch(e) { return null; }
+}
+
+function show(id){ document.getElementById(id).style.display='block'; }
+function hide(id){ document.getElementById(id).style.display='none'; }
+function setMsg(text, type){ var el=document.getElementById('msg'); el.className='msg msg-'+type; el.textContent=text; show('msg'); }
+
+// === POBIERZ DANE Z URL ===
+function getDataFromUrl() {
+  // Metoda 1: ?d= param (preferowana — działa w Teams/Edge/iOS)
+  var params = new URLSearchParams(location.search);
+  var d = params.get('d');
+  if (d) return decodeData(d);
+
+  // Metoda 2: #hash (stara metoda — fallback)
+  var h = location.hash.slice(1);
+  if (h) return decodeData(h);
+
+  return null;
+}
+
+window.addEventListener('load', function() {
+  var cfg = getDataFromUrl();
+
+  if (!cfg || !cfg.location) {
+    document.getElementById('ico').textContent = '❌';
+    document.getElementById('title').textContent = 'Nieprawidłowy link';
+    document.getElementById('sub').textContent = 'Link jest nieprawidłowy, niekompletny lub został obcięty przez Teams/email.';
+    setMsg('Spróbuj otworzyć link bezpośrednio w przeglądarce Chrome lub Safari. Jeśli problem nadal występuje — poproś o ponowne wysłanie linku.', 'warn');
+    show('manual-section');
     return;
   }
-  _pending = cfg;
-  var existing = null;
-  try{ existing = JSON.parse(localStorage.getItem(KEY)); }catch(e){}
 
-  $('title').textContent = 'Nowy config dla tabletu';
-  $('sub').textContent   = 'Chcesz załadować konfigurację? Zostanie zapisana lokalnie.';
-
-  var html = '<div class="row"><span class="lbl">📍 Lokalizacja</span><span class="val">'+(cfg.location||'')+(cfg._v?' v'+cfg._v:'')+'</span></div>'
-    + '<div class="row"><span class="lbl">📍 Strefy</span><span class="val">'+((cfg.zones||[]).length)+'</span></div>'
-    + '<div class="row"><span class="lbl">👤 Prowadzący</span><span class="val">'+((cfg.auditors||[]).length)+'</span></div>'
-    + '<div class="row"><span class="lbl">❓ Pytania GEMBA</span><span class="val">'+Object.values(cfg.gembaQuestions||{}).reduce(function(s,a){return s+a.length;},0)+'</span></div>'
-    + '<div class="row"><span class="lbl">📋 Instrukcje</span><span class="val">'+((cfg.instructions||[]).length)+'</span></div>';
-  if(existing) html += '<div style="margin-top:8px;font-size:.78em;color:#92400e;background:#fffbeb;border-radius:6px;padding:6px">⚠️ Nadpisze istniejący config: '+(existing.location||'?')+(existing._v?' v'+existing._v:'')+'</div>';
-  $('info').innerHTML = html;
-  show('info'); show('btnOk'); show('btnCancel');
+  showConfirm(cfg);
 });
 
-function doSave(){
-  if(!_pending) return;
-  try{
-    localStorage.setItem(KEY, JSON.stringify(_pending));
-    $('title').textContent = 'Config zapisany!';
-    $('sub').textContent   = 'Konfiguracja dla '+(_pending.location||'')+' została zapisana.';
+function showConfirm(cfg) {
+  _pending = cfg;
+  var existing = readFromStorage();
+
+  document.getElementById('ico').textContent = '📥';
+  document.getElementById('title').textContent = 'Nowy config dla tabletu';
+  document.getElementById('sub').textContent = 'Chcesz załadować konfigurację? Zostanie zapisana lokalnie.';
+
+  var qCount = Object.values(cfg.gembaQuestions || {}).reduce(function(s,a){ return s + a.length; }, 0);
+  var html = '<div class="row"><span class="lbl">📍 Lokalizacja</span><span class="val">' + esc(cfg.location) + (cfg._v ? ' v'+cfg._v : '') + '</span></div>'
+    + '<div class="row"><span class="lbl">📍 Strefy</span><span class="val">' + (cfg.zones||[]).length + '</span></div>'
+    + '<div class="row"><span class="lbl">👤 Prowadzący</span><span class="val">' + (cfg.auditors||[]).length + '</span></div>'
+    + '<div class="row"><span class="lbl">❓ Pytania GEMBA</span><span class="val">' + qCount + '</span></div>'
+    + '<div class="row"><span class="lbl">📋 Instrukcje</span><span class="val">' + (cfg.instructions||[]).length + '</span></div>';
+
+  if (existing) {
+    html += '<div style="margin-top:8px;font-size:.78em;color:#92400e;background:#fffbeb;border-radius:6px;padding:6px">⚠️ Nadpisze: ' + esc(existing.location||'?') + (existing._v ? ' v'+existing._v : '') + '</div>';
+  }
+
+  document.getElementById('info').innerHTML = html;
+  show('info'); show('btnOk'); show('btnCancel');
+}
+
+function doSave() {
+  if (!_pending) return;
+  var result = saveToStorage(_pending);
+  if (result.ok) {
+    document.getElementById('ico').textContent = '✅';
+    document.getElementById('title').textContent = 'Config zapisany!';
+    document.getElementById('sub').textContent = 'Konfiguracja dla ' + esc(_pending.location||'') + ' została zapisana.';
     hide('info'); hide('btnOk'); hide('btnCancel');
-    $('msg').className='msg ok';
-    $('msg').textContent = '✅ Dane zapisane — otwórz aplikację.';
+    if (result.session) {
+      setMsg('⚠️ Zapisano tymczasowo (tryb prywatny). Nie zamykaj przeglądarki przed otwarciem aplikacji.', 'warn');
+    } else {
+      setMsg('✅ Dane zapisane — otwórz aplikację poniżej.', 'ok');
+    }
     show('links');
-  }catch(e){
-    $('msg').className='msg err';
-    $('msg').textContent = '❌ Błąd zapisu: '+e.message;
+  } else {
+    setMsg('❌ Błąd zapisu: ' + result.error + '. Sprawdź czy nie jesteś w trybie prywatnym.', 'err');
   }
 }
+
+function parseManual() {
+  var text = document.getElementById('manual-input').value.trim();
+  if (!text) return;
+  try {
+    var cfg = decodeData(text);
+    if (!cfg || !cfg.location) throw new Error('Nieprawidłowy format danych');
+    showConfirm(cfg);
+    hide('manual-section');
+  } catch(e) {
+    setMsg('❌ Nie można odczytać danych: ' + e.message, 'err');
+  }
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 </script>
 </body>
 </html>
