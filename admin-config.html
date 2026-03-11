@@ -150,7 +150,7 @@ td input,td select{padding:5px 7px;font-size:.82em}
     <div class="linkwrap" id="linkwrap">
       <label>Link (skopiuj i wyślij na tablet):</label>
       <div style="display:flex;gap:6px;margin-top:4px">
-        <input type="text" id="linkout" readonly style="text-decoration:underline;color:var(--blue);cursor:pointer" onclick="this.select()">
+        <input type="text" id="linkout" readonly>
         <button class="btn bd" onclick="copyLink()">📋 Kopiuj</button>
       </div>
       <div id="qrbox" style="margin-top:10px;text-align:center"></div>
@@ -363,18 +363,17 @@ function generateLink(){
       instructions:S.instructions, problemCategories:S.problemCategories,
       _v:v, _ts:new Date().toISOString()
     };
-    // Enkodowanie UTF-8 — bezpieczne dla dużych danych, iOS i Edge
+    // Enkodowanie UTF-8 — TextEncoder (Android Chrome)
     var json=JSON.stringify(payload);
-    var b64=btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g,function(m,p){return String.fromCharCode(parseInt(p,16));}));
-    var base=location.protocol==='file:'
-      ?'https://spiffy-mochi-b15b80.netlify.app/'
-      :location.href.replace(/[^/]*$/, '').replace(/\?.*$/, '').replace(/#.*$/, '');
-    // ?d= zamiast # — działa w Teams, Edge i iOS Safari
+    var bytes=new TextEncoder().encode(json);
+    var b64=btoa(String.fromCharCode.apply(null,bytes));
+    // Baza URL — zawsze Netlify (tablet otwiera import-config.html z Netlify)
+    var base='https://spiffy-mochi-b15b80.netlify.app/';
     var link=base+'import-config.html?d='+encodeURIComponent(b64);
-    if(link.length>60000){setR('rgl','⚠️ Dane za duże ('+Math.round(link.length/1024)+'KB). Zmniejsz ilość danych.','w');return;}
+    if(link.length>60000){setR('rgl','⚠️ Dane za duże ('+Math.round(link.length/1024)+'KB). Zmniejsz ilość instrukcji.','w');return;}
     document.getElementById('linkout').value=link;
     document.getElementById('linkwrap').style.display='block';
-    setR('rgl','✅ Link gotowy ('+Math.round(link.length/1024)+'KB) — skopiuj i wyślij na tablet.','g');
+    setR('rgl','✅ Link gotowy ('+Math.round(link.length/1024)+'KB) — skopiuj i wyślij na tablet przez Teams.','g');
     makeQR(link); setDirty(false);
   }catch(e){setR('rgl','❌ '+e.message,'r');}
 }

@@ -375,7 +375,7 @@
                 <h3 style="color: #667eea; margin-bottom: 10px;">ℹ️ Informacje</h3>
                 <p style="font-size: 0.9em; color: #666; line-height: 1.6;">
                     <strong>Pobierz plik:</strong> Zapisuje plik JSON na urządzeniu<br>
-                    <strong>Wyślij emailem:</strong> Otwiera email z załącznikiem do dominik.harezlak@cevalogistics.com<br>
+                    <strong>Wyślij emailem:</strong> Otwiera email z załącznikiem do <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e0848f8d898e898bce888192859a8c818ba0838596818c8f87899394898393ce838f8d">[email&#160;protected]</a><br>
                     <br>
                     <strong>📁 SharePoint:</strong> Plik należy przesłać do folderu <strong>Gemba</strong>
                 </p>
@@ -387,7 +387,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         if (typeof CEVA_CONFIG === 'undefined' || !CEVA_CONFIG.getCurrentBranch) {
             document.addEventListener('DOMContentLoaded', async function() {
                 CEVA_CONFIG = await CONFIG_LOADER.load();
@@ -730,11 +730,3 @@
                 document.getElementById('resultZone').textContent = zone;
                 document.getElementById('resultShift').textContent = shiftText;
                 document.getElementById('resultLevel').textContent = levelText;
-                
-                document.getElementById('downloadFileBtn').onclick = downloadFile;
-                document.getElementById('sendEmailBtn').onclick = sendEmailWithAttachment;
-            }
-        }
-    </script>
-</body>
-</html>

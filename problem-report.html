@@ -249,7 +249,7 @@
                 <h3>ℹ️ Informacje</h3>
                 <p style="font-size: 0.9em; color: #666; line-height: 1.6;">
                     <strong>Pobierz plik:</strong> Zapisuje plik JSON na urządzeniu<br>
-                    <strong>Wyślij emailem:</strong> Otwiera email z załącznikiem do dominik.harezlak@cevalogistics.com<br>
+                    <strong>Wyślij emailem:</strong> Otwiera email z załącznikiem do <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7b1f14161215121055131a091e01171a103b181e0d1a17141c12080f12180855181416">[email&#160;protected]</a><br>
                     <br>
                     <strong>📁 SharePoint:</strong> Plik należy przesłać do folderu <strong>Other</strong><br>
                     <em>Problem zostanie automatycznie dodany do Action Plan w wersji desktop.</em>
@@ -262,7 +262,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof CEVA_CONFIG === 'undefined') {
                 alert('Błąd: Nie można załadować konfiguracji. Sprawdź czy plik config.js istnieje.');
@@ -463,11 +463,4 @@
                 document.getElementById('resultZone').textContent = zone;
                 document.getElementById('resultReporter').textContent = reporter;
                 document.getElementById('resultPriority').textContent = priority;
-                
-                document.getElementById('downloadFileBtn').onclick = downloadFile;
-                document.getElementById('sendEmailBtn').onclick = sendEmailWithAttachment;
-            }
-        });
-    </script>
-</body>
-</html>
+  
